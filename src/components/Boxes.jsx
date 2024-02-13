@@ -109,7 +109,7 @@ const FourBox = () => {
           collectContracts={130}
         />
       )}
-      {roleId && roleId !== "3" && (
+      {roleId && roleId !== "3" && roleId !== "2" && (
         <DriversBox
           inactive={14}
           pickupInRoute={24}

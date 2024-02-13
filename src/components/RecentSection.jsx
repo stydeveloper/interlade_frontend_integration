@@ -2,6 +2,7 @@ import Table from "./Tables";
 import { activeMockData, carrierActiveMockData } from "./MockData";
 
 import { gql, useQuery } from "@apollo/client";
+import { Spin } from "antd";
 
 const GET_ALL_BOLS_QUERY = gql`
   query getAllBols {
@@ -75,6 +76,11 @@ const GET_ALL_BOLS_QUERY = gql`
 
 const RecentSection = () => {
   const { data, loading, error } = useQuery(GET_ALL_BOLS_QUERY);
+  let allBols;
+  if (data) {
+    allBols = data.getBols;
+    console.log(allBols);
+  }
 
   return (
     <div className="flex flex-col items-center h-[75vh]">
@@ -84,7 +90,11 @@ const RecentSection = () => {
       {/* <a className="button__sign-up" href="/api/auth/signup">
         Sign Up
       </a> */}
-      <Table type="active" tableData={activeMockData} />
+      {loading ? (
+        <Spin />
+      ) : (
+        <Table type="active" tableData={activeMockData} allBols={allBols} />
+      )}
       {/* carrier's view*/}
       {/* <Table type="carrier-active" tableData={carrierActiveMockData}/> */}
     </div>

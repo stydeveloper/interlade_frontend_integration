@@ -15,16 +15,21 @@ const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  // Define an array of routes where Navbar should not be displayed
+  const routesWithoutNavbar = ["/login", "/forgot-password", "/reset-password"];
   const pathname = usePathname();
+
+  // Check if the current route is in the array of routes without Navbar
+  const hideNavbar = routesWithoutNavbar.includes(pathname);
 
   console.log("pathname");
   return (
     <html lang="en">
       <ApolloProvider client={client}>
         <body className={inter.className}>
-          {pathname !== "/login" && <Navbar />}
+          {!hideNavbar && <Navbar />}
 
-          <div className={`h-full ${pathname !== "/login" ? "pt-14" : ""}`}>
+          <div className={`h-full ${!hideNavbar ? "pt-14" : ""}`}>
             {children}
           </div>
         </body>

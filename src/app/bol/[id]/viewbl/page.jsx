@@ -12,8 +12,8 @@ import BLImage from "../../../../../public/images/BLImage.png";
 const ViewBl = ({ params }) => {
   const router = useRouter();
   return (
-    <div className="flex bg-hoverGray justify-between">
-      <div className="bg-borderGrey rounded-b-md flex w-96 flex-col fixed h-full">
+    <div className="flex  justify-between">
+      <div className="bg-cgray rounded-b-md flex w-80 flex-col fixed h-full">
         <div className="mx-8">
           <div className="flex justify-center my-8">
             <MainBtn
@@ -42,9 +42,11 @@ const ViewBl = ({ params }) => {
           />
         </div>
       </div>
-      <div className="flex-1 flex items-center justify-center my-8 ml-96">
+      <div className="bg-hoverGray flex-1 flex items-center justify-center py-4 ml-80 px-4">
         {/* params.id.blImage */}
-        <Image src={BLImage} alt="Bill of Lading" />
+        <div className="w-full">
+          <Image src={BLImage} alt="Bill of Lading" />
+        </div>
       </div>
     </div>
   );

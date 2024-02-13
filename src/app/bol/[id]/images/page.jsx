@@ -12,8 +12,8 @@ import LoadImageEX from "../../../../../public/images/LoadImagEX.png";
 const LoadImages = ({ params }) => {
   const router = useRouter();
   return (
-    <div className="flex bg-hoverGray">
-      <div className="bg-borderGrey rounded-b-md flex w-96 flex-col fixed h-full">
+    <div className="flex ">
+      <div className="bg-cgray rounded-b-md flex w-96 flex-col fixed h-full">
         <div className="mx-8">
           <div className="flex justify-center my-8">
             <MainBtn
@@ -32,7 +32,7 @@ const LoadImages = ({ params }) => {
           />
         </div>
       </div>
-      <div className="flex-1 flex flex-col justify-center items-center mt-12 ml-96">
+      <div className="bg-hoverGray flex-1 flex flex-col justify-center items-center py-12 ml-96">
         <Image
           src={LoadImageEX}
           alt="Load Images"

@@ -10,6 +10,7 @@ import { mockDriverData } from "@/components/MockData";
 import SidePanel from "@/components/SidePanel";
 import InviteDriverModal from "@/components/InviteDriverModal";
 import { gql, useQuery } from "@apollo/client";
+import { Spin } from "antd";
 
 const GET_BOLS_FOR_DRIVERS = gql`
   query GetBolsForDrivers {
@@ -66,7 +67,12 @@ const Drivers = () => {
   const [drivers, setDrivers] = useState(mockDriverData);
   const [inviteOpen, setInviteOpen] = useState(false);
   const { loading, error, data } = useQuery(GET_BOLS_FOR_DRIVERS);
-  if (loading) return <p>Loading...</p>;
+  if (loading)
+    return (
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <Spin size="large" />
+      </div>
+    );
   if (error) return <p>Error: {error.message}</p>;
 
   const driversData = data.getBolsForDrivers;

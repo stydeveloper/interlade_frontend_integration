@@ -129,7 +129,7 @@ const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
   );
 };
 
-const Table = ({ type, tableData }) => {
+const Table = ({ type, tableData, allBols }) => {
   const [selectAll, setSelectAll] = useState(false);
   const [checkboxes, setCheckboxes] = useState(
     tableData ? Array(tableData.length).fill(false) : []
@@ -258,13 +258,13 @@ const Table = ({ type, tableData }) => {
               masterInputOnChange={toggleSelectAll}
             />
             <tbody>
-              {tableData.map((rowData, index) => (
+              {allBols.map((rowData, index) => (
                 <Row
                   key={index}
                   checked={checkboxes[index]}
                   toggleCheckbox={toggleCheckbox}
                   type={type}
-                  {...rowData}
+                  rowData={rowData}
                 />
               ))}
             </tbody>

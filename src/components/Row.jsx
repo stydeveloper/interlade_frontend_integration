@@ -12,27 +12,10 @@ const Checkbox = ({ isChecked, toggleFunc, index }) => {
     </td>
   );
 };
-
-const Row = ({
-  bolId,
-  consignee,
-  loadDesc,
-  carrier,
-  status,
-  lastAction,
-  paymentType,
-  checked,
-  index,
-  type,
-  placedAt,
-  shipper,
-  completedAt,
-  driver,
-  activity,
-  dateTime,
-  toggleCheckbox,
-}) => {
-  console.log(type);
+// checked={checkboxes[index]}
+// toggleCheckbox={toggleCheckbox}
+// type={type}
+const Row = ({ rowData, checked, toggleCheckbox, type }) => {
   switch (type) {
     case "active":
     case "recent":
@@ -41,15 +24,16 @@ const Row = ({
           <Checkbox
             isChecked={checked}
             toggleFunc={toggleCheckbox}
-            index={index}
+            index={rowData.id}
           />
-          <td>{consignee}</td>
-          <td>{loadDesc}</td>
-          <td>{carrier}</td>
-          <td>{status}</td>
-          <td>{lastAction}</td>
+          <td>{rowData?.consignee_id?.name}</td>
+
+          <td>{rowData.description}</td>
+          <td>{rowData?.carrier_id?.name}</td>
+          <td>{rowData.status}</td>
+          <td>hellow</td>
           <td>
-            <Link href={`/bol/${bolId}`} className="underline">
+            <Link href={`/bol/${rowData.id}`} className="underline">
               View B/L
             </Link>
           </td>

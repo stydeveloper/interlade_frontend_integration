@@ -13,6 +13,7 @@ import DriversAllo from "../../../public/images/drirversAllo.svg";
 import SidePanel from "@/components/SidePanel";
 import InviteShipperModal from "@/components/InviteShipperModal";
 import { gql, useQuery } from "@apollo/client";
+import { Spin } from "antd";
 
 const GET_BOLS_FOR_SHIPPERS = gql`
   query GetBolsForShippers {
@@ -73,7 +74,12 @@ const Shippers = () => {
   const [copied, setCopied] = useState(false);
   const [inviteOpen, setInviteOpen] = useState(false);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading)
+    return (
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <Spin size="large" />
+      </div>
+    );
   if (error) return <p>Error: {error.message}</p>;
 
   const shippersData = data.getBolsForShippers;

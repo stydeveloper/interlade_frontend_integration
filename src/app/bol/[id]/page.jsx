@@ -13,6 +13,7 @@ import { mockActionData } from "@/components/MockData";
 import CancelBLModal from "@/components/CancelBLModal";
 
 const Page = ({ params }) => {
+  console.log(params.id);
   const router = useRouter();
   const [cancelModal, setCancelModal] = useState(false);
 
@@ -44,13 +45,13 @@ const Page = ({ params }) => {
           <DocumentBtn
             srcImg={View}
             label="View BoL"
-            actionFunc={() => router.push(`/bol/${bolId}/viewbl`)}
+            actionFunc={() => router.push(`/bol/${params.id}/viewbl`)}
           />
           {}
           <DocumentBtn
             srcImg={ViewImage}
             label="View Load Image(s)"
-            actionFunc={() => router.push(`/bol/${bolId}/images`)}
+            actionFunc={() => router.push(`/bol/${params.id}/images`)}
           />
           {/* Only Display the below if the BL doesn't have an assigned driver AND if the Role is Carrier */}
           {/* use whatever api sends bl to driver */}
@@ -79,9 +80,11 @@ const Page = ({ params }) => {
         </div>
       </div>
       <div className="bg-hoverGray justify-center pl-4">
-        <h1 className="font-bold text-2xl my-2 underline">BoL Id: {bolId}</h1>
+        <h1 className="font-bold text-2xl my-2 underline">
+          BoL Id: {params.id}
+        </h1>
         <div className="grid grid-rows-2 grid-cols-3 gap-4 h-4/5">
-          <div className="bg-borderGrey border-2 border-white rounded-md flex flex-col py-4 px-12 text-white col-start-1 ">
+          <div className="bg-cgray border-2 border-white rounded-md flex flex-col py-4 px-12 text-white col-start-1 ">
             <h3 className="font-semibold underline mb-2 text-center text-xl">
               Consignee
             </h3>
@@ -95,14 +98,14 @@ const Page = ({ params }) => {
               Email: <a href={email}>{email}</a>
             </p>
           </div>
-          <div className="bg-borderGrey border-2 border-white rounded-md flex flex-col py-4 px-12 text-white col-start-1 ">
+          <div className="bg-cgray border-2 border-white rounded-md flex flex-col py-4 px-12 text-white col-start-1 ">
             <h3 className="font-semibold underline mb-2 text-center text-xl">
               Current "Location"
             </h3>
             {/* based on most recent B/L agent in the action data*/}
             <CurrentBoLLocation data={mockActionData} />
           </div>
-          <div className="bg-borderGrey border-2 border-white rounded-md flex flex-col py-4 px-12 text-white col-span-2">
+          <div className=" border-2 bg-cgray border-white rounded-md flex flex-col py-4 px-12 text-white col-span-2">
             <h3 className="font-semibold underline mb-2 text-center text-xl">
               Load Information
             </h3>
@@ -114,7 +117,7 @@ const Page = ({ params }) => {
             <p className="mb-2">Weight: {weight}</p>
             <p className="mb-2">Class: {classType}</p>
           </div>
-          <div className="bg-borderGrey border-2 border-white rounded-md flex flex-col p-4 text-white row-start-1 col-start-2 col-span-2">
+          <div className="bg-cgray border-2 border-white rounded-md flex flex-col p-4 text-white row-start-1 col-start-2 col-span-2">
             <h3 className="font-semibold underline mb-2 text-center text-xl">
               Action History
             </h3>
