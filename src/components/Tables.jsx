@@ -50,7 +50,7 @@ const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
                   <th></th>
                 </>
               );
-            case "carrier-active":
+            case "rolewise-active":
               return (
                 <>
                   <th>Shipper</th>
@@ -61,7 +61,7 @@ const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
                   <th>Placed At</th>
                 </>
               );
-            case "carrier-complete":
+            case "rolewise-complete":
               return (
                 <>
                   <th>Shipper</th>
@@ -258,15 +258,17 @@ const Table = ({ type, tableData, allBols }) => {
               masterInputOnChange={toggleSelectAll}
             />
             <tbody>
-              {allBols.map((rowData, index) => (
-                <Row
-                  key={index}
-                  checked={checkboxes[index]}
-                  toggleCheckbox={toggleCheckbox}
-                  type={type}
-                  rowData={rowData}
-                />
-              ))}
+              {allBols &&
+                allBols.length > 0 &&
+                allBols.map((rowData, index) => (
+                  <Row
+                    key={index}
+                    checked={checkboxes[index]}
+                    toggleCheckbox={toggleCheckbox}
+                    type={type}
+                    rowData={rowData}
+                  />
+                ))}
             </tbody>
           </table>
         ) : (

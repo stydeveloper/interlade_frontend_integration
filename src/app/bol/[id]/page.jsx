@@ -11,9 +11,84 @@ import ActionHistory from "@/components/ActionTable";
 import CurrentBoLLocation from "@/components/BoLLocation";
 import { mockActionData } from "@/components/MockData";
 import CancelBLModal from "@/components/CancelBLModal";
+import { gql, useQuery } from "@apollo/client";
+import { Spin } from "antd";
+
+const GET_BOL_BY_ID = gql`
+  query GetBol($id: ID!) {
+    getBol(id: $id) {
+      id
+      carrier_id {
+        id
+        role_id {
+          id
+          name
+        }
+        name
+        email
+        address
+        state
+        city
+        zipcode
+        number
+        created_at
+      }
+      shipper_id {
+        id
+        name
+        number
+        email
+        city
+        address
+        created_at
+        role_id {
+          id
+          name
+        }
+        state
+      }
+      consignee_id {
+        id
+        role_id {
+          id
+          name
+        }
+        name
+        email
+        address
+        state
+        city
+        zipcode
+        number
+        created_at
+      }
+      weight
+      volume
+      quantity
+      un_na_number
+      hazard_class
+      description
+      packing_group
+      package_type
+      status
+      price
+      created_at
+    }
+  }
+`;
 
 const Page = ({ params }) => {
   console.log(params.id);
+
+  const { loading, error, data } = useQuery(GET_BOL_BY_ID, {
+    variables: { id: params.id },
+  });
+  let consigneeInfo;
+  console.log(data);
+  if (data) {
+    consigneeInfo = data.getBol?.consignee_id;
+  }
+
   const router = useRouter();
   const [cancelModal, setCancelModal] = useState(false);
 
@@ -84,19 +159,28 @@ const Page = ({ params }) => {
           BoL Id: {params.id}
         </h1>
         <div className="grid grid-rows-2 grid-cols-3 gap-4 h-4/5">
-          <div className="bg-cgray border-2 border-white rounded-md flex flex-col py-4 px-12 text-white col-start-1 ">
-            <h3 className="font-semibold underline mb-2 text-center text-xl">
-              Consignee
-            </h3>
-            {/* params.id.consignee */}
-            <p className="mb-2">Name: {name}</p>
-            <p className="mb-2">Address: {address}</p>
-            <p className="mb-2">
-              Phone: <a href={phone}>{phone}</a>
-            </p>
-            <p>
-              Email: <a href={email}>{email}</a>
-            </p>
+          <div className="relative bg-cgray border-2 border-white rounded-md flex flex-col py-4 px-12 text-white col-start-1 ">
+            {loading && !consigneeInfo ? (
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <Spin />
+              </div>
+            ) : (
+              <>
+                <h3 className="font-semibold underline mb-2 text-center text-xl">
+                  Consignee
+                </h3>
+                {/* params.id.consignee */}
+                <p className="mb-2">Name: {consigneeInfo?.name}</p>
+                <p className="mb-2">Address: {consigneeInfo?.address}</p>
+                <p className="mb-2">
+                  Phone:{" "}
+                  <a href={phone}>{consigneeInfo?.number || 9230239122}</a>
+                </p>
+                <p>
+                  Email: <a href={email}>{consigneeInfo?.email}</a>
+                </p>
+              </>
+            )}
           </div>
           <div className="bg-cgray border-2 border-white rounded-md flex flex-col py-4 px-12 text-white col-start-1 ">
             <h3 className="font-semibold underline mb-2 text-center text-xl">

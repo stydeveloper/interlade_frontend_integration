@@ -9,8 +9,46 @@ import {
   shipperCarrierCompleteMockData,
 } from "@/components/MockData";
 
+import { gql, useQuery } from "@apollo/client";
+import { Spin } from "antd";
+
+const GET_USER_BY_ID = gql`
+  query GetUserById($id: ID!) {
+    getUserById(id: $id) {
+      id
+      name
+      address
+      city
+      created_at
+      email
+      number
+      password
+      role_id {
+        name
+        id
+      }
+      state
+      zipcode
+    }
+  }
+`;
+
 const CarrierProfile = ({ params }) => {
   const router = useRouter();
+
+  const {
+    loading,
+    error,
+    data: carrier,
+  } = useQuery(YOUR_QUERY, {
+    variables: { id: params.id },
+  });
+  if (loading)
+    return (
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <Spin size="small" />
+      </div>
+    );
 
   // Initializing the toggleTable state to a default value
   const [toggleTable, setToggleTable] = useState("shipper-carrier-active");
