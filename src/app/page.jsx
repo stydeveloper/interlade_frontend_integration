@@ -17,6 +17,7 @@ export default function Home() {
         isOpen={termsOpen}
         onClose={() => setTermsOpen(false)}
       />
+      
     </div>
   );
 }

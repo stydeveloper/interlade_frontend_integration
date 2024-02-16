@@ -278,7 +278,7 @@ const Table = ({ type, tableData, allBols }) => {
         </button>
       </div>
       <div className="w-full h-[230px] bg-borderGrey border-2 border-gray overflow-y-auto rounded-sm ">
-        {allBols.length ? (
+        {allBols && allBols.length > 0 ? (
           <table className="w-full ">
             <TableHeader
               type={type}
