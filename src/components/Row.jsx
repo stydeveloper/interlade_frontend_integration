@@ -123,47 +123,52 @@ const Row = ({ rowData, checked, toggleCheckbox, type }) => {
           </td>
         </tr>
       );
-    // case "carrier-shipper-active":
-    //   return (
-    //     <tr className="text-center text-white hover:bg-textgray">
-    //       <Checkbox
-    //         isChecked={checked}
-    //         toggleFunc={toggleCheckbox}
-    //         index={index}
-    //       />
-    //       <td>{consignee} || consignee</td>
-    //       <td>{placedAt}</td>
-    //       <td>{driver}</td>
-    //       <td>{status}</td>
-    //       <td>{paymentType}</td>
-    //       <td>{lastAction}</td>
-    //       <td>
-    //         <Link href={`/bol/${bolId}`} className="underline">
-    //           View B/L
-    //         </Link>
-    //       </td>
-    //     </tr>
-    //   );
-    // case "carrier-shipper-complete":
-    //   return (
-    //     <tr className="text-center text-white hover:bg-textgray">
-    //       <Checkbox
-    //         isChecked={checked}
-    //         toggleFunc={toggleCheckbox}
-    //         index={index}
-    //       />
-    //       <td>{consignee} || consignee</td>
-    //       <td>{placedAt}</td>
-    //       <td>{driver}</td>
-    //       <td>{completedAt}</td>
-    //       <td>{paymentType}</td>
-    //       <td>
-    //         <Link href={`/bol/${bolId}`} className="underline">
-    //           View B/L
-    //         </Link>
-    //       </td>
-    //     </tr>
-    //   );
+    case "shipper-carrier-active":
+      return (
+        <tr className="text-center bg-cgray text-white hover:bg-hoverGray">
+          <Checkbox
+            isChecked={checked}
+            toggleFunc={toggleCheckbox}
+            index={rowData.id}
+          />
+          <td>{rowData?.consignee_id?.name || "consignee"}</td>
+          {/* //placedAt */}
+          <td>{formatDate(rowData?.created_at)} </td>
+
+          <td>{rowData?.status || "asasd"}</td>
+          {/* //payment type */}
+          <td>{rowData?.price}</td>
+          <td>last action</td>
+          <td>
+            <Link href={`/bol/${rowData.id}`} className="underline">
+              View B/L
+            </Link>
+          </td>
+        </tr>
+      );
+    case "shipper-carrier-complete":
+      return (
+        <tr className="text-center text-white hover:bg-textgray">
+          <Checkbox
+            isChecked={checked}
+            toggleFunc={toggleCheckbox}
+            index={rowData.id}
+          />
+          <td>{rowData?.consignee_id?.name || "consignee"}</td>
+          {/* //placedAt */}
+          <td>{formatDate(rowData?.created_at)} </td>
+          <td>{rowData?.driver_id?.name || "unknown"}</td>
+          {/* completed at / updated at */}
+          <td>{formatDate(rowData?.created_at)} </td>
+          {/* //payment type */}
+          <td>{rowData?.price}</td>
+          <td>
+            <Link href={`/bol/${rowData.id}`} className="underline">
+              View B/L
+            </Link>
+          </td>
+        </tr>
+      );
     // case "driver-logs":
     //   return (
     //     <tr className="text-center text-white hover:bg-textgray">

@@ -1,15 +1,30 @@
+"use client";
 import { FormWrapper } from "../FormWrapper";
+import { useEffect } from "react";
 
 export function ShipperInfo({
-  shipperEmail,
-  shipperName,
-  shipperNumber,
-  shipperAddress,
-  shipperCity,
-  shipperState,
-  shipperZipcode,
+  email: shipperEmail,
+  name: shipperName,
+  number: shipperNumber,
+  address: shipperAddress,
+  city: shipperCity,
+  state: shipperState,
+  zipcode: shipperZipcode,
   update,
 }) {
+  useEffect(() => {
+    // Set initial values when component mounts
+    update({
+      shipperEmail,
+      shipperName,
+      shipperNumber,
+      shipperAddress,
+      shipperCity,
+      shipperState,
+      shipperZipcode,
+    });
+  }, []); // Empty dependency array ensures this effect runs only once, when the component mounts
+
   return (
     <FormWrapper title="Shipper Information">
       <label>Shipper Email:</label>
@@ -18,56 +33,56 @@ export function ShipperInfo({
         required
         type="email"
         value={shipperEmail}
-        onChange={(e) => update({ shipperEmail: e.target.value })}
         className="px-2 rounded-md"
+        readOnly
       />
       <label>Shipper Name:</label>
       <input
         required
         type="text"
         value={shipperName}
-        onChange={(e) => update({ shipperName: e.target.value })}
         className="px-2 rounded-md"
+        readOnly
       />
       <label>Shipper Number:</label>
       <input
         required
         type="number"
         value={shipperNumber}
-        onChange={(e) => update({ shipperNumber: e.target.value })}
         className="px-2 rounded-md"
+        readOnly
       />
       <label>Shipper Address:</label>
       <input
         required
         type="text"
         value={shipperAddress}
-        onChange={(e) => update({ shipperAddress: e.target.value })}
         className="px-2 rounded-md"
+        readOnly
       />
       <label>Shipper City:</label>
       <input
         required
         type="text"
         value={shipperCity}
-        onChange={(e) => update({ shipperCity: e.target.value })}
         className="px-2 rounded-md"
+        readOnly
       />
       <label>Shipper State:</label>
       <input
         required
         type="text"
         value={shipperState}
-        onChange={(e) => update({ shipperState: e.target.value })}
         className="px-2 rounded-md"
+        readOnly
       />
       <label>Shipper Zipcode:</label>
       <input
         required
         type="number"
         value={shipperZipcode}
-        onChange={(e) => update({ shipperZipcode: e.target.value })}
         className="px-2 rounded-md"
+        readOnly
       />
     </FormWrapper>
   );

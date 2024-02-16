@@ -4,6 +4,34 @@ import Image from "next/image";
 import NoBills from "../../public/images/norecent.svg";
 import Select from "react-select";
 
+const getMessageByType = (type) => {
+  const messages = {
+    active: {
+      title: "No Active B/Ls",
+      description: "Documents that are live in the field will appear here.",
+    },
+    "carrier-active": {
+      title: "No Active B/Ls",
+      description: "Documents that are live in the field will appear here.",
+    },
+    "shipper-carrier-active": {
+      title: "No Active B/Ls",
+      description: "Documents that are live in the field will appear here.",
+    },
+    "shipper-carrier-complete": {
+      title: "No Completed B/Ls",
+      description:
+        "Documents that have been signed by the consignee will appear here.",
+    },
+    recent: {
+      title: "No Recent B/Ls",
+      description: "Documents that you recently worked on will appear here.",
+    },
+  };
+
+  return messages[type] || null;
+};
+
 export const TableType =
   "active" ||
   "complete" ||
@@ -249,9 +277,9 @@ const Table = ({ type, tableData, allBols }) => {
           Download
         </button>
       </div>
-      <div className="w-full bg-borderGrey border-2 border-gray overflow-y-auto rounded-sm mt-2">
-        {tableData.length ? (
-          <table className="w-full">
+      <div className="w-full h-[230px] bg-borderGrey border-2 border-gray overflow-y-auto rounded-sm ">
+        {allBols.length ? (
+          <table className="w-full ">
             <TableHeader
               type={type}
               masterInputCheck={selectAll}
@@ -272,43 +300,20 @@ const Table = ({ type, tableData, allBols }) => {
             </tbody>
           </table>
         ) : (
-          <div className="flex justify-center items-center text-white">
-            <Image alt="No Recent B/Ls" src={NoBills} />
+          <div className="flex justify-center items-center text-white bg-cgray">
+            <Image alt="No Recent B/Ls" src={NoBills} className="text-white " />
             <div className="flex flex-col">
               {(() => {
-                switch (type) {
-                  case "active" || "carrier-active" || "carrier-shipper-active":
-                    return (
-                      <>
-                        <p className="font-bold text-2xl">No Active B/Ls</p>
-                        <p className="max-w-[300px]">
-                          Documents that are live in the field will appear here.
-                        </p>
-                      </>
-                    );
-                  case "complete" ||
-                    "carrier-complete" ||
-                    "carrier-shipper-complete":
-                    return (
-                      <>
-                        <p className="font-bold text-2xl ">No Completed B/Ls</p>
-                        <p className="max-w-[300px]">
-                          Documents that have been signed by the consignee will
-                          appear here.
-                        </p>
-                      </>
-                    );
-                  case "recent":
-                    return (
-                      <>
-                        <p className="font-bold text-2xl">No Recent B/Ls</p>
-                        <p className="max-w-[300px]">
-                          Documents that you recently worked on will appear
-                          here.
-                        </p>
-                      </>
-                    );
-                }
+                const message = getMessageByType(type);
+                console.log(message);
+                if (!message) return null;
+
+                return (
+                  <div className=" p-4">
+                    <p className="font-bold text-2xl ">{message.title}</p>
+                    <p className="max-w-[300px]">{message.description}</p>
+                  </div>
+                );
               })()}
             </div>
           </div>

@@ -137,6 +137,9 @@ export default function Page() {
     });
   };
 
+  const userInfo = JSON.parse(localStorage.getItem("user"));
+  console.log(userInfo);
+
   const {
     step,
     steps,
@@ -148,7 +151,7 @@ export default function Page() {
     back,
   } = useMultistepForm([
     <CarrierInfo {...data} update={updateFields} />,
-    <ShipperInfo {...data} update={updateFields} />,
+    <ShipperInfo {...userInfo} update={updateFields} />,
     <ConsigneeInfo {...data} update={updateFields} />,
     <LoadInfo {...data} update={updateFields} />,
     <PaymentInfo {...data} update={updateFields} />,
@@ -263,7 +266,7 @@ export default function Page() {
         <h1 className="font-bold text-2xl underline text-center mt-1">
           Straight Bill of Lading
         </h1>
-        <div className="relative bg-gray border-2 border-gray rounded-md px-12 p-8 mt-6 mx-12">
+        <div className="relative bg-hoverGray border-2 border-gray rounded-md px-12 p-8 mt-6 mx-12">
           <form onSubmit={submitFunc}>
             <div className="absolute top-4 right-8 bg-linkBlue rounded-md px-4 text-white">
               {currentStepIndex + 1} / {steps.length}
