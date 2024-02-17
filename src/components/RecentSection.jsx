@@ -1,78 +1,9 @@
 import Table from "./Tables";
 import { activeMockData, carrierActiveMockData } from "./MockData";
 
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { Spin } from "antd";
-
-const GET_ALL_BOLS_QUERY = gql`
-  query getAllBols {
-    getBols {
-      id
-      carrier_id {
-        id
-        role_id {
-          id
-          name
-        }
-        name
-        email
-        password
-        address
-        state
-        city
-        status
-        zipcode
-        number
-        created_at
-      }
-      consignee_id {
-        id
-        role_id {
-          id
-          name
-        }
-        name
-        email
-        password
-        address
-        state
-        city
-        status
-        zipcode
-        number
-        created_at
-      }
-      shipper_id {
-        id
-        role_id {
-          id
-          name
-        }
-        name
-        email
-        password
-        address
-        state
-        city
-        status
-        zipcode
-        number
-        created_at
-      }
-      package_type
-      packing_group
-      quantity
-      price
-      description
-      volume
-      un_na_number
-      status
-      weight
-      hazard_class
-      created_at
-    }
-  }
-`;
+import { GET_ALL_BOLS_QUERY } from "@/fetching/queries/bol";
 
 const RecentSection = () => {
   const { data, loading, error } = useQuery(GET_ALL_BOLS_QUERY);

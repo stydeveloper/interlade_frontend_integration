@@ -138,7 +138,7 @@ const Row = ({ rowData, checked, toggleCheckbox, type }) => {
           <td>{rowData?.status || "asasd"}</td>
           {/* //payment type */}
           <td>{rowData?.price}</td>
-          <td>last action</td>
+          <td>{rowData.id}</td>
           <td>
             <Link href={`/bol/${rowData.id}`} className="underline">
               View B/L

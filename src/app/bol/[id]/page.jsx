@@ -11,80 +11,16 @@ import ActionHistory from "@/components/ActionTable";
 import CurrentBoLLocation from "@/components/BoLLocation";
 import { mockActionData } from "@/components/MockData";
 import CancelBLModal from "@/components/CancelBLModal";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
+import {
+  GET_BOL_BY_ID,
+  GET_CURRENT_BOL_LOCATION,
+  GET_BOL_HISTORY_LOGS,
+} from "@/fetching/queries/bol";
 import { Spin } from "antd";
 
-const GET_BOL_BY_ID = gql`
-  query GetBol($id: ID!) {
-    getBol(id: $id) {
-      id
-      carrier_id {
-        id
-        role_id {
-          id
-          name
-        }
-        name
-        email
-        address
-        state
-        city
-        zipcode
-        number
-        created_at
-      }
-      shipper_id {
-        id
-        name
-        number
-        email
-        city
-        address
-        created_at
-        role_id {
-          id
-          name
-        }
-        state
-      }
-      consignee_id {
-        id
-        role_id {
-          id
-          name
-        }
-        name
-        email
-        address
-        state
-        city
-        zipcode
-        number
-        created_at
-      }
-      weight
-      volume
-      quantity
-      un_na_number
-      hazard_class
-      description
-      packing_group
-      package_type
-      status
-      price
-      created_at
-    }
-  }
-`;
-
-const GET_CURRENT_BOL_LOCATION = gql`
-  query Query($bolId: ID!) {
-    getCurrentBolLocation(bol_id: $bolId)
-  }
-`;
-
 const Page = ({ params }) => {
-  console.log(params.id);
+  const role = localStorage.getItem("role_id");
 
   const { loading, error, data } = useQuery(GET_BOL_BY_ID, {
     variables: { id: params.id },
@@ -97,14 +33,30 @@ const Page = ({ params }) => {
   } = useQuery(GET_CURRENT_BOL_LOCATION, {
     variables: { bolId: params.id },
   });
+  const {
+    loading: bol_history_loading,
+    bol_history_error,
+    data: bol_history_data,
+  } = useQuery(GET_BOL_HISTORY_LOGS, {
+    variables: { bolId: params.id },
+  });
+  let bol_history_logs;
+  if (bol_history_data && bol_history_data.getBolHistoryLogs) {
+    bol_history_logs = bol_history_data?.getBolHistoryLogs;
+    console.log("bol_history_logs ===========>>>>>>>", bol_history_logs);
+  }
+
+  let lastUser;
   if (currentBlData) {
-    console.log(currentBlData);
+    lastUser = currentBlData.getCurrentBolLocation;
   }
   let consigneeInfo;
+
   let currentBol;
   console.log(data);
   if (data) {
     consigneeInfo = data.getBol?.consignee_id;
+
     currentBol = data.getBol;
     console.log(data.getBol);
   }
@@ -150,13 +102,22 @@ const Page = ({ params }) => {
           />
           {/* Only Display the below if the BL doesn't have an assigned driver AND if the Role is Carrier */}
           {/* use whatever api sends bl to driver */}
-          {latestAgent === "Shipper" && (
+          {/* {latestAgent === "Shipper" && (
+            <DocumentBtn
+              srcImg={Send}
+              label="Dispatch Driver"
+              actionFunc={() => console.log("Send Invite to driver")}
+            />
+          )} */}
+
+          {role && role === "1" && (
             <DocumentBtn
               srcImg={Send}
               label="Dispatch Driver"
               actionFunc={() => console.log("Send Invite to driver")}
             />
           )}
+
           <div className="flex flex-col justify-center items-center mt-8">
             <button
               onClick={() => setCancelModal(true)}
@@ -202,16 +163,29 @@ const Page = ({ params }) => {
               </>
             )}
           </div>
-          <div className="bg-cgray border-2 border-white rounded-md flex flex-col py-4 px-12 text-white col-start-1 ">
-            <h3 className="font-semibold underline mb-2 text-center text-xl">
-              Current "Location"
-            </h3>
-            {/* based on most recent B/L agent in the action data*/}
-            <CurrentBoLLocation data={mockActionData} />
+          <div className="relative bg-cgray border-2 border-white rounded-md flex flex-col py-4 px-12 text-white col-start-1 ">
+            {loading || !currentBol ? (
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <Spin />
+              </div>
+            ) : (
+              <>
+                <h3 className="font-semibold underline mb-2 text-center text-xl">
+                  Current "Location"
+                </h3>
+                {/* based on most recent B/L agent in the action data*/}
+
+                <CurrentBoLLocation
+                  data={mockActionData}
+                  lastUser={lastUser}
+                  currentBol={currentBol}
+                />
+              </>
+            )}
           </div>
 
-          <div className="relative border-2 bg-cgray border-white rounded-md flex flex-col py-4 px-12 text-white col-span-2">
-            {loading ? (
+          <div className="relative border-2  bg-cgray border-white rounded-md flex flex-col py-4 px-12 text-white col-span-2">
+            {loading || !currentBol ? (
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <Spin />
               </div>
@@ -231,12 +205,23 @@ const Page = ({ params }) => {
             )}
           </div>
 
-          <div className="bg-cgray border-2 border-white rounded-md flex flex-col p-4 text-white row-start-1 col-start-2 col-span-2">
-            <h3 className="font-semibold underline mb-2 text-center text-xl">
-              Action History
-            </h3>
-            {/* params.id.actionData */}
-            <ActionHistory actionData={mockActionData.actionData} />
+          <div className="relative bg-cgray border-2 border-white rounded-md flex flex-col p-4 text-white row-start-1 col-start-2 col-span-2">
+            {bol_history_loading ? (
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <Spin />
+              </div>
+            ) : (
+              <>
+                <h3 className="font-semibold underline mb-2 text-center text-xl">
+                  Action History
+                </h3>
+                {/* params.id.actionData */}
+                <ActionHistory
+                  actionData={mockActionData.actionData}
+                  bol_history_logs={bol_history_logs}
+                />
+              </>
+            )}
           </div>
         </div>
       </div>

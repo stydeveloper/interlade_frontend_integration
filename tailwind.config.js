@@ -19,6 +19,7 @@ module.exports = {
         hoverGray: "#B9B9B9",
         hoverRed: "#EB837B",
         cancelRed: "#E74133",
+        lilPurp: "#8170ED",
       },
     },
   },

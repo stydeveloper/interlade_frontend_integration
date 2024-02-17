@@ -26,25 +26,29 @@ const LocationMarker = ({ ltr, name, latestAgent }) => {
   );
 };
 
-const CurrentBoLLocation = ({ data }) => {
+const CurrentBoLLocation = ({ data, lastUser, currentBol }) => {
   const mostRecentAction = data.actionData[data.actionData.length - 1];
-  const latestAgent = mostRecentAction?.agent;
+  // const latestAgent = mostRecentAction?.agent;
+  const latestAgent = lastUser;
 
   return (
     <div>
       <LocationMarker
         ltr="s"
-        name={data.shipper.name}
+        // name={data.shipper.name}
+        name={currentBol?.shipper_id?.name}
         latestAgent={latestAgent}
       />
       <LocationMarker
         ltr="c"
-        name={data.carrier.name}
+        // name={data.carrier.name}
+        name={currentBol?.carrier_id?.name}
         latestAgent={latestAgent}
       />
       <LocationMarker
         ltr="r"
-        name={data.consignee.name}
+        // name={data.consignee.name}
+        name={currentBol?.consignee_id?.name}
         latestAgent={latestAgent}
       />
     </div>
