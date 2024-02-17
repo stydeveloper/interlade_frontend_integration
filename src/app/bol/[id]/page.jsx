@@ -161,7 +161,7 @@ const Page = ({ params }) => {
             <button
               onClick={() => setCancelModal(true)}
               disabled={latestAgent !== "Shipper"}
-              className="bg-cancelRed border-2 border-white rounded-md px-12 py-4 mx-12 text-white font-bold text-xl hover:bg-hoverRed disabled:bg-textgray"
+              className="bg-cancelRed border-2 border-white rounded-md px-12 py-4 mx-12 text-white font-bold text-xl hover:bg-hoverRed disabled:bg-hoverGray"
             >
               Cancel B/L
             </button>

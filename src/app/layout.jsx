@@ -5,7 +5,7 @@ import { ApolloProvider } from "@apollo/client";
 import client from "../../apollo-client";
 import { Inter } from "next/font/google";
 import { usePathname } from "next/navigation";
-import "react-toastify/dist/ReactToastify.css";
+// import "react-toastify/dist/ReactToastify.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
