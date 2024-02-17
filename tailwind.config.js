@@ -17,6 +17,8 @@ module.exports = {
         boxblack: "#282424",
         linkBlue: "#048ce6",
         hoverGray: "#B9B9B9",
+        hoverRed: "#EB837B",
+        cancelRed: "#E74133",
       },
     },
   },
