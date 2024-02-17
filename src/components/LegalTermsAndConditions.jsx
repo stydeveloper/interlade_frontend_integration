@@ -13,7 +13,7 @@ function LegalTermsAndConditions({ isOpen, onClose }) {
 
   return (
     isOpen && (
-      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-[90vh]  ">
+      <div className="fixed inset-0 z-30 flex items-center justify-center bg-black bg-opacity-70   ">
         <div className="relative  flex flex-col bg-black text-white py-2 px-4 border-2 border-gray rounded-md mx-12 mt-10">
           <div className=" flex items-center w-full h-full">
             <div className=" w-full h-full">

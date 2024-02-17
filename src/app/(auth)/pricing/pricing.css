@@ -1,12 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;800&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
 a {
   text-decoration: none;
 }
 
 .interlade-pricing {
   padding: 3rem 0;
-
+  font-family: "Open Sans", sans-serif;
   text-align: center;
   width: 100%;
 }

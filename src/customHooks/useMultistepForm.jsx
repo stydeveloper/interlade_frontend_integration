@@ -28,8 +28,8 @@ export function useMultistepForm(steps) {
     next,
     back,
     steps,
-    isFirstStep: currentStepIndex !== 0,
+    isFirstStep: currentStepIndex != 0,
     isGenerateStep: currentStepIndex === steps.length - 2,
-    isLastStep: currentStepIndex === steps.length - 1
+    isLastStep: currentStepIndex === steps.length - 1,
   };
 }

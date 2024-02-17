@@ -1,4 +1,5 @@
 import Link from "next/link";
+import '../styles/table.css'
 
 const Checkbox = ({ isChecked, toggleFunc, index }) => {
   return (
@@ -36,17 +37,17 @@ const formatDate = (dateString) => {
   return formattedDate;
 };
 
-const Row = ({ rowData, checked, toggleCheckbox, type }) => {
+const Row = ({ rowData, checked, toggleCheckbox, type ,index }) => {
   console.log("rowdata ====>", type);
   switch (type) {
     case "active":
     case "recent":
       return (
-        <tr className="text-center bg-cgray text-white hover:bg-gray-300">
+        <tr className="text-center  table-row-class  bg-cgray text-white hover:bg-gray-300">
           <Checkbox
             isChecked={checked}
             toggleFunc={toggleCheckbox}
-            index={rowData.id}
+            index={index}
           />
           <td>{rowData?.consignee_id?.name}</td>
 
@@ -63,7 +64,7 @@ const Row = ({ rowData, checked, toggleCheckbox, type }) => {
       );
     case "complete":
       return (
-        <tr className="text-center text-white hover:bg-textgray">
+        <tr className="text-center table-row-class text-white hover:bg-textgray">
           <Checkbox
             isChecked={checked}
             toggleFunc={toggleCheckbox}
@@ -83,11 +84,11 @@ const Row = ({ rowData, checked, toggleCheckbox, type }) => {
       );
     case "rolewise-complete":
       return (
-        <tr className="text-center bg-cgray text-white hover:bg-gray-300">
+        <tr className="text-center table-row-class bg-cgray text-white hover:bg-gray-300">
           <Checkbox
             isChecked={checked}
             toggleFunc={toggleCheckbox}
-            index={rowData.id}
+            index={index}
           />
           <td>{rowData?.shipper_id?.name || shipper}</td>
           <td>{rowData?.consignee_id?.name || "consignee"}</td>
@@ -104,11 +105,12 @@ const Row = ({ rowData, checked, toggleCheckbox, type }) => {
       );
     case "rolewise-active":
       return (
-        <tr className="text-center bg-cgray text-white hover:bg-gray-300">
+        <tr className="text-center table-row-class bg-cgray text-white hover:bg-gray-300">
           <Checkbox
             isChecked={checked}
             toggleFunc={toggleCheckbox}
-            index={rowData.id}
+            index={index}
+            
           />
           <td>{rowData?.shipper_id?.name || shipper}</td>
           <td>{rowData?.consignee_id?.name || "consignee"}</td>
@@ -125,11 +127,11 @@ const Row = ({ rowData, checked, toggleCheckbox, type }) => {
       );
     case "shipper-carrier-active":
       return (
-        <tr className="text-center bg-cgray text-white hover:bg-hoverGray">
+        <tr className="text-center table-row-class bg-cgray text-white hover:bg-hoverGray">
           <Checkbox
             isChecked={checked}
             toggleFunc={toggleCheckbox}
-            index={rowData.id}
+            index={index}
           />
           <td>{rowData?.consignee_id?.name || "consignee"}</td>
           {/* //placedAt */}
@@ -148,11 +150,11 @@ const Row = ({ rowData, checked, toggleCheckbox, type }) => {
       );
     case "shipper-carrier-complete":
       return (
-        <tr className="text-center text-white hover:bg-textgray">
+        <tr className="text-center table-row-class text-white hover:bg-textgray">
           <Checkbox
             isChecked={checked}
             toggleFunc={toggleCheckbox}
-            index={rowData.id}
+            index={index}
           />
           <td>{rowData?.consignee_id?.name || "consignee"}</td>
           {/* //placedAt */}

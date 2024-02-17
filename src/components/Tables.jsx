@@ -48,7 +48,7 @@ const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
   return (
     <thead className="bg-white sticky top-0">
       <tr className="text-center">
-        <th>
+        <th className="w-[5%]">
           <input
             type="checkbox"
             checked={masterInputCheck}
@@ -81,12 +81,12 @@ const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
             case "rolewise-active":
               return (
                 <>
-                  <th>Shipper</th>
-                  <th>Consignee</th>
-                  <th>Driver</th>
-                  <th>Status</th>
-                  <th>Payment Type</th>
-                  <th>Placed At</th>
+                  <th className="w-[15%]">Shipper</th>
+                  <th className="w-[15%]">Consignee</th>
+                  <th className="w-[15%]">Driver</th>
+                  <th className="w-[15%]">Status</th>
+                  <th className="w-[10%]">Payment Type</th>
+                  <th className="w-[15%]">Placed At</th>
                 </>
               );
             case "rolewise-complete":
@@ -151,13 +151,13 @@ const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
               );
           }
         })()}
-        <th>Go to B/L</th>
+        <th className="w-[10%]">Go to B/L</th>
       </tr>
     </thead>
   );
 };
 
-const Table = ({ type, tableData, allBols }) => {
+const Table = ({ type, tableData, allBols, heightClass }) => {
   const [selectAll, setSelectAll] = useState(false);
   const [checkboxes, setCheckboxes] = useState(
     tableData ? Array(tableData.length).fill(false) : []
@@ -220,8 +220,8 @@ const Table = ({ type, tableData, allBols }) => {
   const groupedOptions = createGroupedOptions(tableData);
 
   return (
-    <>
-      <div className="flex items-center justify-center">
+    <div className={`w-full flex flex-col ${heightClass}`}>
+      <div className="flex h-[10%] items-center justify-center">
         <input
           type="text"
           placeholder="Search..."
@@ -234,7 +234,7 @@ const Table = ({ type, tableData, allBols }) => {
           onChange={() => handleFilterChange}
           isMulti
           placeholder="Filter by ..."
-          className="w-96 mx-4 max-h[38px]  border-[1px] border-textgray rounded-md"
+          className="w-96 mx-4 max-h-[40px] overflow-y-auto border-[1px] border-textgray rounded-md"
         />
         <label className="mr-2">Date Range:</label>
         <input
@@ -248,7 +248,7 @@ const Table = ({ type, tableData, allBols }) => {
         />
       </div>
       <div
-        className={`flex mt-2 ${
+        className={`flex h-[10%] items-center w-full justify-center ${
           !isAnyChecked && "opacity-0 pointer-events-none"
         }`}
       >
@@ -277,15 +277,17 @@ const Table = ({ type, tableData, allBols }) => {
           Download
         </button>
       </div>
-      <div className="w-full h-[230px] bg-borderGrey border-2 border-gray overflow-y-auto rounded-sm ">
+      <div
+        className={`w-full table-bg  border-2 border-gray overflow-y-auto rounded-sm h-[80%]`}
+      >
         {allBols && allBols.length > 0 ? (
-          <table className="w-full ">
+          <table className="w-[100%]   max-h-full">
             <TableHeader
               type={type}
               masterInputCheck={selectAll}
               masterInputOnChange={toggleSelectAll}
             />
-            <tbody>
+            <tbody className="h-full">
               {allBols &&
                 allBols.length > 0 &&
                 allBols.map((rowData, index) => (
@@ -294,6 +296,7 @@ const Table = ({ type, tableData, allBols }) => {
                     checked={checkboxes[index]}
                     toggleCheckbox={toggleCheckbox}
                     type={type}
+                    index={index}
                     rowData={rowData}
                   />
                 ))}
@@ -319,7 +322,7 @@ const Table = ({ type, tableData, allBols }) => {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 
