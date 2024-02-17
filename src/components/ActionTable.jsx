@@ -1,6 +1,7 @@
 function parseDateTime(timestamp) {
   // Convert the timestamp to a Date object
-  const dateObj = new Date(timestamp);
+  console.log("timestamp =>>", timestamp);
+  const dateObj = new Date(timestamp.toString());
 
   // Extract the date components
   const year = dateObj.getFullYear();
@@ -17,16 +18,15 @@ function parseDateTime(timestamp) {
 
   // Format the time as HH:MM:SS
   const time = `${hours}:${minutes}:${seconds}`;
+  console.log(`--------------${date}--------------- ${time}`);
 
   return { date, time };
 }
 const ActionHistory = ({ actionData, bol_history_logs }) => {
-  console.log(bol_history_logs?.time);
-  const { date, time } = parseDateTime(bol_history_logs[0]?.time);
   return (
     <>
       <div className="relative bg-borderGrey h-full border-2 border-gray overflow-y-auto rounded-md ">
-        {bol_history_logs !== undefined && bol_history_logs.length > 0 ? (
+        {bol_history_logs && bol_history_logs.length > 0 ? (
           <table className="w-full">
             <thead className="bg-white text-black sticky top-0">
               <tr className="text-center">
@@ -37,17 +37,22 @@ const ActionHistory = ({ actionData, bol_history_logs }) => {
               </tr>
             </thead>
             <tbody>
-              {actionData.map((rowData, index) => (
-                <tr
-                  key={index}
-                  className="text-center text-white hover:bg-textgray"
-                >
-                  <td>{rowData.date}</td>
-                  <td>{rowData.time}</td>
-                  <td>{rowData.agent}</td>
-                  <td>{rowData.action}</td>
-                </tr>
-              ))}
+              {bol_history_logs.map((log, index) => {
+                // Parse date and time for each log entry
+                const { date, time } = parseDateTime(log.time);
+
+                return (
+                  <tr
+                    key={index}
+                    className="text-center text-white hover:bg-textgray"
+                  >
+                    <td>{date}</td>
+                    <td>{time}</td>
+                    <td>{log.agent_id.name}</td>
+                    <td>{log.action}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         ) : (
