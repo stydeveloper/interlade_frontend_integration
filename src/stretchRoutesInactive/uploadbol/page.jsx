@@ -7,7 +7,7 @@ const CreateUploadBol = dynamic(() => import("./CreateUploadBL"), {
 export default function Page() {
   return (
     <div className="fixed w-full">
-      <div className="bg-textgray h-screen flex">
+      <div className="bg-hoverGray h-screen flex">
         <CreateUploadBol documentType="upload" />
       </div>
     </div>

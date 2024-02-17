@@ -77,16 +77,36 @@ const GET_BOL_BY_ID = gql`
   }
 `;
 
+const GET_CURRENT_BOL_LOCATION = gql`
+  query Query($bolId: ID!) {
+    getCurrentBolLocation(bol_id: $bolId)
+  }
+`;
+
 const Page = ({ params }) => {
   console.log(params.id);
 
   const { loading, error, data } = useQuery(GET_BOL_BY_ID, {
     variables: { id: params.id },
   });
+
+  const {
+    loading: currentBlLoading,
+    currentBlError,
+    data: currentBlData,
+  } = useQuery(GET_CURRENT_BOL_LOCATION, {
+    variables: { bolId: params.id },
+  });
+  if (currentBlData) {
+    console.log(currentBlData);
+  }
   let consigneeInfo;
+  let currentBol;
   console.log(data);
   if (data) {
     consigneeInfo = data.getBol?.consignee_id;
+    currentBol = data.getBol;
+    console.log(data.getBol);
   }
 
   const router = useRouter();
@@ -154,7 +174,7 @@ const Page = ({ params }) => {
           </div>
         </div>
       </div>
-      <div className="bg-hoverGray justify-center pl-4">
+      <div className="bg-hoverGray w-full justify-center px-4">
         <h1 className="font-bold text-2xl my-2 underline">
           BoL Id: {params.id}
         </h1>
@@ -189,18 +209,28 @@ const Page = ({ params }) => {
             {/* based on most recent B/L agent in the action data*/}
             <CurrentBoLLocation data={mockActionData} />
           </div>
-          <div className=" border-2 bg-cgray border-white rounded-md flex flex-col py-4 px-12 text-white col-span-2">
-            <h3 className="font-semibold underline mb-2 text-center text-xl">
-              Load Information
-            </h3>
-            {/* params.id.load */}
-            <p className="mb-2">Package Type: {packageType}</p>
-            <p className="mb-2">Quantity: {quantity}</p>
-            <p className="mb-2">Description: {description}</p>
-            <p className="mb-2">Volume: {volume}</p>
-            <p className="mb-2">Weight: {weight}</p>
-            <p className="mb-2">Class: {classType}</p>
+
+          <div className="relative border-2 bg-cgray border-white rounded-md flex flex-col py-4 px-12 text-white col-span-2">
+            {loading ? (
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <Spin />
+              </div>
+            ) : (
+              <>
+                <h3 className="font-semibold underline mb-2 text-center text-xl">
+                  Load Information
+                </h3>
+                {/* params.id.load */}
+                <p className="mb-2">Package Type: {currentBol.package_type}</p>
+                <p className="mb-2">Quantity: {currentBol.quantity}</p>
+                <p className="mb-2">Description: {currentBol.description}</p>
+                <p className="mb-2">Volume: {currentBol.volume}</p>
+                <p className="mb-2">Weight: {currentBol.weight}</p>
+                <p className="mb-2">Class: {currentBol.hazard_class}</p>
+              </>
+            )}
           </div>
+
           <div className="bg-cgray border-2 border-white rounded-md flex flex-col p-4 text-white row-start-1 col-start-2 col-span-2">
             <h3 className="font-semibold underline mb-2 text-center text-xl">
               Action History
