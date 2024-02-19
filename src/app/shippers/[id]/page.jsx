@@ -8,6 +8,7 @@ import {
   carrierShipperActiveMockData,
   carrierShipperCompleteMockData,
 } from "@/components/MockData";
+import '../../../styles/table.css'
 
 const ShipperProfile = ({ params }) => {
   const router = useRouter();
@@ -30,32 +31,36 @@ const ShipperProfile = ({ params }) => {
         alt="Back"
         src={BackBtn}
         width={40}
-        className="fixed top-18 left-4 mt-6 cursor-pointer"
+        className="fixed top-[4.5rem] left-4  cursor-pointer"
         onClick={() => router.back()}
       />
-      <div className="flex flex-col items-center mt-6 w-full h-[90vh]">
-        <h1 className="underline italic text-2xl font-semibold mb-2">
+      <div className="flex flex-col items-center w-full custom-activebols-Cont">
+        <h1 className="underline italic text-2xl font-semibold flex items-center justify-center h-[10%]">
           {/* params.id.name */}
           Shipper Name
         </h1>
 
         {/* Button to toggle table type with grayed-out hint */}
-        <h1 className="underline text-2xl font-semibold mt-8">
+        <h1 className="underline text-2xl font-semibold  flex items-end justify-center h-[10%]">
           {" "}
           {toggleTable === "carrier-shipper-active"
             ? "Active B/Ls"
             : "Complete B/Ls"}
         </h1>
+        <span className="underline text-2xl font-semibold  flex items-center justify-center h-[10%]">
+
         <button
           onClick={handleToggle}
-          className="border-2 bg-gray rounded mt-4 mb-8 p-2"
-        >
+          className="border-2 bg-gray rounded p-2"
+          >
           View{" "}
           {toggleTable === "carrier-shipper-active"
             ? "Complete B/Ls"
             : "Active B/Ls"}
         </button>
+          </span>
         <Table
+        heightClass='h-[70%]'
           type={toggleTable}
           tableData={
             toggleTable === "carrier-shipper-active"

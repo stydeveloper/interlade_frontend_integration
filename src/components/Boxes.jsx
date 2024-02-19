@@ -11,7 +11,7 @@ const Box = ({ title, desc, imageSrc, link }) => {
   return (
     <Link
       href={link}
-      className="bg-boxblack hover:bg-blue-700 border-2 border-gray rounded-md w-72 h-44 flex flex-col font-semibold"
+      className="bg-boxblack hover:bg-blue-700 border-2 border-gray rounded-md w-72 justify-center  h-[100%]  flex flex-col font-semibold"
     >
       <div className="flex items-center m-4">
         <Image alt="" src={imageSrc} height={60} width={60} />
@@ -31,7 +31,7 @@ const ShippersBox = ({
   return (
     <Link
       href="/shippers"
-      className="bg-boxblack hover:bg-blue-700 border-2 border-gray rounded-md w-72 h-44 flex flex-col font-semibold"
+      className="bg-boxblack hover:bg-blue-700 border-2 border-gray rounded-md w-72 justify-center h-[100%] flex flex-col font-semibold"
     >
       <div className="flex items-center m-4 mt-2 mb-2">
         <Image src={BoxManIcon} alt="Shippers Icon" width={50} />
@@ -49,7 +49,7 @@ const CarriersBox = ({ numOfCarriers, activeBls, completedBls }) => {
   return (
     <Link
       href="/carriers"
-      className="bg-boxblack  hover:bg-blue-700 border-2 border-gray rounded-md w-72 h-44 flex flex-col font-semibold"
+      className="bg-boxblack  hover:bg-blue-700 border-2 border-gray rounded-md w-72 justify-center  h-[100%]  flex flex-col font-semibold"
     >
       <div className="flex items-center m-4 mt-2 mb-2">
         <Image src={BoxManIcon} alt="Carriers Icon" width={50} />
@@ -74,7 +74,7 @@ const DriversBox = ({
   return (
     <Link
       href="/drivers"
-      className="bg-boxblack  hover:bg-blue-700 border-2 border-gray rounded-md w-72 h-44 flex flex-col font-semibold"
+      className="bg-boxblack  hover:bg-blue-700 border-2 border-gray rounded-md w-72 justify-center  h-[100%]  flex flex-col font-semibold"
     >
       <div className="flex items-center m-4 mt-2 mb-0">
         <Image src={DriversIcon} alt="Drivers Icon" width={50} />
@@ -100,7 +100,7 @@ const FourBox = () => {
     setRoleId(localStorage.getItem("role_id"));
   }, []);
   return (
-    <div className="flex justify-between pt-6 mb-12 mx-16">
+    <div className="flex justify-between h-[80%] items-center w-full relative z-20 bg-transparent mx-16">
       {roleId && roleId !== "3" && roleId !== "2" && (
         <ShippersBox
           activeBls={72}

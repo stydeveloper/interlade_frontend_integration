@@ -28,6 +28,7 @@ export default function RootLayout({ children }) {
       <ApolloProvider client={client}>
         <body className={inter.className}>
           {!hideNavbar && <Navbar />}
+          
 
           <div className={`h-full ${!hideNavbar ? "pt-14" : ""}`}>
             {children}

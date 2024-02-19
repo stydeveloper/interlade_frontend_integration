@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 "use client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -158,6 +159,8 @@ export default function Page() {
     <ReviewInfo {...data} />,
   ]);
 
+  console.log(isFirstStep);
+
   const submitFunc = async (e) => {
     e.preventDefault();
 
@@ -260,20 +263,20 @@ export default function Page() {
   };
 
   return (
-    <div className="flex fixed h-screen w-full overflow-auto">
+    <div className="flex h-full  w-full overflow-auto">
       <SidePanel />
-      <div className="w-full ml-60">
+      <div className="w-full min-h-[50%] overflow-auto py-6 ml-60">
         <h1 className="font-bold text-2xl underline text-center mt-1">
           Straight Bill of Lading
         </h1>
-        <div className="relative bg-hoverGray border-2 border-gray rounded-md px-12 p-8 mt-6 mx-12">
+        <div className="relative bg-hoverGray  border-2 border-gray rounded-md px-12 p-8 mt-6 mx-12">
           <form onSubmit={submitFunc}>
             <div className="absolute top-4 right-8 bg-linkBlue rounded-md px-4 text-white">
               {currentStepIndex + 1} / {steps.length}
             </div>
             {step}
             <div className="mt-12 flex gap-2 justify-center">
-              {!isFirstStep && (
+              { isFirstStep&&(
                 <button
                   type="button"
                   onClick={back}

@@ -90,10 +90,10 @@ const CompletedBoLs = () => {
     );
   if (error) return <div>Error! {error.message}</div>;
   return (
-    <div className="flex h-screen fixed w-full">
+    <div className="flex custom-activebols-Cont  fixed w-full">
       <SidePanel />
-      <div className="flex flex-col items-center justify-center m-6 ml-60 h-[90vh] w-full">
-        <h1 className="underline text-2xl font-semibold mb-12">
+      <div className="flex flex-col items-center justify-center h-full w-full ml-[14rem]">
+        <h1 className="underline text-2xl font-semibold flex items-center h-[10%] ">
           Completed B/Ls
         </h1>
         {/* <Table type="complete" tableData={completeMockData} /> */}
@@ -102,6 +102,7 @@ const CompletedBoLs = () => {
           type="rolewise-complete"
           tableData={carrierCompleteMockData}
           allBols={allBols}
+          heightClass="h-[90%]"
         />
       </div>
     </div>

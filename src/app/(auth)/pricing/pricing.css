@@ -1,0 +1,136 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+a {
+  text-decoration: none;
+}
+
+.interlade-pricing {
+  padding: 3rem 0;
+  font-family: "Open Sans", sans-serif;
+  text-align: center;
+  width: 100%;
+}
+
+.interlade-pricing h2 {
+  font-size: 1.8rem;
+  text-transform: capitalize;
+  margin-bottom: 1.563rem;
+  color: #1b1b1b;
+}
+
+.interlade-pricing p {
+  font-size: 1rem;
+  margin-inline: auto;
+  color: #1b1b1b;
+}
+
+.interlade-pricing-cards {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.8em;
+  padding: 5rem 0;
+}
+
+.interlade-pricing-card {
+  flex: 0 1 18.75rem;
+  background: #fff;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  text-align: center;
+  padding: 2.5em 2em;
+  border-radius: 0.625rem;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.interlade-pricing-card:hover {
+  background-color: #005ed2;
+  color: #fff;
+}
+
+.interlade-pricing-card hr {
+  display: block;
+  width: 35%;
+  margin: 0 auto;
+  margin-top: 1.875rem;
+  margin-bottom: 1.563rem;
+  visibility: visible;
+}
+
+.interlade-pricing-card hr.first {
+  background: #d6d4d3;
+  height: 0.156rem;
+  border: none;
+}
+
+.interlade-pricing-card hr.second {
+  background: #1b1b1b;
+  height: 0.25rem;
+  border: none;
+}
+
+.interlade-pricing-card h3 {
+  color: #1b1b1b;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 0.063rem;
+}
+
+.interlade-pricing-card:hover .interlade-card-title {
+  color: #fff !important;
+}
+
+.interlade-pricing-card .card-price {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  font-weight: bold;
+  color: #1b1b1b;
+  margin: 1.563rem 0;
+}
+.interlade-card-price {
+  font-size: 3rem !important;
+  font-weight: 700;
+}
+
+.interlade-pricing-card:hover .interlade-card-price {
+  color: #fff;
+}
+
+.interlade-pricing-card .card-price span {
+  color: #1b1b1b;
+  font-size: 2rem;
+  margin-right: 0.625rem;
+}
+
+.interlade-pricing-card:hover .interlade-card-btn {
+  opacity: 1 !important;
+}
+
+.interlade-card-btn {
+  background: #fff;
+  color: #1b1b1b;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 1.2rem;
+  padding: 0.5rem 1.875rem;
+  display: inline-block;
+  /* transition: opacity 0.3s ease-in; */
+  border-radius: 6px;
+  opacity: 0;
+}
+
+@media screen and (max-width: 780px) {
+  .interlade-pricing-cards {
+    flex-direction: column;
+    gap: 0.8em;
+    padding: 5rem 0;
+  }
+
+  .interlade-pricing-card {
+    width: 95%;
+  }
+}

@@ -5,6 +5,7 @@ import { activeMockData, carrierActiveMockData } from "@/components/MockData";
 import SidePanel from "@/components/SidePanel";
 import { gql, useQuery } from "@apollo/client";
 import { Spin } from "antd";
+import "../../styles/table.css";
 
 // needs to take in user's role & id to decide which view of active b/ls to show (shipper/carrier/drivers/receiver)
 const GET_ACTIVE_BOLS = gql`
@@ -89,15 +90,18 @@ const ActiveBoLs = () => {
   if (error) return <div>Error! {error.message}</div>;
 
   return (
-    <div className="flex h-screen fixed w-full">
+    <div className="flex custom-activebols-Cont  fixed w-full">
       <SidePanel />
-      <div className="flex flex-col items-center justify-center m-6 h-[90vh] w-full ml-60">
-        <h1 className="underline text-2xl font-semibold mb-12">Active B/Ls</h1>
+      <div className="flex flex-col items-center justify-center h-full w-full ml-[14rem]">
+        <h1 className="underline text-2xl font-semibold flex items-center h-[10%] ">
+          Active B/Ls
+        </h1>
         {allBols && allBols.length > 0 && (
           <Table
             type="rolewise-active"
             tableData={carrierActiveMockData}
             allBols={allBols}
+            heightClass="h-[90%]"
           />
         )}
       </div>
