@@ -5,6 +5,10 @@ import { ApolloProvider } from "@apollo/client";
 import client from "../../apollo-client";
 import { Inter } from "next/font/google";
 import { usePathname } from "next/navigation";
+import Navbar2 from "@/components/Navbar2";
+import Footer2 from "@/components/Footer2";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 // import "react-toastify/dist/ReactToastify.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -16,23 +20,35 @@ const metadata = {
 
 export default function RootLayout({ children }) {
   // Define an array of routes where Navbar should not be displayed
-  const routesWithoutNavbar = ["/login", "/forgot-password", "/reset-password"];
+  const routesWithoutNavbar = [
+    "/login",
+    "/forgot-password",
+    "/reset-password",
+    "/pricing",
+  ];
+
+  const routesWithNavbar2 = ["/pricing"];
+
   const pathname = usePathname();
 
   // Check if the current route is in the array of routes without Navbar
   const hideNavbar = routesWithoutNavbar.includes(pathname);
+  const showNavbar2 = routesWithNavbar2.includes(pathname);
 
   console.log("pathname");
   return (
     <html lang="en">
       <ApolloProvider client={client}>
         <body className={inter.className}>
-          {!hideNavbar && <Navbar />}
-          
+          {!hideNavbar ? <Navbar /> : <Navbar2 />}
+
+          {/* {showNavbar2 && <Navbar2 />} */}
 
           <div className={`h-full ${!hideNavbar ? "pt-14" : ""}`}>
             {children}
           </div>
+          <ToastContainer />
+          {showNavbar2 && <Footer2 />}
         </body>
       </ApolloProvider>
     </html>

@@ -6,6 +6,7 @@ import SubscriptionEmailModal from "@/components/SubscriptionEmailModal/Subscrip
 
 const Pricing = () => {
   const [isMOdalOpen, setIsModalOpen] = useState(false);
+  const [subscriptionType, setSubscriptionType] = useState("");
   return (
     <section className="interlade-pricing">
       <h2>Pricing Options</h2>
@@ -17,30 +18,42 @@ const Pricing = () => {
       <div className="interlade-pricing-cards">
         <PriceCard
           openModal={() => setIsModalOpen(true)}
-          name={"Master"}
+          name={"Monthly"}
           price={287}
+          type="Monthly"
+          setSubscriptionType={setSubscriptionType}
         />
         <PriceCard
           openModal={() => setIsModalOpen(true)}
-          name={"professional"}
+          name={"Yearly"}
           price={20}
+          type="Yearly"
           features={[
             "some amazing feature",
             "some pro exclusive features",
             "another option",
           ]}
+          setSubscriptionType={setSubscriptionType}
         />
       </div>
 
       <SubscriptionEmailModal
         showModal={isMOdalOpen}
         closeModal={() => setIsModalOpen(false)}
+        subscriptionType={subscriptionType}
       />
     </section>
   );
 };
 
-function PriceCard({ price, features, name, openModal }) {
+function PriceCard({
+  price,
+  features,
+  name,
+  openModal,
+  type,
+  setSubscriptionType,
+}) {
   return (
     <div onClick={openModal} className="interlade-pricing-card">
       <div className="interlade-card">
@@ -60,9 +73,13 @@ function PriceCard({ price, features, name, openModal }) {
           })}
         </ul>
         <hr className="interlade-second" />
-        <a href="#" className="interlade-card-btn">
+        <button
+          type="button"
+          className="interlade-card-btn"
+          onClick={() => setSubscriptionType(type)}
+        >
           I want it
-        </a>
+        </button>
       </div>
     </div>
   );

@@ -49,7 +49,7 @@ const LoginPage = () => {
       localStorage.setItem("user", JSON.stringify(response?.data?.loginUser));
       setEmail("");
       setPassword("");
-      toast.success("Logged in successfull!", "top-right");
+      toast.success("Logged in successfull!", { position: "top-right" });
       router.push("/");
     } catch (error) {
       if (error instanceof Error) {

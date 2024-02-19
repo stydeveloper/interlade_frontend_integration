@@ -12,6 +12,7 @@ import { ReviewInfo } from "@/components/forms/ReviewInfo";
 import { useState } from "react";
 import SidePanel from "@/components/SidePanel";
 import { useMutation, gql } from "@apollo/client";
+import { toast } from "react-toastify";
 
 const CREATE_BOL_MUTATION = gql`
   mutation CreateBol($input: BolInput) {
@@ -137,8 +138,8 @@ export default function Page() {
       return { ...prev, ...fields };
     });
   };
+  let userInfo = JSON.parse(localStorage.getItem("user"));
 
-  const userInfo = JSON.parse(localStorage.getItem("user"));
   console.log(userInfo);
 
   const {
@@ -255,7 +256,11 @@ export default function Page() {
         },
       });
 
-      console.log("BOL Created", response);
+      if (response?.data?.createBol) {
+        toast.success("bol created successfully!", { position: "top-right" });
+      }
+
+      console.log("BOL Created", response.data.createBol);
     } catch (error) {
       console.log("Console.log Error", error);
       // Handle the error appropriately
@@ -276,7 +281,7 @@ export default function Page() {
             </div>
             {step}
             <div className="mt-12 flex gap-2 justify-center">
-              { isFirstStep&&(
+              {isFirstStep && (
                 <button
                   type="button"
                   onClick={back}
