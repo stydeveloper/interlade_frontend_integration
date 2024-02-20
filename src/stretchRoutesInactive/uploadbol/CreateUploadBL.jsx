@@ -92,7 +92,7 @@ const CreateUploadBol = ({ documentType }) => {
         annotationManager.redrawAnnotation(rectangleAnnot);
       });
     });
-  }, []);
+  }, [documentType, router]);
 
   return (
     <div ref={blViewer} className="w-full">

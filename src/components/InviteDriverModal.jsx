@@ -1,5 +1,7 @@
+"use client";
 import { useState } from "react";
 import { gql, useMutation } from "@apollo/client";
+import Image from "next/image";
 
 const INVITE_DRIVER_MUTATION = gql`
   mutation InviteDriver($email: String!) {
@@ -64,7 +66,7 @@ function InviteDriverModal({ isOpen, onClose }) {
             onClick={onClose}
             className="absolute top-0 right-0 m-4 cursor-pointer border-2 border-white rounded-full"
           >
-            <img
+            <Image
               alt="Close Modal"
               src="/images/cancel.png"
               width={25}

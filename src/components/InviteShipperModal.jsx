@@ -1,5 +1,7 @@
+"use client";
 import { useState } from "react";
 import { gql, useMutation } from "@apollo/client";
+import Image from "next/image";
 
 const INVITE_SHIPPER_MUTATION = gql`
   mutation InviteShipper($email: String!) {
@@ -71,7 +73,7 @@ function InviteShipperModal({ isOpen, onClose }) {
             onClick={onClose}
             className="absolute top-0 right-0 m-4 cursor-pointer border-2 border-white rounded-full"
           >
-            <img
+            <Image
               alt="Close Modal"
               src="/images/cancel.png"
               width={25}

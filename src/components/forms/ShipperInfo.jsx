@@ -31,6 +31,7 @@ export function ShipperInfo({
     shipperCity,
     shipperState,
     shipperZipcode,
+    update,
   ]); // Empty dependency array ensures this effect runs only once, when the component mounts
 
   return (
