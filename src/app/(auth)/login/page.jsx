@@ -1,10 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import interladeBlue from "../../../../public/images/interladeBlue.png";
 import { useMutation, gql } from "@apollo/client";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { io } from "socket.io-client";
 
 const LOGIN_USER_MUTATION = gql`
   mutation LoginUser($email: String!, $password: String!) {
@@ -49,7 +50,7 @@ const LoginPage = () => {
       localStorage.setItem("user", JSON.stringify(response?.data?.loginUser));
       setEmail("");
       setPassword("");
-      toast.success("Logged in successfull!", { position: "top-right" });
+      toast.success("Logged in successfully!", { position: "top-right" });
       router.push("/");
     } catch (error) {
       if (error instanceof Error) {
@@ -65,12 +66,33 @@ const LoginPage = () => {
     router.push("/forgot-password");
   };
 
+  useEffect(() => {
+    const socket = io("http://3.86.80.67", {
+      rememberUpgrade: true,
+      transports: ["websocket"],
+      secure: true,
+      rejectUnauthorized: false,
+    });
+
+    socket.on("checkoutSessionCompleted", (data) => {
+      // Update message list with the received message
+      console.log(data);
+      if (data.status == true) {
+        toast.success(`${data.message}`, { position: "top-right" });
+      }
+    });
+
+    // Clean up the socket connection when the component unmounts
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
   return (
-    <div className="flex items-center justify-center h-screen bg-black">
-      <div className="w-full max-w-xs">
+    <div className="flex items-center justify-center h-screen bg-white">
+      <div className="w-full max-w-lg">
         <form
           onSubmit={handleLogin}
-          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+          className="bg-white  rounded px-8 pt-6 pb-8 mb-4"
         >
           <div className="flex flex-col mb-8 items-center justify-center">
             <Image src={interladeBlue} width={50} alt="" />
@@ -132,6 +154,12 @@ const LoginPage = () => {
               Log In
             </button>
           </div>
+          <p className="text-center mt-4 text-sm text-gray-500">
+            Don't have an account?{" "}
+            <a className="text-blue-500" href="/signup">
+              Sign Up
+            </a>
+          </p>
         </form>
       </div>
     </div>

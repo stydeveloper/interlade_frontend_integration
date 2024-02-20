@@ -6,7 +6,9 @@ import { Spin } from "antd";
 import { GET_ALL_BOLS_QUERY } from "@/fetching/queries/bol";
 
 const RecentSection = ({ customHeightClass }) => {
-  const { data, loading, error } = useQuery(GET_ALL_BOLS_QUERY);
+  const { data, loading, error } = useQuery(GET_ALL_BOLS_QUERY, {
+    fetchPolicy: "network-only", // or "cache-and-network"
+  });
   let allBols;
   if (data) {
     allBols = data.getBols;
@@ -21,14 +23,14 @@ const RecentSection = ({ customHeightClass }) => {
       {/* call to get table data should probably happen in the Table component based off whath type is passed to it */}
       {/* shipper/receiver's view */}
       {/* <a className="button__sign-up" href="/api/auth/signup">
-        Sign Up
-      </a> */}
+          Sign Up
+        </a> */}
       {loading ? (
         <Spin />
       ) : (
         <Table
-          heightClass='h-[80%]'
-         type="active"
+          heightClass="h-[80%]"
+          type="active"
           tableData={activeMockData}
           allBols={allBols}
         />

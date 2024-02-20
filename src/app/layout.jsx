@@ -25,6 +25,7 @@ export default function RootLayout({ children }) {
     "/forgot-password",
     "/reset-password",
     "/pricing",
+    "/signup",
   ];
 
   const routesWithNavbar2 = ["/pricing"];
@@ -40,9 +41,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <ApolloProvider client={client}>
         <body className={inter.className}>
-          {!hideNavbar ? <Navbar /> : <Navbar2 />}
+          {!hideNavbar && <Navbar />}
 
-          {/* {showNavbar2 && <Navbar2 />} */}
+          {showNavbar2 && <Navbar2 />}
 
           <div className={`h-full ${!hideNavbar ? "pt-14" : ""}`}>
             {children}

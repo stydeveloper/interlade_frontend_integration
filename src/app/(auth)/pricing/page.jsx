@@ -3,6 +3,9 @@
 import React, { useState } from "react";
 import "./pricing.css";
 import SubscriptionEmailModal from "@/components/SubscriptionEmailModal/SubscriptionEmailModal";
+import { useMutation } from "@apollo/client";
+import { REGISTER_CARRIER } from "@/fetching/mutations/user";
+import { useRouter } from "next/navigation";
 
 const Pricing = () => {
   const [isMOdalOpen, setIsModalOpen] = useState(false);
@@ -46,16 +49,40 @@ const Pricing = () => {
   );
 };
 
-function PriceCard({
+export function PriceCard({
   price,
   features,
   name,
   openModal,
   type,
   setSubscriptionType,
+  formData,
+  setFormData,
 }) {
+  const router = useRouter();
+  const [registerCarrier] = useMutation(REGISTER_CARRIER);
+
+  const handleSubscription = async () => {
+    const response = await registerCarrier({
+      variables: { ...formData, planName: type },
+    });
+
+    if (response?.data?.registerCarrier?.checkoutUrl) {
+      console.log(response?.data?.registerCarrier);
+      localStorage.setItem(
+        "role_id",
+        `${response.data.registerCarrier.role_id.id}`
+      );
+      localStorage.setItem("token", `${response.data.registerCarrier.token}`);
+      const { checkoutUrl, token, created_at, ...user } =
+        response?.data?.registerCarrier;
+      localStorage.setItem("user", JSON.stringify(user));
+      router.push(response?.data?.registerCarrier?.checkoutUrl);
+    }
+  };
+
   return (
-    <div onClick={openModal} className="interlade-pricing-card">
+    <div className="interlade-pricing-card">
       <div className="interlade-card">
         <h3 className="interlade-card-title">{name}</h3>
         <hr className="interlade-first" />
@@ -76,9 +103,9 @@ function PriceCard({
         <button
           type="button"
           className="interlade-card-btn"
-          onClick={() => setSubscriptionType(type)}
+          onClick={handleSubscription}
         >
-          I want it
+          Select Plan
         </button>
       </div>
     </div>
