@@ -23,7 +23,15 @@ export function ShipperInfo({
       shipperState,
       shipperZipcode,
     });
-  }, []); // Empty dependency array ensures this effect runs only once, when the component mounts
+  }, [
+    shipperEmail,
+    shipperName,
+    shipperNumber,
+    shipperAddress,
+    shipperCity,
+    shipperState,
+    shipperZipcode,
+  ]); // Empty dependency array ensures this effect runs only once, when the component mounts
 
   return (
     <FormWrapper title="Shipper Information">
