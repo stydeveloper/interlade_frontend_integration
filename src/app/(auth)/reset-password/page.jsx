@@ -4,6 +4,7 @@ import { useMutation, gql } from "@apollo/client";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react"; // Import Suspense from React
 
 const RESET_PASSWORD_MUTATION = gql`
   mutation ResetPassword(
@@ -123,3 +124,11 @@ const ResetPassword = ({ params }) => {
 };
 
 export default ResetPassword;
+
+export function WrappedResetPassword(props) {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ResetPassword {...props} />
+    </Suspense>
+  );
+}
