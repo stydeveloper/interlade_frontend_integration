@@ -92,7 +92,7 @@ const LoadImages = ({ params }) => {
             />
           </div>
           <p className="text-white font-bold text-2xl text-center mb-4">
-            Load Images
+            {"Load Images"}
           </p>
           {bolImages && bolImages.length > 0 && (
             <DocumentBtn
@@ -107,7 +107,7 @@ const LoadImages = ({ params }) => {
         {bolImages &&
           bolImages.map((bolImage, index) => (
             <div className="my-10 " key={index}>
-              <img
+              <Image
                 src={bolImage.filename}
                 alt="Load Images"
                 className="h-full w-full object-cover cursor-pointer"
