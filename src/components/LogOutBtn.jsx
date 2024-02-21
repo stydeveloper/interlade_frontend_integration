@@ -8,6 +8,8 @@ const LogOutBtn = () => {
 
     // Remove token from local storage
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("role_id");
 
     // Redirect to the login page
     router.push("/login");

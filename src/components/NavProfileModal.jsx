@@ -4,7 +4,14 @@ import Profile from "../../public/images/user.png";
 import LogOutBtn from "./LogOutBtn";
 
 const NavProfileModal = ({ isOpen, onClose }) => {
-  const userInfo = JSON.parse(localStorage.getItem("user"));
+  let userInfo;
+  try {
+    userInfo = JSON.parse(localStorage.getItem("user"));
+  } catch (error) {
+    console.error("Error parsing user info:", error);
+    // Handle the error, e.g., set userInfo to a default value
+    userInfo = null;
+  }
   return (
     isOpen && (
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50">

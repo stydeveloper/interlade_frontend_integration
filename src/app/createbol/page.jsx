@@ -13,7 +13,6 @@ import { useState } from "react";
 import SidePanel from "@/components/SidePanel";
 import { useMutation, gql } from "@apollo/client";
 import { toast } from "react-toastify";
-import { refetchGetAllBols } from "@/components/RecentSection";
 
 const CREATE_BOL_MUTATION = gql`
   mutation CreateBol($input: BolInput) {
@@ -258,7 +257,6 @@ export default function Page() {
       });
 
       if (response?.data?.createBol) {
-        refetchGetAllBols();
         toast.success("bol created successfully!", { position: "top-right" });
       }
 
