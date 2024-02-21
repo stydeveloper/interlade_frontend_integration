@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { FormWrapper } from "../FormWrapper";
 
 export function LoadInfo({
@@ -11,6 +12,20 @@ export function LoadInfo({
   loadDesc,
   update,
 }) {
+  const [unNaNumberError, setUnNaNumberError] = useState("");
+
+  const handleUnNaNumberChange = (e) => {
+    const inputValue = e.target.value;
+    update({ unOrNaNumber: inputValue });
+
+    // Validate UN or NA Number
+    if (inputValue.length < 4 || inputValue.length > 6) {
+      setUnNaNumberError("UN or NA Number must be between 4 to 6 digits.");
+    } else {
+      setUnNaNumberError("");
+    }
+  };
+
   return (
     <FormWrapper title="Load Information">
       <label>Units:</label>
@@ -47,13 +62,19 @@ export function LoadInfo({
         className="px-2 rounded-md"
       />
       <label>UN or NA Number:</label>
-      <input
-        required
-        type="text"
-        value={unOrNaNumber}
-        onChange={(e) => update({ unOrNaNumber: e.target.value })}
-        className="px-2 rounded-md"
-      />
+      <div className="flex flex-col gap-1">
+        <input
+          required
+          type="text"
+          value={unOrNaNumber}
+          onChange={handleUnNaNumberChange}
+          className="px-2 rounded-md"
+        />
+        {unNaNumberError && (
+          <p className="text-xs text-red-500">{unNaNumberError}</p>
+        )}
+      </div>
+
       <label>Hazardous Class:</label>
       <input
         required
