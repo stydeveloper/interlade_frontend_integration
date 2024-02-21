@@ -1,24 +1,6 @@
 import Select from "react-select";
-import { gql, useQuery } from "@apollo/client";
-
-const GET_ALL_CARRIERS_QUERY = gql`
-  query GetAllCarrier {
-    getAllCarrier {
-      name
-      email
-      id
-      role_id {
-        id
-        name
-      }
-      address
-      city
-      state
-      zipcode
-      number
-    }
-  }
-`;
+import { useQuery } from "@apollo/client";
+import { GET_ALL_CARRIERS_QUERY } from "@/fetching/queries/user";
 
 export function CarrierInfo({
   carrierEmail,

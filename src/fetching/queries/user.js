@@ -38,3 +38,22 @@ export const GET_ASSOCIATED_BOL_COUNT_DRIVER_CARD = gql`
     }
   }
 `;
+
+export const GET_ALL_CARRIERS_QUERY = gql`
+  query GetAllCarrier {
+    getAllCarrier {
+      name
+      email
+      id
+      role_id {
+        id
+        name
+      }
+      address
+      city
+      state
+      zipcode
+      number
+    }
+  }
+`;

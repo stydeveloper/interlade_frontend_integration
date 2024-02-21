@@ -11,20 +11,9 @@ import ActiveIcon from "../../../public/images/activeBlshipperIcon.svg";
 import CompleteIcon from "../../../public/images/completeBlshipperIcon.svg";
 import DriverCountIcon from "../../../public/images/icons8-in-transit-96 1.png";
 import SidePanel from "@/components/SidePanel";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { Spin } from "antd";
-
-const GET_BOLS_FOR_CARRIERS = gql`
-  query GetBolsForCarriers {
-    getBolsForCarriers {
-      carrierId
-      carrierName
-      activeBolsCount
-      completedBolsCount
-      associatedDriverCount
-    }
-  }
-`;
+import { GET_BOLS_FOR_CARRIERS } from "@/fetching/queries/bol";
 
 const CarrierProfileBox = ({
   carrierId,

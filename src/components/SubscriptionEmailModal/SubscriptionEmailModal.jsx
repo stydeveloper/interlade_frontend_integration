@@ -2,11 +2,11 @@
 import { Modal } from "antd";
 import React, { useState } from "react";
 import "./subscriptionEmailModal.css";
-import { useMutation } from "@apollo/client";
-import { CREATE_SUBSCRIPTON } from "@/fetching/mutations/subscription";
+// import { useMutation } from "@apollo/client";
+// import { CREATE_SUBSCRIPTON } from "@/fetching/mutations/subscription";
 import { useRouter } from "next/navigation";
 import { PriceCard } from "@/app/(auth)/pricing/page";
-import { REGISTER_CARRIER } from "@/fetching/mutations/user";
+// import { REGISTER_CARRIER } from "@/fetching/mutations/user";
 
 function SubscriptionEmailModal({
   showModal,

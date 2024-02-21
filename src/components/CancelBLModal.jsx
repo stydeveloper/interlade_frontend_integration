@@ -12,10 +12,19 @@ const CancelBLModal = ({ isOpen, onClose, submitFunc }) => {
           >
             <Image alt="Close Modal" src={Close} width={25} height={25} />
           </button>
-          <p className="text-2xl font-bold mb-6 underline">You are about to void this Bill of Lading!</p>
-          <p className="text-lg">This will cancel the order with your carrier.</p>
+          <p className="text-2xl font-bold mb-6 underline">
+            You are about to void this Bill of Lading!
+          </p>
+          <p className="text-lg">
+            This will cancel the order with your carrier.
+          </p>
           <p className="mt-8 text-lg">Please be sure this action is correct.</p>
-          <button className="bg-cancelRed p-4 h-16 rounded-md text-white font-2xl font-bold mt-8 hover:hoverRed hover:border-white hover:border-2" onClick={submitFunc}>Continue to Cancel B/L</button>
+          <button
+            className="bg-cancelRed p-4 h-16 rounded-md text-white font-2xl font-bold mt-8 hover:hoverRed hover:border-white hover:border-2"
+            onClick={submitFunc}
+          >
+            Continue to Cancel B/L
+          </button>
         </div>
       </div>
     )

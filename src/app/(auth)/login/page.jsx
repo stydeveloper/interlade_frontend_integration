@@ -6,30 +6,7 @@ import { useMutation, gql } from "@apollo/client";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { io } from "socket.io-client";
-
-const LOGIN_USER_MUTATION = gql`
-  mutation LoginUser($email: String!, $password: String!) {
-    loginUser(email: $email, password: $password) {
-      id
-      email
-      password
-      role_id {
-        id
-        name
-      }
-      name
-      address
-      state
-      city
-      status
-      zipcode
-      message
-      number
-      token
-      created_at
-    }
-  }
-`;
+import { LOGIN_USER_MUTATION } from "@/fetching/mutations/user";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");

@@ -160,3 +160,294 @@ export const GET_BOL_HISTORY_LOGS = gql`
     }
   }
 `;
+
+export const GET_ACTIVE_BOLS = gql`
+  query GetActiveBols {
+    getActiveBols {
+      id
+      carrier_id {
+        id
+        name
+        email
+        address
+        state
+        city
+        number
+        created_at
+        zipcode
+        role_id {
+          id
+          name
+        }
+      }
+      shipper_id {
+        id
+        name
+        email
+        address
+        state
+        city
+        zipcode
+        number
+        created_at
+        role_id {
+          id
+          name
+        }
+      }
+      consignee_id {
+        id
+        role_id {
+          id
+          name
+        }
+        name
+        email
+        address
+        state
+        city
+        zipcode
+        number
+        created_at
+      }
+      weight
+      volume
+      quantity
+      un_na_number
+      hazard_class
+      description
+      packing_group
+      package_type
+      status
+      price
+      created_at
+    }
+  }
+`;
+
+export const GET_BOLS_FOR_CARRIERS = gql`
+  query GetBolsForCarriers {
+    getBolsForCarriers {
+      carrierId
+      carrierName
+      activeBolsCount
+      completedBolsCount
+      associatedDriverCount
+    }
+  }
+`;
+
+export const GET_ACTIVE_ROLES_BY_ROLE = gql`
+  query GetActiveBolsByRole($id: ID!, $roleId: ID!) {
+    getActiveBolsByRole(id: $id, role_id: $roleId) {
+      id
+      carrier_id {
+        id
+        role_id {
+          id
+          name
+        }
+        name
+        email
+        address
+        state
+        city
+        zipcode
+        number
+        created_at
+      }
+      shipper_id {
+        id
+        role_id {
+          id
+          name
+        }
+        name
+        email
+        address
+        state
+        city
+        zipcode
+        number
+        created_at
+      }
+      consignee_id {
+        id
+        role_id {
+          id
+          name
+        }
+        name
+        email
+        address
+        state
+        city
+        zipcode
+        number
+        created_at
+      }
+      weight
+      volume
+      quantity
+      un_na_number
+      hazard_class
+      description
+      packing_group
+      package_type
+      status
+      price
+      created_at
+    }
+  }
+`;
+
+export const GET_COMPLETED_ROLES_BY_ROLE = gql`
+  query GetCompletedBolsByRole($id: ID!, $roleId: ID!) {
+    getCompletedBolsByRole(id: $id, role_id: $roleId) {
+      id
+      carrier_id {
+        id
+        role_id {
+          id
+          name
+        }
+        name
+        email
+        address
+        state
+        city
+        zipcode
+        number
+        created_at
+      }
+      shipper_id {
+        id
+        role_id {
+          id
+          name
+        }
+        name
+        email
+        address
+        state
+        city
+        zipcode
+        number
+        created_at
+      }
+      consignee_id {
+        id
+        role_id {
+          id
+          name
+        }
+        name
+        email
+        address
+        state
+        city
+        zipcode
+        number
+        created_at
+      }
+      weight
+      volume
+      quantity
+      un_na_number
+      hazard_class
+      description
+      packing_group
+      package_type
+      status
+      price
+      created_at
+    }
+  }
+`;
+
+export const GET_COMPLETED_BOLS = gql`
+  query GetCompletedBols {
+    getCompletedBols {
+      id
+      carrier_id {
+        id
+        name
+        email
+        address
+        state
+        city
+        number
+        created_at
+        zipcode
+        role_id {
+          id
+          name
+        }
+      }
+      shipper_id {
+        id
+        name
+        email
+        address
+        state
+        city
+        zipcode
+        number
+        created_at
+        role_id {
+          id
+          name
+        }
+      }
+      consignee_id {
+        id
+        role_id {
+          id
+          name
+        }
+        name
+        email
+        address
+        state
+        city
+        zipcode
+        number
+        created_at
+      }
+      weight
+      volume
+      quantity
+      un_na_number
+      hazard_class
+      description
+      packing_group
+      package_type
+      status
+      price
+      created_at
+    }
+  }
+`;
+
+export const GET_BOLS_FOR_DRIVERS = gql`
+  query GetBolsForDrivers {
+    getBolsForDrivers {
+      driverId
+      driverName
+      activeBolsCount
+      completedBolsCount
+    }
+  }
+`;
+
+export const GET_BOLS_FOR_SHIPPERS = gql`
+  query GetBolsForShippers {
+    getBolsForShippers {
+      shipperId
+      shipperName
+      activeBolsCount
+      completedBolsCount
+      associatedDriverCount
+    }
+  }
+`;

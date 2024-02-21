@@ -1,16 +1,8 @@
 "use client";
 import { useState } from "react";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import Image from "next/image";
-
-const INVITE_DRIVER_MUTATION = gql`
-  mutation InviteDriver($email: String!) {
-    inviteDriver(email: $email) {
-      message
-      success
-    }
-  }
-`;
+import { INVITE_DRIVER_MUTATION } from "@/fetching/mutations/user";
 
 function InviteDriverModal({ isOpen, onClose }) {
   const [email, setEmail] = useState("");

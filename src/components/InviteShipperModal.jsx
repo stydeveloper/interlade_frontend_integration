@@ -1,16 +1,8 @@
 "use client";
 import { useState } from "react";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import Image from "next/image";
-
-const INVITE_SHIPPER_MUTATION = gql`
-  mutation InviteShipper($email: String!) {
-    inviteShipper(email: $email) {
-      message
-      success
-    }
-  }
-`;
+import { INVITE_SHIPPER_MUTATION } from "@/fetching/mutations/user";
 
 function InviteShipperModal({ isOpen, onClose }) {
   const [email, setEmail] = useState("");

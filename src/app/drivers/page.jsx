@@ -9,19 +9,9 @@ import Location from "../../../public/images/location.png";
 import { mockDriverData } from "@/components/MockData";
 import SidePanel from "@/components/SidePanel";
 import InviteDriverModal from "@/components/InviteDriverModal";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { Spin } from "antd";
-
-const GET_BOLS_FOR_DRIVERS = gql`
-  query GetBolsForDrivers {
-    getBolsForDrivers {
-      driverId
-      driverName
-      activeBolsCount
-      completedBolsCount
-    }
-  }
-`;
+import { GET_BOLS_FOR_DRIVERS } from "@/fetching/queries/bol";
 
 const DriverBox = ({
   driverId,

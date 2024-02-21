@@ -41,7 +41,11 @@ const DriverProfile = ({ params }) => {
         <h1 className="underline text-2xl font-semibold flex items-center justify-center h-[10%]">
           Daily Logs
         </h1>
-        <Table heightClass='h-[59%]' type="driver-logs" tableData={mockDailyLogData} />
+        <Table
+          heightClass="h-[59%]"
+          type="driver-logs"
+          tableData={mockDailyLogData}
+        />
       </div>
       <DispatchBoLToDriverModal
         isOpen={inviteOpen}

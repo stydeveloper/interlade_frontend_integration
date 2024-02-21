@@ -1,17 +1,8 @@
 "use client";
 import React, { useState } from "react";
-import { useMutation, gql } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useRouter } from "next/navigation";
-
-const FORGOT_PASSWORD_MUTATION = gql`
-  mutation ForgotPasswordResolver($email: String!) {
-    forgotPasswordResolver(email: $email) {
-      success
-      token
-      message
-    }
-  }
-`;
+import { FORGOT_PASSWORD_MUTATION } from "@/fetching/mutations/user";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");

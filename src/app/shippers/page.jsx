@@ -12,20 +12,9 @@ import CompleteIcon from "../../../public/images/completeBlshipperIcon.svg";
 import DriversAllo from "../../../public/images/drirversAllo.svg";
 import SidePanel from "@/components/SidePanel";
 import InviteShipperModal from "@/components/InviteShipperModal";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { Spin } from "antd";
-
-const GET_BOLS_FOR_SHIPPERS = gql`
-  query GetBolsForShippers {
-    getBolsForShippers {
-      shipperId
-      shipperName
-      activeBolsCount
-      completedBolsCount
-      associatedDriverCount
-    }
-  }
-`;
+import { GET_BOLS_FOR_SHIPPERS } from "@/fetching/queries/bol";
 
 const ShipperProfileBox = ({
   shipperId,

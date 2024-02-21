@@ -8,24 +8,13 @@ import Home from "../../../../../public/images/home.svg";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { Spin } from "antd";
 import { useState } from "react";
+import { GET_BOLIMAGES_BY_BOLID } from "@/fetching/queries/bol_images";
 
-const GET_BOLIMAGES_BY_BOLID = gql`
-  query GetBolImagesByBolId($bolId: ID!) {
-    getBolImagesByBolId(bol_id: $bolId) {
-      filename
-      id
-      bol_id {
-        id
-      }
-    }
-  }
-`;
-
-const DOWNLOAD_IMAGE = gql`
-  query DownloadImage($imageUrl: String!) {
-    downloadImage(imageUrl: $imageUrl)
-  }
-`;
+// const DOWNLOAD_IMAGE = gql`
+//   query DownloadImage($imageUrl: String!) {
+//     downloadImage(imageUrl: $imageUrl)
+//   }
+// `;
 
 const LoadImages = ({ params }) => {
   const router = useRouter();

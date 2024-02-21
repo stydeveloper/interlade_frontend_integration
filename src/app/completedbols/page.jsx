@@ -6,72 +6,9 @@ import {
   carrierCompleteMockData,
 } from "@/components/MockData";
 import SidePanel from "@/components/SidePanel";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { Spin } from "antd";
-
-const GET_COMPLETED_BOLS = gql`
-  query GetCompletedBols {
-    getCompletedBols {
-      id
-      carrier_id {
-        id
-        name
-        email
-        address
-        state
-        city
-        number
-        created_at
-        zipcode
-        role_id {
-          id
-          name
-        }
-      }
-      shipper_id {
-        id
-        name
-        email
-        address
-        state
-        city
-        zipcode
-        number
-        created_at
-        role_id {
-          id
-          name
-        }
-      }
-      consignee_id {
-        id
-        role_id {
-          id
-          name
-        }
-        name
-        email
-        address
-        state
-        city
-        zipcode
-        number
-        created_at
-      }
-      weight
-      volume
-      quantity
-      un_na_number
-      hazard_class
-      description
-      packing_group
-      package_type
-      status
-      price
-      created_at
-    }
-  }
-`;
+import { GET_COMPLETED_BOLS } from "@/fetching/queries/bol";
 
 const CompletedBoLs = () => {
   const router = useRouter();

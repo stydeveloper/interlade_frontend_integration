@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import {  useState } from "react";
+import { useState } from "react";
 import Table from "@/components/Tables";
 import BackBtn from "../../../../public/images/backBtn.svg";
 import "../../../styles/table.css";
@@ -12,155 +12,11 @@ import {
 
 import { gql, useQuery } from "@apollo/client";
 import { Spin } from "antd";
-
-const GET_USER_BY_ID = gql`
-  query GetUserById($id: ID!) {
-    getUserById(id: $id) {
-      id
-      name
-      address
-      city
-      created_at
-      email
-      number
-      password
-      role_id {
-        name
-        id
-      }
-      state
-      zipcode
-    }
-  }
-`;
-
-const GET_ACTIVE_ROLES_BY_ROLE = gql`
-  query GetActiveBolsByRole($id: ID!, $roleId: ID!) {
-    getActiveBolsByRole(id: $id, role_id: $roleId) {
-      id
-      carrier_id {
-        id
-        role_id {
-          id
-          name
-        }
-        name
-        email
-        address
-        state
-        city
-        zipcode
-        number
-        created_at
-      }
-      shipper_id {
-        id
-        role_id {
-          id
-          name
-        }
-        name
-        email
-        address
-        state
-        city
-        zipcode
-        number
-        created_at
-      }
-      consignee_id {
-        id
-        role_id {
-          id
-          name
-        }
-        name
-        email
-        address
-        state
-        city
-        zipcode
-        number
-        created_at
-      }
-      weight
-      volume
-      quantity
-      un_na_number
-      hazard_class
-      description
-      packing_group
-      package_type
-      status
-      price
-      created_at
-    }
-  }
-`;
-
-const GET_COMPLETED_ROLES_BY_ROLE = gql`
-  query GetCompletedBolsByRole($id: ID!, $roleId: ID!) {
-    getCompletedBolsByRole(id: $id, role_id: $roleId) {
-      id
-      carrier_id {
-        id
-        role_id {
-          id
-          name
-        }
-        name
-        email
-        address
-        state
-        city
-        zipcode
-        number
-        created_at
-      }
-      shipper_id {
-        id
-        role_id {
-          id
-          name
-        }
-        name
-        email
-        address
-        state
-        city
-        zipcode
-        number
-        created_at
-      }
-      consignee_id {
-        id
-        role_id {
-          id
-          name
-        }
-        name
-        email
-        address
-        state
-        city
-        zipcode
-        number
-        created_at
-      }
-      weight
-      volume
-      quantity
-      un_na_number
-      hazard_class
-      description
-      packing_group
-      package_type
-      status
-      price
-      created_at
-    }
-  }
-`;
+import { GET_USER_BY_ID } from "@/fetching/mutations/user";
+import {
+  GET_ACTIVE_ROLES_BY_ROLE,
+  GET_COMPLETED_ROLES_BY_ROLE,
+} from "@/fetching/queries/bol";
 
 const CarrierProfile = ({ params }) => {
   const router = useRouter();

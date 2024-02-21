@@ -6,71 +6,9 @@ import SidePanel from "@/components/SidePanel";
 import { gql, useQuery } from "@apollo/client";
 import { Spin } from "antd";
 import "../../styles/table.css";
+import { GET_ACTIVE_BOLS } from "@/fetching/queries/bol";
 
 // needs to take in user's role & id to decide which view of active b/ls to show (shipper/carrier/drivers/receiver)
-const GET_ACTIVE_BOLS = gql`
-  query GetActiveBols {
-    getActiveBols {
-      id
-      carrier_id {
-        id
-        name
-        email
-        address
-        state
-        city
-        number
-        created_at
-        zipcode
-        role_id {
-          id
-          name
-        }
-      }
-      shipper_id {
-        id
-        name
-        email
-        address
-        state
-        city
-        zipcode
-        number
-        created_at
-        role_id {
-          id
-          name
-        }
-      }
-      consignee_id {
-        id
-        role_id {
-          id
-          name
-        }
-        name
-        email
-        address
-        state
-        city
-        zipcode
-        number
-        created_at
-      }
-      weight
-      volume
-      quantity
-      un_na_number
-      hazard_class
-      description
-      packing_group
-      package_type
-      status
-      price
-      created_at
-    }
-  }
-`;
 
 const ActiveBoLs = () => {
   const router = useRouter();

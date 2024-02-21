@@ -3,23 +3,7 @@ import { useState } from "react";
 import { useMutation, gql } from "@apollo/client";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-
-const RESET_PASSWORD_MUTATION = gql`
-  mutation ResetPassword(
-    $resetToken: String!
-    $newPassword: String!
-    $confirmPassword: String!
-  ) {
-    resetPassword(
-      resetToken: $resetToken
-      newPassword: $newPassword
-      confirmPassword: $confirmPassword
-    ) {
-      success
-      message
-    }
-  }
-`;
+import { RESET_PASSWORD_MUTATION } from "@/fetching/mutations/user";
 
 const ResetPassword = ({ searchParams }) => {
   const [password, setPassword] = useState("");
