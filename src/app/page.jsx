@@ -10,7 +10,10 @@ export default function Home() {
 
   useEffect(() => {
     // Check local storage for the flag indicating whether the terms have been acknowledged
-    const hasAcknowledgedTerms = localStorage.getItem("termsAcknowledged");
+    let hasAcknowledgedTerms;
+    if (typeof window !== "undefined") {
+      hasAcknowledgedTerms = localStorage.getItem("termsAcknowledged");
+    }
 
     // If the terms have been acknowledged, close the terms dialog
     if (hasAcknowledgedTerms) {

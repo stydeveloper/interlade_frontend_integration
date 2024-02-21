@@ -3,8 +3,6 @@ import { useState } from "react";
 import { useMutation, gql } from "@apollo/client";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { useSearchParams } from "next/navigation";
-import { Suspense } from "react"; // Import Suspense from React
 
 const RESET_PASSWORD_MUTATION = gql`
   mutation ResetPassword(
@@ -23,16 +21,13 @@ const RESET_PASSWORD_MUTATION = gql`
   }
 `;
 
-const ResetPassword = ({ params }) => {
+const ResetPassword = ({ searchParams }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
-  const searchParams = useSearchParams();
-  console.log(params);
-  console.log(searchParams);
 
-  const resetToken = searchParams.get("resetToken");
+  const resetToken = searchParams.resetToken;
 
   const [resetPassword, { loading, error: mutationError }] = useMutation(
     RESET_PASSWORD_MUTATION,
@@ -41,7 +36,6 @@ const ResetPassword = ({ params }) => {
         console.error("Error:", error.message);
       },
       onCompleted: (data) => {
-        console.log("Data:", data);
         if (data.resetPassword.success) {
           toast.success(data.resetPassword.message, { position: "top-right" });
           router.push("/login");
@@ -126,11 +120,3 @@ const ResetPassword = ({ params }) => {
 };
 
 export default ResetPassword;
-
-export function WrappedResetPassword(props) {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <ResetPassword {...props} />
-    </Suspense>
-  );
-}

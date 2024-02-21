@@ -159,7 +159,7 @@ export default function Page() {
     back,
   } = useMultistepForm([
     <CarrierInfo {...data} update={updateFields} />,
-    <ShipperInfo {...userInfo} update={updateFields} />,
+    userInfo && <ShipperInfo {...userInfo} update={updateFields} />,
     <ConsigneeInfo {...data} update={updateFields} />,
     <LoadInfo {...data} update={updateFields} />,
     <PaymentInfo {...data} update={updateFields} />,

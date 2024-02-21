@@ -20,7 +20,11 @@ import {
 import { Spin } from "antd";
 
 const Page = ({ params }) => {
-  const role = localStorage.getItem("role_id");
+  let role;
+
+  if (typeof window !== "undefined") {
+    role = localStorage.getItem("role_id");
+  }
 
   const { loading, error, data } = useQuery(GET_BOL_BY_ID, {
     variables: { id: params.id },
