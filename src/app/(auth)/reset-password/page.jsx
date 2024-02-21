@@ -29,6 +29,8 @@ const ResetPassword = ({ params }) => {
   const [error, setError] = useState("");
   const router = useRouter();
   const searchParams = useSearchParams();
+  console.log(params);
+  console.log(searchParams);
 
   const resetToken = searchParams.get("resetToken");
 

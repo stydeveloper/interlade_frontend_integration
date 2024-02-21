@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import Close from "../../public/images/cancel.png";
 import Profile from "../../public/images/user.png";
