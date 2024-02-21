@@ -142,9 +142,11 @@ export default function Page() {
       return { ...prev, ...fields };
     });
   };
-  let userInfo = JSON.parse(localStorage.getItem("user"));
+  let userInfo;
 
-  console.log(userInfo);
+  if (typeof window !== "undefined") {
+    userInfo = JSON.parse(localStorage.getItem("user"));
+  }
 
   const {
     step,

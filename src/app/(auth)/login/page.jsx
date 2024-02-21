@@ -45,9 +45,14 @@ const LoginPage = () => {
     try {
       const response = await loginUser({ variables: { email, password } });
       setLoginResponse("Login successful!");
-      localStorage.setItem("role_id", `${response.data.loginUser.role_id.id}`);
-      localStorage.setItem("token", `${response.data.loginUser.token}`);
-      localStorage.setItem("user", JSON.stringify(response?.data?.loginUser));
+      if (typeof window !== "undefined") {
+        localStorage.setItem(
+          "role_id",
+          `${response.data.loginUser.role_id.id}`
+        );
+        localStorage.setItem("token", `${response.data.loginUser.token}`);
+        localStorage.setItem("user", JSON.stringify(response?.data?.loginUser));
+      }
       setEmail("");
       setPassword("");
       toast.success("Logged in successfully!", { position: "top-right" });
