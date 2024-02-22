@@ -4,6 +4,8 @@ import { useMutation, gql } from "@apollo/client";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { RESET_PASSWORD_MUTATION } from "@/fetching/mutations/user";
+import interladeBlue from "../../../../public/images/interladeBlue.png";
+import Image from "next/image";
 
 const ResetPassword = ({ searchParams }) => {
   const [password, setPassword] = useState("");
@@ -17,7 +19,11 @@ const ResetPassword = ({ searchParams }) => {
     RESET_PASSWORD_MUTATION,
     {
       onError: (error) => {
-        console.error("Error:", error.message);
+        if (error instanceof Error) {
+          toast.error(error.message, { position: "top-right" });
+        } else {
+          toast.error("An unknown error occurred", { position: "top-right" });
+        }
       },
       onCompleted: (data) => {
         if (data.resetPassword.success) {
@@ -61,12 +67,14 @@ const ResetPassword = ({ searchParams }) => {
               Better Bill of Lading Management.
             </span>
           </div>
-          <h3 className="mb-3 text-3xl text-center  font-bold">Log In</h3>
+          <h3 className="mb-3 text-3xl text-center  font-bold">
+            Reset Password
+          </h3>
           <>
             <div className="mb-4">
               <label
                 htmlFor="password"
-                className="block text-gray-700 text-sm font-bold mb-2"
+                className="block text-sm font-bold mb-2"
               >
                 New Password
               </label>
@@ -84,7 +92,7 @@ const ResetPassword = ({ searchParams }) => {
             <div className="mb-4">
               <label
                 htmlFor="confirmPassword"
-                className="block text-gray-700 text-sm font-bold mb-2"
+                className="block text-sm font-bold mb-2"
               >
                 Confirm Password
               </label>
@@ -100,13 +108,16 @@ const ResetPassword = ({ searchParams }) => {
               />
             </div>
             {error && <p className="text-red-500 mb-4">{error}</p>}
-            <button
-              type="submit"
-              className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-700"
-              disabled={loading}
-            >
-              {loading ? "Submitting..." : "Reset Password"}
-            </button>
+
+            <div className="w-full mt-2 flex items-center justify-between">
+              <button
+                type="submit"
+                className="bg-linkBlue hover:bg-sky-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                disabled={loading}
+              >
+                {loading ? "Submitting..." : "Reset Password"}
+              </button>
+            </div>
             {mutationError && (
               <p className="text-red-500 mt-2">{mutationError.message}</p>
             )}

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { FORGOT_PASSWORD_MUTATION } from "@/fetching/mutations/user";
 import interladeBlue from "../../../../public/images/interladeBlue.png";
 import Image from "next/image";
+import { toast } from "react-toastify";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -19,7 +20,11 @@ const ForgotPassword = () => {
       onCompleted: (data) => {
         console.log("Data:", data);
         const { token } = data.forgotPasswordResolver;
-        router.push(`/reset-password?resetToken=${token}`);
+        toast.success(data.forgotPasswordResolver.message, {
+          position: "top-right",
+        });
+
+        // router.push(`/reset-password?resetToken=${token}`);
       },
     }
   );
