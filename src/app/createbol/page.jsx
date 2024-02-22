@@ -54,6 +54,7 @@ const initialData = {
 
 export default function Page() {
   const [data, setData] = useState(initialData);
+  const [disable, setDisabled] = useState(false);
   const router = useRouter();
   const [
     createBol,
@@ -182,6 +183,7 @@ export default function Page() {
 
     try {
       setLoading(true);
+      setDisabled(true);
       const response = await createBol({
         variables: {
           input: input,
@@ -199,6 +201,9 @@ export default function Page() {
       // Handle the error appropriately
     } finally {
       setLoading(false);
+      setTimeout(() => {
+        setDisabled(false);
+      }, 6000);
     }
   };
 
@@ -232,7 +237,11 @@ export default function Page() {
                 )}
                 <button
                   type="submit"
-                  className="rounded-md px-4 py-1 bg-linkBlue text-white"
+                  className={`rounded-md px-4 py-1 ${
+                    isLastStep
+                      ? "bg-linkBlue"
+                      : "bg-green-500 hover:bg-green-600"
+                  } text-white`}
                 >
                   {isLastStep ? "Generate BoL" : "Next"}
                 </button>

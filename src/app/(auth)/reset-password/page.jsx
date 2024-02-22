@@ -112,7 +112,11 @@ const ResetPassword = ({ searchParams }) => {
             <div className="w-full mt-2 flex items-center justify-between">
               <button
                 type="submit"
-                className="bg-linkBlue hover:bg-sky-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className={`${
+                  loading
+                    ? "bg-gray-300 cursor-not-allowed"
+                    : "bg-linkBlue hover:bg-sky-800"
+                } text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
                 disabled={loading}
               >
                 {loading ? "Submitting..." : "Reset Password"}
