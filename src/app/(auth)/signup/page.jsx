@@ -42,6 +42,7 @@ const SignupPage = () => {
 
   const [signupResponse, setSignupResponse] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [disable, setDisabled] = useState(false);
   const router = useRouter();
 
   const handleInputChange = (e) => {
@@ -110,6 +111,8 @@ const SignupPage = () => {
 
   const handleSignup = async (e) => {
     e.preventDefault();
+
+    setDisabled(true);
     // Check if there are any errors
     if (Object.values(formErrors).some((error) => error !== "")) {
       toast.error("Please fix all errors before submitting.");
@@ -154,6 +157,10 @@ const SignupPage = () => {
       // router.push("/");
     } catch (error) {
       toast.error("An error occurred while signing up.");
+    } finally {
+      setTimeout(() => {
+        setDisabled(false);
+      }, 6000);
     }
   };
 
@@ -223,6 +230,7 @@ const SignupPage = () => {
             <button
               className="bg-linkBlue hover:bg-sky-800 text-white font-bold mt-2 py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="submit"
+              disabled={disable}
             >
               Sign Up
             </button>
