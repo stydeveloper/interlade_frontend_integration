@@ -58,12 +58,12 @@ const SignupPage = () => {
     switch (name) {
       case "name":
         newErrors.name = !validateName(value)
-          ? "Name must be at least three characters long!"
+          ? "Name must be at least three characters long"
           : "";
         break;
       case "email":
         newErrors.email = !emailRegex.test(value)
-          ? "Invalid email address! Please provide a valid email (abc@example.com)."
+          ? "Please provide a valid email (abc@example.com)."
           : "";
         break;
       case "password":
@@ -72,33 +72,33 @@ const SignupPage = () => {
             "Invalid password! Password should be at least 8 characters long.";
         } else {
           newErrors.password = !validatePassword(value)
-            ? "Invalid password format! (Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character)"
+            ? "(Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character)"
             : "";
         }
         break;
       case "address":
         newErrors.address = !validateAddress(value)
-          ? "Invalid address! Address should be at least 5 characters long."
+          ? "Address should be at least 5 characters long."
           : "";
         break;
       case "state":
         newErrors.state = !validateState(value)
-          ? "Invalid state! State should be at least 3 characters long."
+          ? "State should be at least 3 characters long."
           : "";
         break;
       case "city":
         newErrors.city = !validateCity(value)
-          ? "Invalid city! City should be at least 3 characters long."
+          ? "City should be at least 3 characters long."
           : "";
         break;
       case "zipcode":
         newErrors.zipcode = !validateZipcode(value)
-          ? "Invalid zipcode! Zipcode should be at least 4 characters long."
+          ? "Zipcode should be at least 4 digits long."
           : "";
         break;
       case "number":
         newErrors.number = !validatePhoneNumber(value)
-          ? "Invalid phone number! The number should be between 8 and 15 digits."
+          ? "The number should be between 8 and 15 digits."
           : "";
         break;
       default:
@@ -186,6 +186,26 @@ const SignupPage = () => {
                     className="border-1 border-blue-200 appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                     id={key}
                     type="password" // Change type to password
+                    name={key}
+                    placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
+                    value={value}
+                    onChange={handleInputChange}
+                  />
+                ) : key === "email" ? (
+                  <input
+                    className="border-1 border-blue-200 appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                    id={key}
+                    type="email" // Change type to email
+                    name={key}
+                    placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
+                    value={value}
+                    onChange={handleInputChange}
+                  />
+                ) : key === "zipcode" || key === "number" ? (
+                  <input
+                    className="border-1 border-blue-200 appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                    id={key}
+                    type="number" // Change type to number
                     name={key}
                     placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
                     value={value}
