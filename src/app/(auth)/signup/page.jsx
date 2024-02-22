@@ -68,8 +68,7 @@ const SignupPage = () => {
         break;
       case "password":
         if (value.length < 8) {
-          newErrors.password =
-            "Invalid password! Password should be at least 8 characters long.";
+          newErrors.password = "Password should be at least 8 characters long.";
         } else {
           newErrors.password = !validatePassword(value)
             ? "(Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character)"
