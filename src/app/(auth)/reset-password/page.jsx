@@ -52,7 +52,16 @@ const ResetPassword = ({ searchParams }) => {
           onSubmit={handleSubmit}
           className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
         >
-          <h2 className="text-2xl font-bold mb-4">Reset Password</h2>
+          <div className="flex flex-col mb-8 items-center justify-center">
+            <Image src={interladeBlue} width={50} alt="" />
+            <h1 className="text-2xl font-medium my-1 text-linkBlue">
+              Interlade
+            </h1>
+            <span className="text-xs text-linkBlue">
+              Better Bill of Lading Management.
+            </span>
+          </div>
+          <h3 className="mb-3 text-3xl text-center  font-bold">Log In</h3>
           <>
             <div className="mb-4">
               <label

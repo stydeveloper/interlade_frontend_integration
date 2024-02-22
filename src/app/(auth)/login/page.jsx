@@ -14,12 +14,14 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [disable, setDisabled] = useState(false);
   const router = useRouter();
 
   const [loginUser] = useMutation(LOGIN_USER_MUTATION);
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setDisabled(true);
 
     // Check for password validation
     // if (!validatePassword(password)) {
@@ -52,6 +54,10 @@ const LoginPage = () => {
       } else {
         toast.error("An unknown error occurred", { position: "top-right" });
       }
+    } finally {
+      setTimeout(() => {
+        setDisabled(false);
+      }, 6000);
     }
   };
 
@@ -129,6 +135,7 @@ const LoginPage = () => {
             <button
               className="bg-linkBlue hover:bg-sky-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="submit"
+              disabled={disable}
             >
               Log In
             </button>
