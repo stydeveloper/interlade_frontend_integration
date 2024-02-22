@@ -6,7 +6,7 @@ import LegalTermsAndConditions from "@/components/LegalTermsAndConditions";
 import "../styles/table.css";
 
 export default function Home() {
-  const [termsOpen, setTermsOpen] = useState(true);
+  const [termsOpen, setTermsOpen] = useState(false);
 
   useEffect(() => {
     // Check local storage for the flag indicating whether the terms have been acknowledged
