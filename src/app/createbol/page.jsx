@@ -238,7 +238,7 @@ export default function Page() {
                 <button
                   type="submit"
                   className={`rounded-md px-4 py-1 ${
-                    isLastStep ? "bg-linkBlue" : "bg-linkBlue "
+                    isLastStep ? "bg-linkBlue" : "bg-linkBlue hover:bg-sky-800"
                   } text-white`}
                 >
                   {isLastStep ? "Generate BoL" : "Next"}
