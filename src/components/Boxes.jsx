@@ -166,7 +166,9 @@ const DriversBox = () => {
           <p className="text-white mx-6 text-sm">
             At Dropoff: {atDropoffCount}
           </p>
-          <p className="text-white mx-6 text-sm">Inactive: {inActiveCount}</p>
+          <p className="text-white mx-6 text-sm mb-2">
+            Inactive: {inActiveCount}
+          </p>
         </>
       )}
     </Link>
