@@ -26,9 +26,9 @@ import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 
 const httpLink = new HttpLink({
-  uri: "http://3.86.80.67/graphql",
+  uri: "https://api.interlade.com/graphql",
 });
-
+// http://3.86.80.67
 // const authLink = setContext((_, { headers }) => {
 //   // Get the authentication token from wherever it's stored
 //   const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiIxMjciLCJuYW1lIjoiQmFzaGkgUm9uIFNtaXRoIiwiZW1haWwiOiJmdWlya2FzaGlAZ21haWwuY29tIiwicm9sZSI6IjEiLCJpYXQiOjE3MDQ3MjUxOTcsImV4cCI6MTcwNDgxMTU5N30.xC8ZCy18A10AUvt5TdZ9yJNNtz7oleFgID4RyONBG_8';

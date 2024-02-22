@@ -96,11 +96,13 @@ const LoadImages = ({ params }) => {
         {bolImages &&
           bolImages.map((bolImage, index) => (
             <div className="my-10 " key={index}>
-              <Image
+              <img
                 src={bolImage.filename}
                 alt="Load Images"
                 className="h-full w-full object-cover cursor-pointer"
                 onClick={() => handleImageClick(bolImage.filename)}
+                width={200}
+                height={2000}
               />
             </div>
           ))}
