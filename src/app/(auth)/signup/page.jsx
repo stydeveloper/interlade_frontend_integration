@@ -200,21 +200,11 @@ const SignupPage = () => {
                     value={value}
                     onChange={handleInputChange}
                   />
-                ) : key === "zipcode" || key === "number" ? (
-                  <input
-                    className="border-1 border-blue-200 appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-                    id={key}
-                    type="number" // Change type to number
-                    name={key}
-                    placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
-                    value={value}
-                    onChange={handleInputChange}
-                  />
                 ) : (
                   <input
                     className="border-1 border-blue-200 appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                     id={key}
-                    type="text"
+                    type="text" // Change type to text
                     name={key}
                     placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
                     value={value}
