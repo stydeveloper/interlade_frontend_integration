@@ -49,10 +49,7 @@ function InviteDriverModal({ isOpen, onClose }) {
   return (
     isOpen && (
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50">
-        <div
-          className="relative bg-gray-300 rounded-md flex flex-col items-center py-12 px-16"
-          style={{ border: "2px solid red" }}
-        >
+        <div className="relative bg-gray-300 rounded-md flex flex-col items-center py-12 px-16">
           {/* Close button positioned in the top-right corner */}
           <button
             onClick={onClose}

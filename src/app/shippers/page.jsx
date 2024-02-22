@@ -58,7 +58,9 @@ const ShipperProfileBox = ({
 
 const Shippers = () => {
   const router = useRouter();
-  const { data, loading, error } = useQuery(GET_BOLS_FOR_SHIPPERS);
+  const { data, loading, error } = useQuery(GET_BOLS_FOR_SHIPPERS, {
+    fetchPolicy: "network-only", // or "cache-and-network"
+  });
   const [sentInvite, setSentInvite] = useState(false); // Moved outside of conditional block
   const [copied, setCopied] = useState(false);
   const [inviteOpen, setInviteOpen] = useState(false);
@@ -96,25 +98,24 @@ const Shippers = () => {
     <>
       <div className="flex">
         <SidePanel />
-        <div className="flex flex-col items-center m-4 ml-60">
-          {shippersData !== undefined && shippersData.length > 0 && (
-            <>
-              <h1 className="underline text-2xl font-semibold mb-2">
-                Shippers
-              </h1>
-              <button
-                className="border-2 rounded-md p-2 mb-12 bg-sky-600 text-white hover:bg-sky-900"
-                onClick={() => setInviteOpen(true)}
-              >
-                Invite Shipper+
-              </button>
+        <div className="w-full flex flex-col items-center  m-4 ml-60 ">
+          <div className="flex flex-col items-center justify-center ">
+            <h1 className="underline text-2xl font-semibold mb-2">Shippers</h1>
+            <button
+              className="border-2 rounded-md p-2 mb-12  bg-sky-600 text-white hover:bg-sky-900"
+              onClick={() => setInviteOpen(true)}
+            >
+              Invite Shipper+
+            </button>
+            {shippersData !== undefined && shippersData.length > 0 && (
               <div className="grid grid-rows-2 grid-cols-5 gap-4">
                 {shippersData.map((profile, i) => (
                   <ShipperProfileBox {...profile} key={i} />
                 ))}
               </div>
-            </>
-          )}
+            )}
+          </div>
+
           {inviteOpen && (
             <div className="bg-gray rounded-md flex flex-col items-center justify-center py-12 px-24 ">
               <p className="text-2xl font-bold mb-6 underline">

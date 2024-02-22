@@ -72,24 +72,24 @@ const Drivers = () => {
     <>
       <div className="flex w-full h-full">
         <SidePanel />
-        <div className="flex flex-col items-center m-6 ml-60">
-          {drivers.length > 0 ? (
-            <>
-              <h1 className="underline text-2xl font-semibold mb-2">Drivers</h1>
-              <button
-                className="border-2 rounded-md p-2 mb-12 bg-linkBlue text-white hover:bg-sky-700"
-                onClick={() => setInviteOpen(true)}
-              >
-                Invite Driver +
-              </button>
+        <div className="w-full flex flex-col items-center m-6 ml-60">
+          <>
+            <h1 className="underline text-2xl font-semibold mb-2">Drivers</h1>
+            <button
+              className="border-2 rounded-md p-2 mb-12 bg-linkBlue text-white hover:bg-sky-700"
+              onClick={() => setInviteOpen(true)}
+            >
+              Invite Driver +
+            </button>
+            {driversData !== undefined && driversData.length > 0 && (
               <div className="grid grid-cols-4 gap-4 ">
-                {driversData.length > 0 &&
-                  driversData.map((profile, i) => (
-                    <DriverBox {...profile} key={i} />
-                  ))}
+                {driversData.map((profile, i) => (
+                  <DriverBox {...profile} key={i} />
+                ))}
               </div>
-            </>
-          ) : (
+            )}
+          </>
+          {inviteOpen && (
             <div className="bg-gray rounded-md flex flex-col items-center justify-center py-12 px-24 ">
               <p className="text-2xl font-bold mb-6 underline">
                 Invite Driver(s)
