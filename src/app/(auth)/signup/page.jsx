@@ -117,6 +117,16 @@ const SignupPage = () => {
       return;
     }
 
+    // Check if all fields are filled
+    const allFieldsFilled = Object.values(formData).every(
+      (value) => value !== ""
+    );
+
+    if (!allFieldsFilled) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
+
     try {
       // Call the signup mutation
       // const response = await signupUser({
@@ -139,7 +149,7 @@ const SignupPage = () => {
       //   number: "",
       // });
 
-      // Show success modal
+      // Show success modal only if all fields are filled and no errors
       setShowModal(true);
       // toast.success("Signed up successfully!", { position: "top-right" });
       // router.push("/");
@@ -171,15 +181,27 @@ const SignupPage = () => {
                 <label className="block text-sm font-bold mb-1" htmlFor={key}>
                   {key.charAt(0).toUpperCase() + key.slice(1)}
                 </label>
-                <input
-                  className="border-1 border-blue-200 appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-                  id={key}
-                  type="text"
-                  name={key}
-                  placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
-                  value={value}
-                  onChange={handleInputChange}
-                />
+                {key === "password" ? (
+                  <input
+                    className="border-1 border-blue-200 appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                    id={key}
+                    type="password" // Change type to password
+                    name={key}
+                    placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
+                    value={value}
+                    onChange={handleInputChange}
+                  />
+                ) : (
+                  <input
+                    className="border-1 border-blue-200 appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                    id={key}
+                    type="text"
+                    name={key}
+                    placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
+                    value={value}
+                    onChange={handleInputChange}
+                  />
+                )}
                 {formErrors[key] && (
                   <p className="text-cancelRed text-xs mt-1 ml-1">
                     {formErrors[key]}
