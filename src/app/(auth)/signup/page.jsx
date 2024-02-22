@@ -230,7 +230,7 @@ const SignupPage = () => {
             <button
               className={`${
                 disable
-                  ? "bg-gray-300 cursor-not-allowed"
+                  ? "bg-linkBlue cursor-not-allowed"
                   : "bg-linkBlue hover:bg-sky-800"
               } text-white font-bold mt-2 py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
               type="submit"
