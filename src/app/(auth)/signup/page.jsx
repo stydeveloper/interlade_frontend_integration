@@ -158,11 +158,11 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center bg-white">
+    <div className="flex items-center justify-center bg-cgray">
       <div className="h-[90%] max-w-lg my-8">
         <form
           onSubmit={handleSignup}
-          className="bg-white border-2 border-blue-100 rounded-md px-8 pt-6 pb-8 mb-4"
+          className="bg-white shadow-md rounded-md px-8 pt-6 pb-8 mb-4"
         >
           <div className="flex flex-col mb-8 items-center justify-center">
             <Image src={interladeBlue} width={50} alt="" />
@@ -182,7 +182,7 @@ const SignupPage = () => {
                 </label>
                 {key === "password" ? (
                   <input
-                    className="border-1 border-blue-200 appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                    className="border border-black appearance-none  rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                     id={key}
                     type="password" // Change type to password
                     name={key}
@@ -192,7 +192,7 @@ const SignupPage = () => {
                   />
                 ) : key === "email" ? (
                   <input
-                    className="border-1 border-blue-200 appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                    className="border border-black appearance-none  rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                     id={key}
                     type="email" // Change type to email
                     name={key}
@@ -202,7 +202,7 @@ const SignupPage = () => {
                   />
                 ) : (
                   <input
-                    className="border-1 border-blue-200 appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                    className="border border-black  appearance-none  rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                     id={key}
                     type="text" // Change type to text
                     name={key}
@@ -221,7 +221,7 @@ const SignupPage = () => {
           </div>
           <div className="flex items-center justify-between">
             <button
-              className="bg-sky-600 hover:bg-sky-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="bg-linkBlue hover:bg-sky-800 text-white font-bold mt-2 py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="submit"
             >
               Sign Up
@@ -229,7 +229,7 @@ const SignupPage = () => {
           </div>
           <p className="text-center mt-4 text-sm text-gray-500">
             Already have an account?{" "}
-            <a className="text-blue-500" href="/login">
+            <a className="text-linkBlue" href="/login">
               Log In
             </a>
           </p>

@@ -1,44 +1,45 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import interladeBlue from "../../../../public/images/interladeBlue.png";
-import { useMutation, gql } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { io } from "socket.io-client";
 import { LOGIN_USER_MUTATION } from "@/fetching/mutations/user";
+import { emailRegex, validatePassword } from "@/utils/user-validation"; // Import email regex and password validation
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loginResponse, setLoginResponse] = useState("");
-  const [loginError, setLoginError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const router = useRouter();
 
   const [loginUser] = useMutation(LOGIN_USER_MUTATION);
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    // Check for password validation
+    // if (!validatePassword(password)) {
+    //   setPasswordError(
+    //     "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character."
+    //   );
+    //   return;
+    // } else {
+    //   setPasswordError("");
+    // }
+
     try {
       const response = await loginUser({ variables: { email, password } });
-      setLoginResponse("Login successful!");
-      if (typeof window !== "undefined") {
-        localStorage.setItem(
-          "role_id",
-          `${response.data.loginUser.role_id.id}`
-        );
-        localStorage.setItem("token", `${response.data.loginUser.token}`);
-        localStorage.setItem("user", JSON.stringify(response?.data?.loginUser));
-      }
-      setEmail("");
-      setPassword("");
       toast.success("Logged in successfully!", { position: "top-right" });
       router.push("/");
     } catch (error) {
       if (error instanceof Error) {
-        setLoginError(error.message);
+        toast.error(error.message, { position: "top-right" });
       } else {
-        setLoginError("An unknown error occurred");
+        toast.error("An unknown error occurred", { position: "top-right" });
       }
     }
   };
@@ -48,33 +49,22 @@ const LoginPage = () => {
     router.push("/forgot-password");
   };
 
-  useEffect(() => {
-    const socket = io("http://3.86.80.67", {
-      rememberUpgrade: true,
-      transports: ["websocket"],
-      secure: true,
-      rejectUnauthorized: false,
-    });
+  const handleEmailChange = (e) => {
+    const { value } = e.target;
+    if (!emailRegex.test(value)) {
+      setEmailError("Please provide a valid email (abc@example.com).");
+    } else {
+      setEmailError("");
+    }
+    setEmail(value);
+  };
 
-    socket.on("checkoutSessionCompleted", (data) => {
-      // Update message list with the received message
-      console.log(data);
-      if (data.status == true) {
-        toast.success(`${data.message}`, { position: "top-right" });
-      }
-    });
-
-    // Clean up the socket connection when the component unmounts
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
   return (
-    <div className="flex items-center justify-center h-screen bg-white">
-      <div className="w-full max-w-lg">
+    <div className="flex items-center justify-center h-screen bg-cgray">
+      <div className="w-full max-w-xs">
         <form
           onSubmit={handleLogin}
-          className="bg-white  rounded px-8 pt-6 pb-8 mb-4"
+          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
         >
           <div className="flex flex-col mb-8 items-center justify-center">
             <Image src={interladeBlue} width={50} alt="" />
@@ -85,52 +75,48 @@ const LoginPage = () => {
               Better Bill of Lading Management.
             </span>
           </div>
-          <h3 className="mb-3 text-lg text-center font-medium">Log In</h3>
+          <h3 className="mb-3 text-3xl text-center  font-bold">Log In</h3>
           <div className="mb-4">
             <label className="block text-sm font-bold mb-2" htmlFor="email">
               Email
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow-md appearance-none border border-black rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline "
               id="email"
               type="email"
               placeholder="Email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleEmailChange}
             />
+            {emailError && (
+              <p className="text-cancelRed text-xs mt-1">{emailError}</p>
+            )}
           </div>
           <div>
             <label className="block text-sm font-bold mb-2" htmlFor="password">
               Password
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 mb-2 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow-md  appearance-none border border-black rounded w-full py-2 px-3 mb-2 leading-tight focus:outline-none focus:shadow-outline"
               id="password"
               type="password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+            {passwordError && (
+              <p className="text-cancelRed text-xs mt-1">{passwordError}</p>
+            )}
             <a
-              className="text-xs text-blue-500  flex justify-end cursor-pointer"
+              className="text-xs text-linkBlue flex justify-end cursor-pointer"
               onClick={handleForgotPassword}
             >
               Forgot Password?
             </a>
           </div>
-          <div className="mb-4">
-            {loginResponse && (
-              <p className="text-successGreen text-xs italic ">
-                {loginResponse}
-              </p>
-            )}
-            {loginError && (
-              <p className="text-cancelRed text-xs italic">{loginError}</p>
-            )}
-          </div>
-          <div className="flex items-center justify-between">
+          <div className="w-full mt-2 flex items-center justify-between">
             <button
-              className="bg-sky-600 hover:bg-sky-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="bg-linkBlue hover:bg-sky-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="submit"
             >
               Log In
@@ -138,7 +124,7 @@ const LoginPage = () => {
           </div>
           <p className="text-center mt-4 text-sm text-gray-500">
             Don't have an account?{" "}
-            <a className="text-blue-500" href="/signup">
+            <a className="text-linkBlue" href="/signup">
               Sign Up
             </a>
           </p>
