@@ -140,9 +140,7 @@ const Page = ({ params }) => {
         </div>
       </div>
       <div className="bg-hoverGray w-full justify-center px-4">
-        <h1 className="font-bold text-2xl my-2 underline">
-          BoL Id: {params.id}
-        </h1>
+        <h1 className="font-bold text-2xl my-2 ">Order No: {params.id}</h1>
         <div className="grid grid-rows-2 grid-cols-3 gap-4 h-4/5">
           <div className="relative bg-cgray border-2 border-white rounded-md flex flex-col py-4 px-12 text-white col-start-1 ">
             {loading && !consigneeInfo ? (

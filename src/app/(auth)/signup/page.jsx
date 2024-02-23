@@ -6,6 +6,7 @@ import { useMutation, gql } from "@apollo/client";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import SubscriptionEmailModal from "@/components/SubscriptionEmailModal/SubscriptionEmailModal";
+import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import {
   validatePassword,
   validateName,
@@ -39,7 +40,7 @@ const SignupPage = () => {
     zipcode: "",
     number: "",
   });
-
+  const [showPassword, setShowPassword] = useState(false);
   const [signupResponse, setSignupResponse] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [disable, setDisabled] = useState(false);
@@ -188,15 +189,28 @@ const SignupPage = () => {
                   {key.charAt(0).toUpperCase() + key.slice(1)}
                 </label>
                 {key === "password" ? (
-                  <input
-                    className="border border-black appearance-none  rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-                    id={key}
-                    type="password" // Change type to password
-                    name={key}
-                    placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
-                    value={value}
-                    onChange={handleInputChange}
-                  />
+                  <div className="relative">
+                    <input
+                      className="border border-black items-center justify-center appearance-none rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                      id={key}
+                      type={showPassword ? "text" : "password"}
+                      name={key}
+                      placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
+                      value={value}
+                      onChange={handleInputChange}
+                    />
+                    {showPassword ? (
+                      <EyeInvisibleOutlined
+                        className="absolute top-2 mt-1 right-3 cursor-pointer"
+                        onClick={() => setShowPassword(false)}
+                      />
+                    ) : (
+                      <EyeOutlined
+                        className="absolute top-2 mt-1 right-3 cursor-pointer"
+                        onClick={() => setShowPassword(true)}
+                      />
+                    )}
+                  </div>
                 ) : key === "email" ? (
                   <input
                     className="border border-black appearance-none  rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"

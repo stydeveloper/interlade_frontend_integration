@@ -9,12 +9,29 @@ import { LoadInfo } from "@/components/forms/LoadInfo";
 import { CarrierInfo } from "@/components/forms/CarrierInfo";
 import { PaymentInfo } from "@/components/forms/PaymentInfo";
 import { ReviewInfo } from "@/components/forms/ReviewInfo";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SidePanel from "@/components/SidePanel";
 import { useMutation, gql } from "@apollo/client";
 import { toast } from "react-toastify";
 import { Spin } from "antd";
 import { CREATE_BOL_MUTATION } from "@/fetching/mutations/bol";
+import {
+  emailRegex,
+  validateAddress,
+  validateCity,
+  validateName,
+  validatePhoneNumber,
+  validateState,
+  validateZipcode,
+} from "@/utils/user-validation";
+
+import {
+  validateUnits,
+  validateVolume,
+  validateWeight,
+  validateUnNaNumber,
+  validateString,
+} from "@/utils/bol-validation";
 
 const initialData = {
   shipperEmail: "",
@@ -68,11 +85,27 @@ export default function Page() {
       return { ...prev, ...fields };
     });
   };
+
   let userInfo;
 
-  if (typeof window !== "undefined") {
-    userInfo = JSON.parse(localStorage.getItem("user"));
-  }
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      userInfo = JSON.parse(localStorage.getItem("user"));
+      if (userInfo) {
+        // Update data state with shipper information from userInfo
+        setData((prevData) => ({
+          ...prevData,
+          shipperEmail: userInfo.email || "",
+          shipperName: userInfo.name || "",
+          shipperNumber: userInfo.number || "",
+          shipperAddress: userInfo.address || "",
+          shipperCity: userInfo.city || "",
+          shipperState: userInfo.state || "",
+          shipperZipcode: userInfo.zipcode || "",
+        }));
+      }
+    }
+  }, []);
 
   const {
     step,
@@ -85,20 +118,130 @@ export default function Page() {
     back,
   } = useMultistepForm([
     <CarrierInfo {...data} update={updateFields} />,
-    userInfo && <ShipperInfo {...userInfo} update={updateFields} />,
+    <ShipperInfo {...data} update={updateFields} />,
     <ConsigneeInfo {...data} update={updateFields} />,
     <LoadInfo {...data} update={updateFields} />,
     <PaymentInfo {...data} update={updateFields} />,
     <ReviewInfo {...data} />,
   ]);
 
-  console.log(isFirstStep);
-
   const submitFunc = async (e) => {
     e.preventDefault();
 
+    const validateCurrentStep = () => {
+      let isValid = true; // Initialize as true by default
+
+      switch (currentStepIndex) {
+        case 0: // Carrier Info
+          console.log("currentStepIndex =>", currentStepIndex);
+          // Validate carrier info fields
+          // Example validation:
+          if (!data.carrierName) {
+            toast.error("Please enter the carrier's name.");
+            isValid = false; // Set isValid to false if validation fails
+          }
+          // Additional validations for other fields...
+          break;
+        case 1: // Shipper Info
+          // Validate shipper info fields
+
+          isValid =
+            validatePhoneNumber(data.shipperNumber) &&
+            validateAddress(data.shipperAddress) &&
+            validateCity(data.shipperCity) &&
+            validateState(data.shipperState) &&
+            validateZipcode(data.shipperZipcode);
+
+          if (!isValid) {
+            // If any validation fails, show error messages accordingly
+            toast.error("Incomplete information! please provide all details");
+            setDisabled(true);
+          }
+          break;
+        case 2: // Consignee Info
+          // Validate consignee info fields
+          // Example validation:
+
+          isValid =
+            emailRegex.test(data.consigneeEmail) &&
+            validateName(data.consigneeName) &&
+            validatePhoneNumber(data.consigneeNumber) &&
+            validateAddress(data.consigneeAddress) &&
+            validateCity(data.consigneeCity) &&
+            validateState(data.consigneeState) &&
+            validateZipcode(data.consigneeZipcode);
+
+          if (!isValid) {
+            // If any validation fails, show error messages accordingly
+            toast.error("Incomplete information! please provide all details.");
+            setDisabled(true);
+          }
+          break;
+
+        case 3: // Load Info
+          isValid =
+            validateUnits(data.units) &&
+            validateString(data.packageType) &&
+            validateVolume(data.volume) &&
+            validateWeight(data.weight) &&
+            validateUnNaNumber(data.unOrNaNumber) &&
+            validateString(data.hazardousClass) &&
+            validateString(data.packingGroup);
+
+          if (!isValid) {
+            // If any validation fails, show error messages accordingly
+            toast.error("Incomplete information! Please provide all details.");
+            setDisabled(true);
+          }
+          break;
+
+        case 4: // Payment Info
+          isValid =
+            data.prepaid || data.collect || data.dap || data.thirdPartyBilling;
+
+          if (!isValid) {
+            toast.error("Please select a payment type.");
+            setDisabled(true);
+          }
+          break;
+
+        // Add cases for other steps as needed...
+
+        default:
+          break;
+      }
+
+      setTimeout(() => {
+        setDisabled(false);
+      }, 6000);
+
+      return isValid; // Return the overall validation result
+    };
+    const getPaymentType = () => {
+      if (data.prepaid) {
+        return "PREPAID";
+      } else if (data.collect) {
+        return "COLLECT";
+      } else if (data.dap) {
+        return "DAP";
+      } else if (data.thirdPartyBilling) {
+        return "THIRD_PARTY_BILLING";
+      }
+      // Default to "PREPAID" if none of the flags are true
+      return "PREPAID";
+    };
+    // if (!isLastStep) {
+    //   next();
+    //   return;
+    // }
     if (!isLastStep) {
-      next();
+      // Check if the current step is valid before proceeding
+      const isStepValid = validateCurrentStep();
+      if (!isStepValid) {
+        return; // Stop submission if the step is not valid
+      }
+
+      next(); // Proceed to the next step if the current step is valid
       return;
     }
 
@@ -140,7 +283,7 @@ export default function Page() {
 
     const input = {
       paymentInfo: {
-        value: "prepaid",
+        value: getPaymentType(), // Get the payment type dynamically
       },
       loadInfo: {
         weight: Number(weight),
@@ -183,7 +326,7 @@ export default function Page() {
 
     try {
       setLoading(true);
-      setDisabled(true);
+
       const response = await createBol({
         variables: {
           input: input,
@@ -201,6 +344,7 @@ export default function Page() {
       // Handle the error appropriately
     } finally {
       setLoading(false);
+      setDisabled(true);
       setTimeout(() => {
         setDisabled(false);
       }, 6000);
@@ -237,9 +381,10 @@ export default function Page() {
                 )}
                 <button
                   type="submit"
-                  className={`rounded-md px-4 py-1 ${
-                    isLastStep ? "bg-linkBlue" : "bg-linkBlue hover:bg-sky-800"
-                  } text-white`}
+                  className={`rounded-md px-4 py-1 text-white bg-linkBlue `}
+                  // Set disabled attribute based on the disable state
+                  disabled={disable}
+                  style={{ cursor: disable ? "not-allowed" : "pointer" }} // Set cursor style
                 >
                   {isLastStep ? "Generate BoL" : "Next"}
                 </button>

@@ -44,7 +44,7 @@ const ActionHistory = ({ actionData, bol_history_logs }) => {
                 return (
                   <tr
                     key={index}
-                    className="text-center text-white hover:bg-textgray"
+                    className="text-center text-white hover:bg-hoverGray"
                   >
                     <td>{date}</td>
                     <td>{time}</td>

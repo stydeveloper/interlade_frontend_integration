@@ -6,12 +6,14 @@ import LogOutBtn from "./LogOutBtn";
 
 const NavProfileModal = ({ isOpen, onClose }) => {
   let userInfo;
-  try {
-    userInfo = JSON.parse(localStorage.getItem("user"));
-  } catch (error) {
-    console.error("Error parsing user info:", error);
-    // Handle the error, e.g., set userInfo to a default value
-    userInfo = null;
+  if (typeof window !== "undefined") {
+    try {
+      userInfo = JSON.parse(localStorage.getItem("user"));
+    } catch (error) {
+      console.error("Error parsing user info:", error);
+      // Handle the error, e.g., set userInfo to a default value
+      userInfo = null;
+    }
   }
   return (
     isOpen && (

@@ -13,7 +13,7 @@ export function CarrierInfo({
   update,
 }) {
   const { data, loading, error } = useQuery(GET_ALL_CARRIERS_QUERY);
-  console.log(data);
+
   let options = [];
   if (data && data.getAllCarrier) {
     options = data.getAllCarrier.map((carrier) => ({

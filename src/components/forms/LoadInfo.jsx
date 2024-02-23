@@ -1,5 +1,13 @@
-import { useState } from "react";
+"use client";
 import { FormWrapper } from "../FormWrapper";
+import React, { useState } from "react";
+import {
+  validateUnits,
+  validateVolume,
+  validateWeight,
+  validateUnNaNumber,
+  validateString,
+} from "@/utils/bol-validation";
 
 export function LoadInfo({
   units,
@@ -12,98 +20,206 @@ export function LoadInfo({
   loadDesc,
   update,
 }) {
-  const [unNaNumberError, setUnNaNumberError] = useState("");
+  const [formErrors, setFormErrors] = useState({
+    units: "",
+    packageType: "",
+    volume: "",
+    weight: "",
+    unOrNaNumber: "",
+    hazardousClass: "",
+    packingGroup: "",
+  });
 
-  const handleUnNaNumberChange = (e) => {
-    const inputValue = e.target.value;
-    update({ unOrNaNumber: inputValue });
+  const handleInputChange = (e, field) => {
+    const { value } = e.target;
+    const newErrors = { ...formErrors };
 
-    // Validate UN or NA Number
-    if (inputValue.length < 4 || inputValue.length > 6) {
-      setUnNaNumberError("UN or NA Number must be between 4 to 6 digits.");
-    } else {
-      setUnNaNumberError("");
+    switch (field) {
+      case "units":
+        newErrors.units = !validateUnits(value)
+          ? "Units must be a positive integer."
+          : "";
+        break;
+      case "packageType":
+        newErrors.packageType = !validateString(value)
+          ? "Package type must be between 3 to 15 characters."
+          : "";
+        break;
+      case "hazardousClass":
+        newErrors.hazardousClass = !validateString(value)
+          ? "Hazardous class must be between 3 to 15 characters."
+          : "";
+        break;
+      case "packingGroup":
+        newErrors.packingGroup = !validateString(value)
+          ? "Packing group must be between 3 to 15 characters."
+          : "";
+        break;
+      case "volume":
+        newErrors.volume = !validateVolume(value)
+          ? "Volume must be like this 20 or 20.50."
+          : "";
+        break;
+      case "weight":
+        newErrors.weight = !validateWeight(value)
+          ? "Weight must be like this 20 or 20.50."
+          : "";
+        break;
+      case "unOrNaNumber":
+        newErrors.unOrNaNumber = !validateUnNaNumber(value)
+          ? "UN or NA Number must be between 4 to 6 digits."
+          : "";
+        break;
+      default:
+        break;
     }
+
+    // Update errors state
+    setFormErrors(newErrors);
+
+    // Update form data
+    update({ [field]: value });
   };
 
   return (
     <FormWrapper title="Load Information">
+      {/* Units */}
       <label>Units:</label>
-      <input
-        autoFocus
-        required
-        type="number"
-        value={units}
-        onChange={(e) => update({ units: e.target.value })}
-        className="px-2 rounded-md"
-      />
+      <div className="flex flex-col gap-1">
+        <input
+          autoFocus
+          required
+          type="text"
+          value={units}
+          onChange={(e) => handleInputChange(e, "units")}
+          className="px-2 rounded-md"
+          inputMode="numeric"
+        />
+        {formErrors.units && (
+          <p className="text-cancelRed text-xs ml-1">{formErrors.units}</p>
+        )}
+      </div>
+
+      {/* Package Type */}
       <label>Package Type:</label>
-      <input
-        required
-        type="text"
-        value={packageType}
-        onChange={(e) => update({ packageType: e.target.value })}
-        className="px-2 rounded-md"
-      />
+
+      <div className="flex flex-col gap-1">
+        <input
+          required
+          type="text"
+          value={packageType}
+          onChange={(e) => handleInputChange(e, "packageType")}
+          className="px-2 rounded-md"
+        />
+        {formErrors.packageType && (
+          <p className="text-cancelRed text-xs ml-1">
+            {formErrors.packageType}
+          </p>
+        )}
+      </div>
+
+      {/* Volume */}
       <label>Volume:</label>
-      <input
-        required
-        type="number"
-        value={volume}
-        onChange={(e) => update({ volume: e.target.value })}
-        className="px-2 rounded-md"
-      />
+
+      <div className="flex flex-col gap-1">
+        <input
+          required
+          type="text"
+          value={volume}
+          onChange={(e) => handleInputChange(e, "volume")}
+          className="px-2 rounded-md"
+          inputMode="numeric"
+        />
+        {formErrors.volume && (
+          <p className="text-cancelRed text-xs ml-1">{formErrors.volume}</p>
+        )}
+      </div>
+
+      {/* Weight */}
       <label>Weight(lbs):</label>
-      <input
-        required
-        type="text"
-        value={weight}
-        onChange={(e) => update({ weight: e.target.value })}
-        className="px-2 rounded-md"
-      />
+
+      <div className="flex flex-col gap-1">
+        <input
+          required
+          type="text"
+          value={weight}
+          onChange={(e) => handleInputChange(e, "weight")}
+          className="px-2 rounded-md"
+          inputMode="numeric"
+        />
+        {formErrors.weight && (
+          <p className="text-cancelRed text-xs ml-1">{formErrors.weight}</p>
+        )}
+      </div>
+
+      {/* UN or NA Number */}
       <label>UN or NA Number:</label>
+
       <div className="flex flex-col gap-1">
         <input
           required
           type="text"
           value={unOrNaNumber}
-          onChange={handleUnNaNumberChange}
+          onChange={(e) => handleInputChange(e, "unOrNaNumber")}
           className="px-2 rounded-md"
         />
-        {unNaNumberError && (
-          <p className="text-xs text-red-500">{unNaNumberError}</p>
+        {formErrors.unOrNaNumber && (
+          <p className="text-cancelRed text-xs ml-1">
+            {formErrors.unOrNaNumber}
+          </p>
         )}
       </div>
 
+      {/* Hazardous Class */}
       <label>Hazardous Class:</label>
-      <input
-        required
-        type="text"
-        value={hazardousClass}
-        onChange={(e) => update({ hazardousClass: e.target.value })}
-        className="px-2 rounded-md"
-      />
+
+      <div className="flex flex-col gap-1">
+        <input
+          required
+          type="text"
+          value={hazardousClass}
+          onChange={(e) => handleInputChange(e, "hazardousClass")}
+          className="px-2 rounded-md"
+        />
+        {formErrors.hazardousClass && (
+          <p className="text-cancelRed text-xs ml-1">
+            {formErrors.hazardousClass}
+          </p>
+        )}
+      </div>
+
+      {/* Packaging Group */}
       <label>Packing Group:</label>
-      <input
-        required
-        type="text"
-        value={packingGroup}
-        onChange={(e) => update({ packingGroup: e.target.value })}
-        className="px-2 rounded-md"
-      />
+      <div className="flex flex-col gap-1">
+        <input
+          required
+          type="text"
+          value={packingGroup}
+          onChange={(e) => handleInputChange(e, "packingGroup")}
+          className="px-2 rounded-md"
+        />
+        {formErrors.packingGroup && (
+          <p className="text-cancelRed text-xs ml-1">
+            {formErrors.packingGroup}
+          </p>
+        )}
+      </div>
+
+      {/* Load Description */}
       <label>Load Description:</label>
+
       <textarea
         required
         value={loadDesc}
         onChange={(e) => update({ loadDesc: e.target.value })}
         className="px-2 rounded-md"
       />
-      <button
+      {/* <button
         className="bg-borderGrey rounded-md p-2 text-white hover:bg-primary-500"
         onClick={() => alert("create functionality")}
       >
         Additional Package +
-      </button>
+      </button> */}
     </FormWrapper>
   );
 }

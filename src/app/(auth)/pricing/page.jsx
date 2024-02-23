@@ -69,14 +69,17 @@ export function PriceCard({
 
     if (response?.data?.registerCarrier?.checkoutUrl) {
       console.log(response?.data?.registerCarrier);
-      localStorage.setItem(
-        "role_id",
-        `${response.data.registerCarrier.role_id.id}`
-      );
-      localStorage.setItem("token", `${response.data.registerCarrier.token}`);
-      const { checkoutUrl, token, created_at, ...user } =
-        response?.data?.registerCarrier;
-      localStorage.setItem("user", JSON.stringify(user));
+
+      if (typeof window !== "undefined") {
+        localStorage.setItem(
+          "role_id",
+          `${response.data.registerCarrier.role_id.id}`
+        );
+        localStorage.setItem("token", `${response.data.registerCarrier.token}`);
+        const { checkoutUrl, token, created_at, ...user } =
+          response?.data?.registerCarrier;
+        localStorage.setItem("user", JSON.stringify(user));
+      }
       router.push(response?.data?.registerCarrier?.checkoutUrl);
     }
   };

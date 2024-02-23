@@ -9,34 +9,76 @@ export function PaymentInfo({
 }) {
   return (
     <FormWrapper title="Payment Information">
-      <label>Prepaid:</label>
-      <input
-        type="checkbox"
-        checked={prepaid}
-        onChange={(e) => update({ prepaid: e.target.checked })}
-        className="px-2 rounded-md"
-      />
-      <label>Collect:</label>
-      <input
-        type="checkbox"
-        checked={collect}
-        onChange={(e) => update({ collect: e.target.checked })}
-        className="px-2 rounded-md"
-      />
-      <label>D.A.P:</label>
-      <input
-        type="checkbox"
-        checked={dap}
-        onChange={(e) => update({ dap: e.target.checked })}
-        className="px-2 rounded-md"
-      />
-      <label>Third Party Billing:</label>
-      <input
-        type="checkbox"
-        checked={thirdPartyBilling}
-        onChange={(e) => update({ thirdPartyBilling: e.target.checked })}
-        className="px-2 rounded-md"
-      />
+      <div className="flex flex-col gap-4 w-[400px] h-[200px]">
+        <label className="flex items-center justify-between text-xl w-full ">
+          Prepaid
+          <input
+            type="radio"
+            value="prepaid"
+            checked={prepaid}
+            onChange={() =>
+              update({
+                prepaid: true,
+                collect: false,
+                dap: false,
+                thirdPartyBilling: false,
+              })
+            }
+            className="px-2 rounded-md h-4 w-4 cursor-pointer"
+          />
+        </label>
+        <label className="flex items-center justify-between text-xl">
+          Collect
+          <input
+            type="radio"
+            value="collect"
+            checked={collect}
+            onChange={() =>
+              update({
+                prepaid: false,
+                collect: true,
+                dap: false,
+                thirdPartyBilling: false,
+              })
+            }
+            className="px-2 rounded-md h-4 w-4 cursor-pointer"
+          />
+        </label>
+        <label className="flex items-center justify-between text-xl">
+          D.A.P
+          <input
+            type="radio"
+            value="dap"
+            checked={dap}
+            onChange={() =>
+              update({
+                prepaid: false,
+                collect: false,
+                dap: true,
+                thirdPartyBilling: false,
+              })
+            }
+            className="px-2 rounded-md h-4 w-4 cursor-pointer"
+          />
+        </label>
+        <label className="flex items-center justify-between text-xl">
+          Third Party Billing
+          <input
+            type="radio"
+            value="thirdPartyBilling"
+            checked={thirdPartyBilling}
+            onChange={() =>
+              update({
+                prepaid: false,
+                collect: false,
+                dap: false,
+                thirdPartyBilling: true,
+              })
+            }
+            className="px-2 rounded-md h-4 w-4 cursor-pointer"
+          />
+        </label>
+      </div>
     </FormWrapper>
   );
 }
