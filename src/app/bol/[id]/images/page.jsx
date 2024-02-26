@@ -5,7 +5,7 @@ import DocumentBtn from "@/components/DocumentBtn";
 import MainBtn from "@/components/MainBtn";
 import Download from "../../../../../public/images/download.png";
 import Home from "../../../../../public/images/home.svg";
-import { gql, useQuery, useMutation } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { Spin } from "antd";
 import { useState } from "react";
 import { GET_BOLIMAGES_BY_BOLID } from "@/fetching/queries/bol_images";
@@ -37,6 +37,7 @@ const LoadImages = ({ params }) => {
   let bolImages = [];
   if (data) {
     bolImages = data?.getBolImagesByBolId;
+    console.log(data?.getBolImagesByBolId);
   }
 
   const handleImageClick = (imageUrl) => {
@@ -80,9 +81,11 @@ const LoadImages = ({ params }) => {
               actionFunc={() => router.back()}
             />
           </div>
-          <p className="text-white font-bold text-2xl text-center mb-4">
-            {"Load Images"}
-          </p>
+          {bolImages && bolImages.length > 0 && (
+            <p className="text-white font-bold text-2xl text-center mb-4">
+              {"Load Images"}
+            </p>
+          )}
           {bolImages && bolImages.length > 0 && (
             <DocumentBtn
               srcImg={Download}

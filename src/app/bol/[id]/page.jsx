@@ -18,6 +18,7 @@ import {
   GET_BOL_HISTORY_LOGS,
 } from "@/fetching/queries/bol";
 import { Spin } from "antd";
+import { GET_BOLIMAGES_BY_BOLID } from "@/fetching/queries/bol_images";
 
 const Page = ({ params }) => {
   let role;
@@ -29,6 +30,13 @@ const Page = ({ params }) => {
   const { loading, error, data } = useQuery(GET_BOL_BY_ID, {
     variables: { id: params.id },
   });
+
+  const { bolImagesLoading, bolImagesError, bolImagesData } = useQuery(
+    GET_BOLIMAGES_BY_BOLID,
+    {
+      variables: { bolId: params.id },
+    }
+  );
 
   const {
     loading: currentBlLoading,
@@ -47,7 +55,6 @@ const Page = ({ params }) => {
   let bol_history_logs;
   if (bol_history_data && bol_history_data.getBolHistoryLogs) {
     bol_history_logs = bol_history_data?.getBolHistoryLogs;
-    console.log("bol_history_logs ===========>>>>>>>", bol_history_logs);
   }
 
   let lastUser;
@@ -57,12 +64,11 @@ const Page = ({ params }) => {
   let consigneeInfo;
 
   let currentBol;
-  console.log(data);
+
   if (data) {
     consigneeInfo = data.getBol?.consignee_id;
 
     currentBol = data.getBol;
-    console.log(data.getBol);
   }
 
   const router = useRouter();
@@ -80,7 +86,7 @@ const Page = ({ params }) => {
 
   return (
     <div className="h-screen flex fixed w-full">
-      <div className="bg-cgray  rounded-b-md flex flex-col">
+      <div className="bg-cgray  rounded-b-md flex flex-col w-[24%]">
         <div className="mx-4">
           <div className="flex justify-center my-8">
             <MainBtn
@@ -98,14 +104,18 @@ const Page = ({ params }) => {
             label="View BoL"
             actionFunc={() => router.push(`/bol/${params.id}/viewbl`)}
           />
-          {}
-          <DocumentBtn
-            srcImg={ViewImage}
-            label="View Load Image(s)"
-            actionFunc={() => router.push(`/bol/${params.id}/images`)}
-          />
+
+          {bolImagesData?.getBolImagesByBolId &&
+            bolImagesData?.getBolImagesByBolId > 0 && (
+              <DocumentBtn
+                srcImg={ViewImage}
+                label="View Load Image(s)"
+                actionFunc={() => router.push(`/bol/${params.id}/images`)}
+              />
+            )}
           {/* Only Display the below if the BL doesn't have an assigned driver AND if the Role is Carrier */}
           {/* use whatever api sends bl to driver */}
+          {/* commented send button  */}
           {/* {latestAgent === "Shipper" && (
             <DocumentBtn
               srcImg={Send}
@@ -114,22 +124,25 @@ const Page = ({ params }) => {
             />
           )} */}
 
-          {role && role === "1" && (
+          {/* Dispatch Driver commented because not in figma */}
+          {/* {role && role === "1" && (
             <DocumentBtn
               srcImg={Send}
               label="Dispatch Driver"
               actionFunc={() => console.log("Send Invite to driver")}
             />
-          )}
+          )} */}
 
           <div className="flex flex-col justify-center items-center mt-8">
-            <button
-              onClick={() => setCancelModal(true)}
-              disabled={latestAgent !== "Shipper"}
-              className="bg-cancelRed border-2 border-white rounded-md px-12 py-4 mx-12 text-white font-bold text-xl hover:bg-hoverRed disabled:bg-hoverGray"
-            >
-              Cancel B/L
-            </button>
+            {currentBol && currentBol?.status === "AT_PICKUP" && (
+              <button
+                onClick={() => setCancelModal(true)}
+                disabled={latestAgent !== "Shipper"}
+                className="bg-cancelRed border-2 border-white rounded-md px-12 py-4 mx-12 text-white font-bold text-xl hover:bg-hoverRed disabled:bg-hoverGray"
+              >
+                Cancel B/L
+              </button>
+            )}
             {latestAgent !== "Shipper" && (
               <span className="text-white text-xs text-center mt-2">
                 B/L can only be canceled before the Carrier has dispatched a

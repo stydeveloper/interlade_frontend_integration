@@ -157,6 +157,7 @@ export const GET_BOL_HISTORY_LOGS = gql`
       }
       time
       action
+      created_at
     }
   }
 `;
@@ -297,6 +298,7 @@ export const GET_ACTIVE_ROLES_BY_ROLE = gql`
       status
       price
       created_at
+      updated_at
     }
   }
 `;
@@ -361,6 +363,7 @@ export const GET_COMPLETED_ROLES_BY_ROLE = gql`
       status
       price
       created_at
+      updated_at
     }
   }
 `;
@@ -448,6 +451,19 @@ export const GET_BOLS_FOR_SHIPPERS = gql`
       activeBolsCount
       completedBolsCount
       associatedDriverCount
+    }
+  }
+`;
+
+export const GET_BOL_BY_STATUS = gql`
+  query GetBolsByStatus($status: String!) {
+    getBolsByStatus(status: $status) {
+      id
+      status
+      shipper_id {
+        name
+        address
+      }
     }
   }
 `;

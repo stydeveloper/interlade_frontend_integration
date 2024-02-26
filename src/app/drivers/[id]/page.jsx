@@ -8,9 +8,13 @@ import BackBtn from "../../../../public/images/backBtn.svg";
 import Select from "react-select";
 import DispatchBoLToDriverModal from "@/components/DispatchBoLToDriverModal";
 
-const DriverProfile = ({ params }) => {
+const DriverProfile = ({ params, searchParams }) => {
   const router = useRouter();
   const [inviteOpen, setInviteOpen] = useState(false);
+
+  // Access the name parameter from router.query
+  const { name } = searchParams;
+  console.log(searchParams);
 
   return (
     <>
@@ -22,11 +26,11 @@ const DriverProfile = ({ params }) => {
         onClick={() => router.back()}
       />
       <div className="flex flex-col items-center custom-activebols-Cont w-full">
-        <h1 className="underline italic text-2xl font-semibold flex items-center justify-center h-[10%]">
+        <h1 className="underline  text-2xl font-semibold flex items-center justify-center h-[10%]">
           {/* fetch driver data via params.id */}
-          John Doe
+          {name || "John Doe"}
         </h1>
-        <p className=" flex items-start justify-center h-[11%]">
+        <p className=" flex items-start justify-center h-[11%] text-xl">
           Employee Id:
           {params.id}
         </p>

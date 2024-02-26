@@ -30,11 +30,11 @@ const ViewBl = ({ params }) => {
             label="Print"
             actionFunc={() => console.log("Print")}
           />
-          <DocumentBtn
+          {/* <DocumentBtn
             srcImg={Send}
             label="Send"
             actionFunc={() => console.log("Send")}
-          />
+          /> */}
           <DocumentBtn
             srcImg={Download}
             label="Download"

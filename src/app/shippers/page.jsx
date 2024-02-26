@@ -25,7 +25,7 @@ const ShipperProfileBox = ({
 }) => {
   return (
     <div className="flex flex-col items-center p-4 border-2 border-gray-300 rounded-md hover:bg-hoverGray">
-      <Link href={`shippers/${shipperId}`}>
+      <Link href={{ pathname: `shippers/${shipperId}`, query: { name } }}>
         {/* {logo && (
           <Image
             src={logo}

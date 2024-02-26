@@ -138,6 +138,7 @@ const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
                   <th>Placed At</th>
                   <th>Completed At</th>
                   <th>Payment Type</th>
+                  <th>Last Action</th>
                 </>
               );
             case "driver-logs":

@@ -69,6 +69,9 @@ export function PriceCard({
 
     if (response?.data?.registerCarrier?.checkoutUrl) {
       console.log(response?.data?.registerCarrier);
+      const { role_id, token, ...user } = response?.data?.registerCarrier;
+
+      // Set cookies
 
       if (typeof window !== "undefined") {
         localStorage.setItem(

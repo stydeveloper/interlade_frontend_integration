@@ -24,7 +24,7 @@ const CarrierProfileBox = ({
 }) => {
   return (
     <div className="flex flex-col items-center p-4 border-2 border-textgray rounded-md hover:bg-hoverGray">
-      <Link href={`carriers/${carrierId}`}>
+      <Link href={{ pathname: `carriers/${carrierId}`, query: { name } }}>
         {/* {logo && (
           <Image
             src={logo}

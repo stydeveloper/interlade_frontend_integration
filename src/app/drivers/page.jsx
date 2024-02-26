@@ -21,7 +21,7 @@ const DriverBox = ({
 }) => {
   return (
     <div className="flex flex-col items-center p-4 border-2 border-gray-300 rounded-md hover:bg-hoverGray w-60 flex-wrap">
-      <Link href={`drivers/${driverId}`}>
+      <Link href={{ pathname: `drivers/${driverId}`, query: { name } }}>
         <div className="flex items-center mb-2">
           <p className="text-xl">{name}</p>
         </div>

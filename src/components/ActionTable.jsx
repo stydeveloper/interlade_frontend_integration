@@ -1,27 +1,29 @@
-function parseDateTime(timestamp) {
-  // Convert the timestamp to a Date object
-  console.log("timestamp =>>", timestamp);
-  const dateObj = new Date(timestamp.toString());
+// function parseDateTime(timestamp) {
+//   // Convert the timestamp to a Date object
+//   console.log("timestamp =>>", timestamp);
+//   const dateObj = new Date(timestamp.toString());
 
-  // Extract the date components
-  const year = dateObj.getFullYear();
-  const month = String(dateObj.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
-  const day = String(dateObj.getDate()).padStart(2, "0");
+//   // Extract the date components
+//   const year = dateObj.getFullYear();
+//   const month = String(dateObj.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
+//   const day = String(dateObj.getDate()).padStart(2, "0");
 
-  // Format the date as YYYY-MM-DD
-  const date = `${year}-${month}-${day}`;
+//   // Format the date as YYYY-MM-DD
+//   const date = `${year}-${month}-${day}`;
 
-  // Extract the time components
-  const hours = String(dateObj.getHours()).padStart(2, "0");
-  const minutes = String(dateObj.getMinutes()).padStart(2, "0");
-  const seconds = String(dateObj.getSeconds()).padStart(2, "0");
+//   // Extract the time components
+//   const hours = String(dateObj.getHours()).padStart(2, "0");
+//   const minutes = String(dateObj.getMinutes()).padStart(2, "0");
+//   const seconds = String(dateObj.getSeconds()).padStart(2, "0");
 
-  // Format the time as HH:MM:SS
-  const time = `${hours}:${minutes}:${seconds}`;
-  console.log(`--------------${date}--------------- ${time}`);
+//   // Format the time as HH:MM:SS
+//   const time = `${hours}:${minutes}:${seconds}`;
+//   console.log(`--------------${date}--------------- ${time}`);
 
-  return { date, time };
-}
+//   return { date, time };
+// }
+
+import { formatDate } from "@/utils/helper";
 const ActionHistory = ({ actionData, bol_history_logs }) => {
   return (
     <>
@@ -39,15 +41,19 @@ const ActionHistory = ({ actionData, bol_history_logs }) => {
             <tbody>
               {bol_history_logs.map((log, index) => {
                 // Parse date and time for each log entry
-                const { date, time } = parseDateTime(log.time);
+
+                const formattedDate = formatDate(log.created_at);
+                const [datePart, timePart] = formattedDate.split(" ");
+                console.log("datePart", datePart);
+                console.log("timePart", timePart);
 
                 return (
                   <tr
                     key={index}
                     className="text-center text-white hover:bg-hoverGray"
                   >
-                    <td>{date}</td>
-                    <td>{time}</td>
+                    <td>{datePart}</td>
+                    <td>{timePart}</td>
                     <td>{log.agent_id.name}</td>
                     <td>{log.action}</td>
                   </tr>

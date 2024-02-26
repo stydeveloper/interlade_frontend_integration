@@ -57,3 +57,14 @@ export const validatePhoneNumber = (phoneNumber) => {
 };
 
 export const emailRegex = /^\S+@\S+\.\S+$/;
+
+export const getCookie = (name) => {
+  const cookies = document.cookie.split(";").map((cookie) => cookie.trim());
+  for (const cookie of cookies) {
+    const [cookieName, cookieValue] = cookie.split("=");
+    if (cookieName === name) {
+      return cookieValue;
+    }
+  }
+  return null; // Return null if cookie with the given name is not found
+};

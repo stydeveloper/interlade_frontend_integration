@@ -36,7 +36,6 @@ export default function RootLayout({ children }) {
   const hideNavbar = routesWithoutNavbar.includes(pathname);
   const showNavbar2 = routesWithNavbar2.includes(pathname);
 
-  console.log("pathname");
   return (
     <html lang="en">
       <ApolloProvider client={client}>
@@ -45,10 +44,10 @@ export default function RootLayout({ children }) {
 
           {showNavbar2 && <Navbar2 />}
 
+          <ToastContainer />
           <div className={`h-full ${!hideNavbar ? "pt-14" : ""}`}>
             {children}
           </div>
-          <ToastContainer />
           {showNavbar2 && <Footer2 />}
         </body>
       </ApolloProvider>

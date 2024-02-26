@@ -10,69 +10,49 @@ import {
   shipperCarrierCompleteMockData,
 } from "@/components/MockData";
 
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { Spin } from "antd";
-import { GET_USER_BY_ID } from "@/fetching/mutations/user";
+// import { GET_USER_BY_ID } from "@/fetching/mutations/user";
 import {
   GET_ACTIVE_ROLES_BY_ROLE,
   GET_COMPLETED_ROLES_BY_ROLE,
 } from "@/fetching/queries/bol";
 
-const CarrierProfile = ({ params }) => {
+const CarrierProfile = ({ params, searchParams }) => {
   const router = useRouter();
-
-  // Initializing the toggleTable state to a default value
-  // Initialize the toggleTable state to "shipper-carrier-active"
   const [toggleTable, setToggleTable] = useState("shipper-carrier-active");
-
-  const { loading, error, data } = useQuery(GET_USER_BY_ID, {
-    variables: { id: params.id },
-  });
 
   const {
     loading: activeBlLoading,
-    activeBlError,
+    error: activeBlError,
     data: activeBolData,
   } = useQuery(GET_ACTIVE_ROLES_BY_ROLE, {
     variables: { id: `${params.id}`, roleId: "1" },
   });
-  let allAcitveBols;
-  if (!activeBlLoading && activeBolData && activeBolData.getActiveBolsByRole) {
-    console.log(activeBolData.getActiveBolsByRole);
-    allAcitveBols = activeBolData.getActiveBolsByRole;
-  }
 
   const {
     loading: completedBlLoading,
-    completedBlError,
+    error: completedBlError,
     data: completedBolData,
   } = useQuery(GET_COMPLETED_ROLES_BY_ROLE, {
     variables: { id: `${params.id}`, roleId: "1" },
   });
 
+  let allActiveBols;
   let allCompletedBols;
+
+  if (!activeBlLoading && activeBolData && activeBolData.getActiveBolsByRole) {
+    allActiveBols = activeBolData.getActiveBolsByRole;
+  }
+
   if (
     !completedBlLoading &&
     completedBolData &&
     completedBolData.getCompletedBolsByRole
   ) {
-    console.log(completedBolData.getCompletedBolsByRole.length === 0);
     allCompletedBols = completedBolData.getCompletedBolsByRole;
   }
 
-  // if (loading)
-  //   return (
-  //     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-  //       <Spin size="small" />
-  //     </div>
-  //   );
-
-  let carrier;
-  if (!loading && data) {
-    carrier = data?.getUserById;
-  }
-
-  // Function to toggle the table type
   const handleToggle = () => {
     setToggleTable((prev) =>
       prev === "shipper-carrier-active"
@@ -94,7 +74,7 @@ const CarrierProfile = ({ params }) => {
       <div className="flex flex-col items-center custom-activebols-Cont w-full">
         <h1 className="underline italic text-2xl font-semibold flex items-center justify-center h-[10%]">
           {/* params.id.name */}
-          {carrier ? carrier.name : "Carrier Name"}
+          {searchParams ? searchParams.name : "Carrier Name"}
         </h1>
         <span className="flex items-center justify-center h-[10%]">
           <button
@@ -111,7 +91,7 @@ const CarrierProfile = ({ params }) => {
             ? "Active B/Ls"
             : "Complete B/Ls"}
         </h1>
-        <span className="flex items-center justify-center h-[10%]">
+        <span className="flex items-center justify-center h-[10%] my-4">
           <button
             onClick={handleToggle}
             className="border-2 bg-gray rounded  p-2"
@@ -123,11 +103,11 @@ const CarrierProfile = ({ params }) => {
           </button>
         </span>
 
-        {(allAcitveBols || allCompletedBols) &&
-          ((allAcitveBols && allAcitveBols.length > 0) ||
+        {(allActiveBols || allCompletedBols) &&
+          ((allActiveBols && allActiveBols.length > 0) ||
             (allCompletedBols && allCompletedBols.length > 0)) && (
             <Table
-              heightClass="h-[60%]"
+              heightClass="h-[70%]"
               type={toggleTable}
               tableData={
                 toggleTable === "shipper-carrier-active"
@@ -136,7 +116,7 @@ const CarrierProfile = ({ params }) => {
               }
               allBols={
                 toggleTable === "shipper-carrier-active"
-                  ? allAcitveBols
+                  ? allActiveBols
                   : allCompletedBols
               }
             />
