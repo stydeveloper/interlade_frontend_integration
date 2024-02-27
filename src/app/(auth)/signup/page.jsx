@@ -60,7 +60,7 @@ const SignupPage = () => {
     switch (name) {
       case "name":
         newErrors.name = !validateName(value)
-          ? "Name must be at least three characters long"
+          ? "Name must be at least three characters(only) long"
           : "";
         break;
       case "email":
@@ -197,6 +197,7 @@ const SignupPage = () => {
                       name={key}
                       placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
                       value={value}
+                      required
                       onChange={handleInputChange}
                     />
                     {showPassword ? (
@@ -217,6 +218,7 @@ const SignupPage = () => {
                     id={key}
                     type="email" // Change type to email
                     name={key}
+                    required
                     placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
                     value={value}
                     onChange={handleInputChange}
@@ -227,6 +229,7 @@ const SignupPage = () => {
                     id={key}
                     type="text" // Change type to text
                     name={key}
+                    required
                     placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
                     value={value}
                     onChange={handleInputChange}
