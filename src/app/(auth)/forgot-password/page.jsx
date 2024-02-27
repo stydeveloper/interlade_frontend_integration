@@ -130,7 +130,7 @@ const ForgotPassword = () => {
               type="submit"
               disabled={loading || disable}
             >
-              {loading ? "Submitting..." : "Submit"}
+              {loading ? "Sending..." : "Send"}
             </button>
           </div>
           {/* {error && <p className="text-red-500 mt-2">{error.message}</p>} */}
