@@ -7,8 +7,11 @@ import interladeBlue from "../../../../public/images/interladeBlue.png";
 import Image from "next/image";
 import { toast } from "react-toastify";
 
+import BackBtn from "../../../../public/images/backBtn.svg";
+
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
+  const [disable, setDisabled] = useState(false);
   const router = useRouter();
 
   const [forgotPassword, { loading, error }] = useMutation(
@@ -16,6 +19,11 @@ const ForgotPassword = () => {
     {
       onError: (error) => {
         console.error("Error:", error.message);
+        toast.error(error.message, { position: "top-right" });
+        setDisabled(true);
+        setTimeout(() => {
+          setDisabled(false);
+        }, 6000);
       },
       onCompleted: (data) => {
         console.log("Data:", data);
@@ -23,6 +31,10 @@ const ForgotPassword = () => {
         toast.success(data.forgotPasswordResolver.message, {
           position: "top-right",
         });
+        setDisabled(true);
+        setTimeout(() => {
+          setDisabled(false);
+        }, 6000);
 
         // router.push(`/reset-password?resetToken=${token}`);
       },
@@ -73,11 +85,18 @@ const ForgotPassword = () => {
 
   return (
     <div className="flex items-center justify-center h-screen bg-cgray">
-      <div className="w-full max-w-xs">
+      <div className="w-full max-w-xs ">
         <form
           onSubmit={handleSubmit}
-          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+          className="relative bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 border-2"
         >
+          <Image
+            alt="Back"
+            src={BackBtn}
+            width={40}
+            className="absolute top-[0.9rem] left-3  cursor-pointer "
+            onClick={() => router.back()}
+          />
           <div className="flex flex-col mb-8 items-center justify-center">
             <Image src={interladeBlue} width={50} alt="" />
             <h1 className="text-2xl font-medium my-1 text-linkBlue">
@@ -108,12 +127,12 @@ const ForgotPassword = () => {
             <button
               className="bg-linkBlue hover:bg-sky-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="submit"
-              disabled={loading}
+              disabled={loading || disable}
             >
               {loading ? "Submitting..." : "Submit"}
             </button>
           </div>
-          {error && <p className="text-red-500 mt-2">{error.message}</p>}
+          {/* {error && <p className="text-red-500 mt-2">{error.message}</p>} */}
         </form>
       </div>
     </div>

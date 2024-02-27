@@ -11,6 +11,7 @@ const ResetPassword = ({ searchParams }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [disable, setDisabled] = useState(false);
   const router = useRouter();
 
   const resetToken = searchParams.resetToken;
@@ -21,17 +22,30 @@ const ResetPassword = ({ searchParams }) => {
       onError: (error) => {
         if (error instanceof Error) {
           toast.error(error.message, { position: "top-right" });
+          setDisabled(true);
+          setTimeout(() => {
+            setDisabled(false);
+          }, 6000);
         } else {
           toast.error("An unknown error occurred", { position: "top-right" });
+          setDisabled(true);
+          setTimeout(() => {
+            setDisabled(false);
+          }, 6000);
         }
       },
       onCompleted: (data) => {
         if (data.resetPassword.success) {
           toast.success(data.resetPassword.message, { position: "top-right" });
+          setDisabled(true);
+          setTimeout(() => {
+            setDisabled(false);
+          }, 6000);
           router.push("/login");
-        } else {
-          setError(data.resetPassword.message);
         }
+        // else {
+        //   setError(data.resetPassword.message);
+        // }
       },
     }
   );
@@ -40,7 +54,11 @@ const ResetPassword = ({ searchParams }) => {
     e.preventDefault();
     try {
       if (password !== confirmPassword) {
-        setError("Passwords do not match");
+        toast.error("Passwords do not match", { position: "top-right" });
+        setDisabled(true);
+        setTimeout(() => {
+          setDisabled(false);
+        }, 6000);
         return;
       }
       await resetPassword({
@@ -50,7 +68,7 @@ const ResetPassword = ({ searchParams }) => {
       console.error("Error:", error.message);
     }
   };
-
+  console.log(disable);
   return (
     <div className="flex items-center justify-center h-screen bg-cgray">
       <div className="w-full max-w-xs">
@@ -107,24 +125,22 @@ const ResetPassword = ({ searchParams }) => {
                 required
               />
             </div>
-            {error && <p className="text-red-500 mb-4">{error}</p>}
+            {/* {error && <p className="text-red-500 mb-4">{error}</p>} */}
 
             <div className="w-full mt-2 flex items-center justify-between">
               <button
                 type="submit"
                 className={`${
-                  loading
-                    ? "bg-linkBlue cursor-not-allowed"
-                    : "bg-linkBlue hover:bg-sky-800"
+                  loading ? "bg-linkBlue " : "bg-linkBlue hover:bg-sky-800"
                 } text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
-                disabled={loading}
+                disabled={loading || disable}
               >
                 {loading ? "Submitting..." : "Reset Password"}
               </button>
             </div>
-            {mutationError && (
+            {/* {mutationError && (
               <p className="text-red-500 mt-2">{mutationError.message}</p>
-            )}
+            )} */}
           </>
         </form>
       </div>

@@ -60,7 +60,7 @@ const SignupPage = () => {
     switch (name) {
       case "name":
         newErrors.name = !validateName(value)
-          ? "Name must be at least three characters(only) long"
+          ? "Name must be at least 3 characters(only) long"
           : "";
         break;
       case "email":
@@ -99,7 +99,7 @@ const SignupPage = () => {
         break;
       case "number":
         newErrors.number = !validatePhoneNumber(value)
-          ? "The number should be between 8 and 15 digits."
+          ? "Phone number should be between 8 and 15 digits."
           : "";
         break;
       default:
@@ -194,7 +194,9 @@ const SignupPage = () => {
             {Object.entries(formData).map(([key, value]) => (
               <div key={key}>
                 <label className="block text-sm font-bold mb-1" htmlFor={key}>
-                  {key.charAt(0).toUpperCase() + key.slice(1)}
+                  {key === "number"
+                    ? "Phone Number"
+                    : key.charAt(0).toUpperCase() + key.slice(1)}
                 </label>
                 {key === "password" ? (
                   <div className="relative">
@@ -203,7 +205,11 @@ const SignupPage = () => {
                       id={key}
                       type={showPassword ? "text" : "password"}
                       name={key}
-                      placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
+                      placeholder={
+                        key === "number"
+                          ? "Phone Number"
+                          : key.charAt(0).toUpperCase() + key.slice(1)
+                      }
                       value={value}
                       required
                       onChange={handleInputChange}
@@ -227,7 +233,11 @@ const SignupPage = () => {
                     type="email" // Change type to email
                     name={key}
                     required
-                    placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
+                    placeholder={
+                      key === "number"
+                        ? "Phone Number"
+                        : key.charAt(0).toUpperCase() + key.slice(1)
+                    }
                     value={value}
                     onChange={handleInputChange}
                   />
@@ -238,7 +248,11 @@ const SignupPage = () => {
                     type="text" // Change type to text
                     name={key}
                     required
-                    placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
+                    placeholder={
+                      key === "number"
+                        ? "Phone Number"
+                        : key.charAt(0).toUpperCase() + key.slice(1)
+                    }
                     value={value}
                     onChange={handleInputChange}
                   />
