@@ -249,7 +249,7 @@ const Table = ({ type, tableData, allBols, heightClass }) => {
         />
       </div>
       <div
-        className={`flex h-[10%] items-center w-full justify-center my-1 ${
+        className={`flex h-[10%] items-center w-full justify-center gap-2 my-1 ${
           !isAnyChecked && "opacity-0 pointer-events-none"
         }`}
       >
@@ -259,12 +259,7 @@ const Table = ({ type, tableData, allBols, heightClass }) => {
         >
           Clear
         </button>
-        {/* <button
-          className="bg-gray px-2 border-2 border-borderGrey rounded-md text-sm mx-2"
-          onClick={() => console.log("Send")}
-        >
-          Send
-        </button> */}
+
         <button
           className="bg-gray px-2 border-2 border-borderGrey rounded-md text-sm"
           onClick={() => console.log("Print")}
@@ -272,11 +267,17 @@ const Table = ({ type, tableData, allBols, heightClass }) => {
           Print
         </button>
         <button
-          className="bg-gray px-2 border-2 border-borderGrey rounded-md text-sm mx-2"
+          className="bg-gray px-2 border-2 border-borderGrey rounded-md text-sm "
           onClick={() => console.log("Download")}
         >
           Download
         </button>
+        {/* <button
+          className="bg-gray px-2 border-2 border-borderGrey rounded-md text-sm mx-2"
+          onClick={() => console.log("Send")}
+        >
+          Send
+        </button> */}
       </div>
       <div
         className={`w-full table-bg  border-2 border-gray overflow-y-auto rounded-sm h-[80%]`}
