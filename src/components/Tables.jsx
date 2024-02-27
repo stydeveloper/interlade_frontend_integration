@@ -249,7 +249,7 @@ const Table = ({ type, tableData, allBols, heightClass }) => {
         />
       </div>
       <div
-        className={`flex h-[10%] items-center w-full justify-center ${
+        className={`flex h-[10%] items-center w-full justify-center my-1 ${
           !isAnyChecked && "opacity-0 pointer-events-none"
         }`}
       >
@@ -259,12 +259,12 @@ const Table = ({ type, tableData, allBols, heightClass }) => {
         >
           Clear
         </button>
-        <button
+        {/* <button
           className="bg-gray px-2 border-2 border-borderGrey rounded-md text-sm mx-2"
           onClick={() => console.log("Send")}
         >
           Send
-        </button>
+        </button> */}
         <button
           className="bg-gray px-2 border-2 border-borderGrey rounded-md text-sm"
           onClick={() => console.log("Print")}
@@ -288,7 +288,7 @@ const Table = ({ type, tableData, allBols, heightClass }) => {
               masterInputCheck={selectAll}
               masterInputOnChange={toggleSelectAll}
             />
-            <tbody className="h-full">
+            <tbody className="h-full bg-hoverGray">
               {allBols &&
                 allBols.length > 0 &&
                 allBols.map((rowData, index) => (

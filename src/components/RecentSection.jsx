@@ -16,7 +16,7 @@ const RecentSection = ({ customHeightClass }) => {
   }
 
   return (
-    <div className={`flex flex-col items-center ${customHeightClass}`}>
+    <div className={`flex flex-col items-center ${customHeightClass} `}>
       <p className="underline text-xl h-[20%] flex items-center justify-center font-semibold">
         Recent B/Ls
       </p>

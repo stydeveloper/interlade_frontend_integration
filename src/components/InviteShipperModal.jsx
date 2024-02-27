@@ -3,7 +3,8 @@ import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import Image from "next/image";
 import { INVITE_SHIPPER_MUTATION } from "@/fetching/mutations/user";
-
+import { toast } from "react-toastify";
+import withToast from "@/components/hoc/withToast";
 function InviteShipperModal({ isOpen, onClose }) {
   const [email, setEmail] = useState("");
   const [copied, setCopied] = useState(false);
@@ -30,6 +31,9 @@ function InviteShipperModal({ isOpen, onClose }) {
       console.log(response);
       if (response.data.inviteShipper.success) {
         console.log(response.data.inviteShipper.message);
+        toast.success("Invitation sent successfully.", {
+          position: "top-right",
+        });
         setSuccessMessage(
           "Success! The Shipper Will Recieve An Email Invite To Create A Bill of Lading"
         );
@@ -53,13 +57,15 @@ function InviteShipperModal({ isOpen, onClose }) {
         // Handle cases where the error is not an instance of Error
         setErrorMessage("An unexpected error occurred. Please try again.");
       }
+    } finally {
+      onClose();
     }
   };
 
   return (
     isOpen && (
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50">
-        <div className="relative w-[662.8px] bg-gray-400 rounded-md flex flex-col items-center py-12 px-24 border-2 border-red-300 h-[390px]">
+        <div className="relative w-[662.8px] bg-gray-400 rounded-md flex flex-col items-center py-12 px-24  h-[390px]">
           {/* Close button positioned in the top-right corner */}
           <button
             onClick={onClose}
@@ -127,4 +133,4 @@ function InviteShipperModal({ isOpen, onClose }) {
   );
 }
 
-export default InviteShipperModal;
+export default withToast(InviteShipperModal);
