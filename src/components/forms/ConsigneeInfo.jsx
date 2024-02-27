@@ -38,17 +38,21 @@ export function ConsigneeInfo({
     const newErrors = { ...formErrors };
     switch (field) {
       case "consigneeName":
-        newErrors.consigneeName = !validateName(value)
-          ? "Name must be at least 3 characters(only) long"
-          : "";
+        newErrors.consigneeName =
+          !value || value.length < 3
+            ? "Name must be at least 3 characters long"
+            : "";
         break;
       case "consigneeEmail":
-        newErrors.consigneeEmail = !emailRegex.test(value)
-          ? "Please provide a valid email (abc@example.com)."
-          : "";
+        newErrors.consigneeEmail =
+          !emailRegex.test(value) && value !== ""
+            ? "Please provide a valid email (abc@example.com)."
+            : "";
         break;
       case "consigneeNumber":
-        if (!/^\d+$/.test(value)) {
+        if (value === "") {
+          newErrors.consigneeNumber = ""; // Clear the error if the field is empty
+        } else if (!/^\d+$/.test(value)) {
           newErrors.consigneeNumber = "The number should only contain digits.";
         } else if (value.length < 8 || value.length > 15) {
           newErrors.consigneeNumber =
@@ -58,7 +62,9 @@ export function ConsigneeInfo({
         }
         break;
       case "consigneeAddress":
-        if (!value || value.length < 5) {
+        if (value === "") {
+          newErrors.consigneeAddress = ""; // Clear the error if the field is empty
+        } else if (!value || value.length < 5) {
           newErrors.consigneeAddress =
             "Address should be at least 5 characters long.";
         } else if (!/[a-zA-Z]/.test(value)) {
@@ -69,7 +75,9 @@ export function ConsigneeInfo({
         }
         break;
       case "consigneeCity":
-        if (!value || value.length < 3) {
+        if (value === "") {
+          newErrors.consigneeCity = ""; // Clear the error if the field is empty
+        } else if (!value || value.length < 3) {
           newErrors.consigneeCity =
             "City should be at least 3 characters long.";
         } else if (!/^[a-zA-Z]+$/.test(value.trim())) {
@@ -81,7 +89,9 @@ export function ConsigneeInfo({
         }
         break;
       case "consigneeState":
-        if (!value || value.length < 3) {
+        if (value === "") {
+          newErrors.consigneeState = ""; // Clear the error if the field is empty
+        } else if (!value || value.length < 3) {
           newErrors.consigneeState =
             "State should be at least 3 characters long.";
         } else if (!/^[a-zA-Z]+$/.test(value.trim())) {
@@ -93,7 +103,9 @@ export function ConsigneeInfo({
         }
         break;
       case "consigneeZipcode":
-        if (!value || value.length < 4) {
+        if (value === "") {
+          newErrors.consigneeZipcode = ""; // Clear the error if the field is empty
+        } else if (!value || value.length < 4) {
           newErrors.consigneeZipcode =
             "Zipcode should be at least 4 digits long.";
         } else if (!/^\d+$/.test(value.trim())) {

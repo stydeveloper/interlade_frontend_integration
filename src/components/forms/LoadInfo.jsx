@@ -36,12 +36,20 @@ export function LoadInfo({
 
     switch (field) {
       case "units":
-        newErrors.units = !validateUnits(value)
-          ? "Units must be a positive integer."
-          : "";
+        if (value === "") {
+          newErrors.units = ""; // Clear the error if the field is empty
+        } else if (!/^\d+$/.test(value)) {
+          newErrors.units = "Units must be a positive integer.";
+        } else if (parseInt(value) === 0) {
+          newErrors.units = "Units must be a positive integer greater than 0.";
+        } else {
+          newErrors.units = ""; // Clear the error if the value is valid
+        }
         break;
       case "packageType":
-        if (!/^[a-zA-Z]{3,15}$/.test(value)) {
+        if (value === "") {
+          newErrors.packageType = ""; // Clear the error if the field is empty
+        } else if (!/^[a-zA-Z]{3,15}$/.test(value)) {
           newErrors.packageType =
             "Package type must be between 3 to 15 characters.";
         } else if (/\d/.test(value)) {
@@ -51,7 +59,9 @@ export function LoadInfo({
         }
         break;
       case "hazardousClass":
-        if (!/^[a-zA-Z]{3,15}$/.test(value)) {
+        if (value === "") {
+          newErrors.hazardousClass = ""; // Clear the error if the field is empty
+        } else if (!/^[a-zA-Z]{3,15}$/.test(value)) {
           newErrors.hazardousClass =
             "Hazardous class must be between 3 to 15 characters.";
         } else if (/\d/.test(value)) {
@@ -62,7 +72,9 @@ export function LoadInfo({
         }
         break;
       case "packingGroup":
-        if (!/^[a-zA-Z]{3,15}$/.test(value)) {
+        if (value === "") {
+          newErrors.packingGroup = ""; // Clear the error if the field is empty
+        } else if (!/^[a-zA-Z]{3,15}$/.test(value)) {
           newErrors.packingGroup =
             "Packing group must be between 3 to 15 characters.";
         } else if (/\d/.test(value)) {
@@ -82,7 +94,9 @@ export function LoadInfo({
           : "";
         break;
       case "unOrNaNumber":
-        if (!value || value.length < 4) {
+        if (value === "") {
+          newErrors.unOrNaNumber = ""; // Clear the error if the field is empty
+        } else if (!value || value.length < 4) {
           newErrors.unOrNaNumber =
             "UN or NA Number must be between 4 to 6 digits.";
         } else if (!/^\d{4,6}$/.test(value.trim())) {
@@ -92,7 +106,7 @@ export function LoadInfo({
           newErrors.unOrNaNumber = ""; // Clear the error if the input is valid
         }
         break;
-        break;
+
       default:
         break;
     }

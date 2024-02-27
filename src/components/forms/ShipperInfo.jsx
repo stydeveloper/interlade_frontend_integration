@@ -34,7 +34,9 @@ export function ShipperInfo({
     const newErrors = { ...formErrors };
     switch (field) {
       case "shipperNumber":
-        if (!/^\d+$/.test(value)) {
+        if (value === "") {
+          newErrors.shipperNumber = ""; // Clear the error if the field is empty
+        } else if (!/^\d+$/.test(value)) {
           newErrors.shipperNumber = "The number should only contain digits.";
         } else if (value.length < 8 || value.length > 15) {
           newErrors.shipperNumber =
@@ -44,7 +46,9 @@ export function ShipperInfo({
         }
         break;
       case "shipperAddress":
-        if (!value || value.length < 5) {
+        if (value === "") {
+          newErrors.shipperAddress = ""; // Clear the error if the field is empty
+        } else if (!value || value.length < 5) {
           newErrors.shipperAddress =
             "Address should be at least 5 characters long.";
         } else if (!/[a-zA-Z]/.test(value)) {
@@ -55,7 +59,9 @@ export function ShipperInfo({
         }
         break;
       case "shipperCity":
-        if (!value || value.length < 3) {
+        if (value === "") {
+          newErrors.shipperCity = ""; // Clear the error if the field is empty
+        } else if (!value || value.length < 3) {
           newErrors.shipperCity = "City should be at least 3 characters long.";
         } else if (!/^[a-zA-Z]+$/.test(value.trim())) {
           newErrors.shipperCity = "City should only contain letters.";
@@ -64,7 +70,9 @@ export function ShipperInfo({
         }
         break;
       case "shipperState":
-        if (!value || value.length < 3) {
+        if (value === "") {
+          newErrors.shipperState = ""; // Clear the error if the field is empty
+        } else if (!value || value.length < 3) {
           newErrors.shipperState =
             "State should be at least 3 characters long.";
         } else if (!/^[a-zA-Z]+$/.test(value.trim())) {
@@ -74,7 +82,9 @@ export function ShipperInfo({
         }
         break;
       case "shipperZipcode":
-        if (!value || value.length < 4) {
+        if (value === "") {
+          newErrors.shipperZipcode = ""; // Clear the error if the field is empty
+        } else if (!value || value.length < 4) {
           newErrors.shipperZipcode =
             "Zipcode should be at least 4 digits long.";
         } else if (!/^\d+$/.test(value.trim())) {
@@ -82,7 +92,6 @@ export function ShipperInfo({
         } else {
           newErrors.shipperZipcode = ""; // Clear the error if the input is valid
         }
-        break;
         break;
       default:
         break;
