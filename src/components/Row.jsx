@@ -91,23 +91,13 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
             toggleFunc={toggleCheckbox}
             index={index}
           />
-          <td className="border-2 border-gray-300">
-            {rowData?.shipper_id?.name || shipper}
-          </td>
-          <td className="border-2 border-gray-300">
-            {rowData?.consignee_id?.name || "consignee"}
-          </td>
-          <td className="border-2 border-gray-300">
-            {rowData?.driver_id?.name || "unknown"}
-          </td>
-          <td className="border-2 border-gray-300">
-            {rowData?.status || "asasd"}
-          </td>
-          <td className="border-2 border-gray-300">{rowData?.price}</td>
-          <td className="border-2 border-gray-300 ">
-            {formatDate(rowData?.created_at)}
-          </td>
-          <td className="border-2 border-gray-300">
+          <td>{rowData?.shipper_id?.name || shipper}</td>
+          <td>{rowData?.consignee_id?.name || "consignee"}</td>
+          <td>{rowData?.driver_id?.name || "unknown"}</td>
+          <td>{rowData?.status || "asasd"}</td>
+          <td>{rowData?.price}</td>
+          <td>{formatDate(rowData?.created_at)}</td>
+          <td>
             <Link href={`/bol/${rowData.id}`} className="underline">
               View B/L
             </Link>
