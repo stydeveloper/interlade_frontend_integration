@@ -113,7 +113,6 @@ const SignupPage = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
 
-    setDisabled(true);
     // Check if there are any errors
     if (Object.values(formErrors).some((error) => error !== "")) {
       toast.error("Please fix all errors before submitting.");
@@ -159,6 +158,7 @@ const SignupPage = () => {
     } catch (error) {
       toast.error("An error occurred while signing up.");
     } finally {
+      setDisabled(true);
       setTimeout(() => {
         setDisabled(false);
       }, 6000);

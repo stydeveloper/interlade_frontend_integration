@@ -104,7 +104,7 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
             {rowData?.status || "asasd"}
           </td>
           <td className="border-2 border-gray-300">{rowData?.price}</td>
-          <td className="border-2 border-gray-300">
+          <td className="border-2 border-gray-300 ">
             {formatDate(rowData?.created_at)}
           </td>
           <td className="border-2 border-gray-300">

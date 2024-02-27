@@ -46,8 +46,8 @@ const LoginPage = () => {
       }
       setEmail("");
       setPassword("");
-      toast.success("Logged in successfully!", { position: "top-right" });
       router.push("/");
+      toast.success("Logged in successfully!", { position: "top-right" });
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message, { position: "top-right" });
