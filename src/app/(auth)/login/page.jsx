@@ -134,9 +134,7 @@ const LoginPage = () => {
           <div className="w-full mt-2 flex items-center justify-between">
             <button
               className={`${
-                disable
-                  ? "bg-linkBlue cursor-not-allowed"
-                  : "bg-linkBlue hover:bg-sky-800"
+                disable ? "bg-linkBlue " : "bg-linkBlue hover:bg-sky-800"
               } text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
               type="submit"
               disabled={disable}
