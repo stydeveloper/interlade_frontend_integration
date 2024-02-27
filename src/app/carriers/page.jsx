@@ -77,8 +77,10 @@ const Carriers = () => {
   return (
     <div className="flex">
       <SidePanel />
-      <div className="flex flex-col items-center m-6 ml-72 justify-center">
-        <h1 className="underline text-2xl font-semibold mb-12">Carriers</h1>
+      <div className="flex flex-col items-center m-6 ml-72 justify-center ">
+        <h1 className="underline text-2xl font-semibold mb-12 self-center">
+          Carriers
+        </h1>
         {carriersData !== undefined && carriersData.length > 0 ? (
           <div className="grid grid-rows-2 grid-cols-4 gap-8">
             {carriersData.map((profile, i) => (

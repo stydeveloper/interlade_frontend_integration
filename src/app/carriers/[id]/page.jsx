@@ -71,17 +71,17 @@ const CarrierProfile = ({ params, searchParams }) => {
         onClick={() => router.back()}
       />
 
-      <div className="flex flex-col items-center custom-activebols-Cont w-full">
+      <div className="flex flex-col items-center custom-activebols-Cont w-full ">
         <h1 className="underline italic text-2xl font-semibold flex items-center justify-center h-[10%]">
           {/* params.id.name */}
           {searchParams ? searchParams.name : "Carrier Name"}
         </h1>
         <span className="flex items-center justify-center h-[10%]">
           <button
-            className="border-2 rounded-md p-2  bg-linkBlue text-white hover:bg-sky-700"
+            className="border-2 rounded-md p-2 my-2 bg-linkBlue text-white hover:bg-sky-700"
             onClick={() => router.push("/createbol")}
           >
-            Send BoL
+            Create BoL
           </button>
         </span>
         {/* Button to toggle table type with grayed-out hint */}
