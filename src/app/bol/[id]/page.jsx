@@ -21,6 +21,7 @@ import { Spin } from "antd";
 import { GET_BOLIMAGES_BY_BOLID } from "@/fetching/queries/bol_images";
 
 const Page = ({ params }) => {
+  const [showActAsDriverModal, setShowActAsDriverModal] = useState(false);
   let role;
 
   if (typeof window !== "undefined") {
@@ -125,13 +126,13 @@ const Page = ({ params }) => {
           )} */}
 
           {/* Dispatch Driver commented because not in figma */}
-          {/* {role && role === "1" && (
+          {role && role === "1" && (
             <DocumentBtn
               srcImg={Send}
-              label="Dispatch Driver"
-              actionFunc={() => console.log("Send Invite to driver")}
+              label="Act as Driver"
+              actionFunc={() => setShowActAsDriverModal(true)}
             />
-          )} */}
+          )}
 
           <div className="flex flex-col justify-center items-center mt-8">
             {currentBol && currentBol?.status === "AT_PICKUP" && (
