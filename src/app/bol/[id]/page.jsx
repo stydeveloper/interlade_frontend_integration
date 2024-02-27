@@ -127,13 +127,13 @@ const Page = ({ params }) => {
           )} */}
 
           {/* Dispatch Driver commented because not in figma */}
-          {role && role === "1" && (
+          {/* {role && role === "1" && (
             <DocumentBtn
               srcImg={Send}
               label="Act as Driver"
               actionFunc={() => setShowActAsDriverModal(true)}
             />
-          )}
+          )} */}
 
           <div className="flex flex-col justify-center items-center mt-8">
             {currentBol && currentBol?.status === "AT_PICKUP" && (
