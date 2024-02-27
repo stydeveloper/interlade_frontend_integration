@@ -130,13 +130,13 @@ const DispatchBoLToDriverModal = ({ isOpen, onClose }) => {
               Send BoL
             </button>
 
-            <h3 className="text-white font-bold mt-8">OR</h3>
+            {/* <h3 className="text-white font-bold mt-8">OR</h3>
             <button
               className="bg-green-700 p-4 h-16 rounded-md text-white font-2xl font-bold mt-8 hover:bg-green-900"
               // onClick={handleActAsDriver}
             >
               Act as Driver
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
