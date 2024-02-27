@@ -18,19 +18,25 @@ export const validateAddress = (address) => {
   // Check if the address is at least 5 characters long
   const isAddressValid = address.length >= 5;
 
-  return isAddressValid;
+  // Check if the address contains at least one alphabet/character
+  const containsAlphabet = /[a-zA-Z]/.test(address);
+
+  // Combine both validation criteria
+  const isValid = isAddressValid && containsAlphabet;
+
+  return isValid;
 };
 
 export const validateState = (state) => {
-  // Check if the state is at least 3 characters long
-  const isStateValid = state.length >= 3;
+  // Check if the state contains only letters (a-z or A-Z) and is at least 3 characters long
+  const isStateValid = /^[a-zA-Z]{3,}$/.test(state);
 
   return isStateValid;
 };
 
 export const validateCity = (city) => {
-  // Check if the city is at least 3 characters long
-  const isCityValid = city.length >= 3;
+  // Check if the city contains only letters (a-z or A-Z) and is at least 3 characters long
+  const isCityValid = /^[a-zA-Z]{3,}$/.test(city);
 
   return isCityValid;
 };

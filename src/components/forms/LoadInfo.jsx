@@ -41,19 +41,35 @@ export function LoadInfo({
           : "";
         break;
       case "packageType":
-        newErrors.packageType = !validateString(value)
-          ? "Package type must be between 3 to 15 characters."
-          : "";
+        if (!/^[a-zA-Z]{3,15}$/.test(value)) {
+          newErrors.packageType =
+            "Package type must be between 3 to 15 characters.";
+        } else if (/\d/.test(value)) {
+          newErrors.packageType = "Package type must not contain numbers.";
+        } else {
+          newErrors.packageType = ""; // Clear the error if the value is valid
+        }
         break;
       case "hazardousClass":
-        newErrors.hazardousClass = !validateString(value)
-          ? "Hazardous class must be between 3 to 15 characters."
-          : "";
+        if (!/^[a-zA-Z]{3,15}$/.test(value)) {
+          newErrors.hazardousClass =
+            "Hazardous class must be between 3 to 15 characters.";
+        } else if (/\d/.test(value)) {
+          newErrors.hazardousClass =
+            "Hazardous class must not contain numbers.";
+        } else {
+          newErrors.hazardousClass = ""; // Clear the error if the value is valid
+        }
         break;
       case "packingGroup":
-        newErrors.packingGroup = !validateString(value)
-          ? "Packing group must be between 3 to 15 characters."
-          : "";
+        if (!/^[a-zA-Z]{3,15}$/.test(value)) {
+          newErrors.packingGroup =
+            "Packing group must be between 3 to 15 characters.";
+        } else if (/\d/.test(value)) {
+          newErrors.packingGroup = "Packing group must not contain numbers.";
+        } else {
+          newErrors.packingGroup = ""; // Clear the error if the value is valid
+        }
         break;
       case "volume":
         newErrors.volume = !validateVolume(value)
@@ -66,9 +82,16 @@ export function LoadInfo({
           : "";
         break;
       case "unOrNaNumber":
-        newErrors.unOrNaNumber = !validateUnNaNumber(value)
-          ? "UN or NA Number must be between 4 to 6 digits."
-          : "";
+        if (!value || value.length < 4) {
+          newErrors.unOrNaNumber =
+            "UN or NA Number must be between 4 to 6 digits.";
+        } else if (!/^\d{4,6}$/.test(value.trim())) {
+          newErrors.unOrNaNumber =
+            "UN or NA Number should only contain digits.";
+        } else {
+          newErrors.unOrNaNumber = ""; // Clear the error if the input is valid
+        }
+        break;
         break;
       default:
         break;

@@ -118,22 +118,22 @@ export function ReviewInfo({ ...props }) {
           <h3 className="underline font-semibold text-xl mb-2">Payment Info</h3>
           {props.prepaid && (
             <div>
-              <strong>Prepaid:</strong> <p>Yes</p>
+              <strong> Payment Type</strong>: Prepaid
             </div>
           )}
           {props.collect && (
             <div>
-              <strong>Collect:</strong> <p>Yes</p>
+              <strong> Payment Type</strong>: Collect
             </div>
           )}
           {props.dap && (
             <div>
-              <strong>D.A.P:</strong> <p>Yes</p>
+              <strong> Payment Type</strong>: D.A.P
             </div>
           )}
           {props.thirdPartyBilling && (
             <div>
-              <strong>Third Party Billing:</strong> <p>Yes</p>
+              <strong> Payment Type</strong>: Third Party Billing
             </div>
           )}
         </section>

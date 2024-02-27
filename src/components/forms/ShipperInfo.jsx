@@ -34,29 +34,55 @@ export function ShipperInfo({
     const newErrors = { ...formErrors };
     switch (field) {
       case "shipperNumber":
-        newErrors.shipperNumber = !validatePhoneNumber(value)
-          ? "The number should be between 8 and 15 digits."
-          : "";
+        if (!/^\d+$/.test(value)) {
+          newErrors.shipperNumber = "The number should only contain digits.";
+        } else if (value.length < 8 || value.length > 15) {
+          newErrors.shipperNumber =
+            "The number should be between 8 and 15 digits long.";
+        } else {
+          newErrors.shipperNumber = ""; // Clear the error if the number is valid
+        }
         break;
       case "shipperAddress":
-        newErrors.shipperAddress = !validateAddress(value)
-          ? "Address should be at least 5 characters long."
-          : "";
+        if (!value || value.length < 5) {
+          newErrors.shipperAddress =
+            "Address should be at least 5 characters long.";
+        } else if (!/[a-zA-Z]/.test(value)) {
+          newErrors.shipperAddress =
+            "Address should contain at least one alphabet/character.";
+        } else {
+          newErrors.shipperAddress = ""; // Clear the error if the address is valid
+        }
         break;
       case "shipperCity":
-        newErrors.shipperCity = !validateCity(value)
-          ? "City should be at least 3 characters long."
-          : "";
+        if (!value || value.length < 3) {
+          newErrors.shipperCity = "City should be at least 3 characters long.";
+        } else if (!/^[a-zA-Z]+$/.test(value.trim())) {
+          newErrors.shipperCity = "City should only contain letters.";
+        } else {
+          newErrors.shipperCity = ""; // Clear the error if the input is valid
+        }
         break;
       case "shipperState":
-        newErrors.shipperState = !validateState(value)
-          ? "State should be at least 3 characters long."
-          : "";
+        if (!value || value.length < 3) {
+          newErrors.shipperState =
+            "State should be at least 3 characters long.";
+        } else if (!/^[a-zA-Z]+$/.test(value.trim())) {
+          newErrors.shipperState = "State should only contain letters.";
+        } else {
+          newErrors.shipperState = ""; // Clear the error if the input is valid
+        }
         break;
       case "shipperZipcode":
-        newErrors.shipperZipcode = !validateZipcode(value)
-          ? "Zipcode should be at least 4 digits long."
-          : "";
+        if (!value || value.length < 4) {
+          newErrors.shipperZipcode =
+            "Zipcode should be at least 4 digits long.";
+        } else if (!/^\d+$/.test(value.trim())) {
+          newErrors.shipperZipcode = "Zipcode should only contain digits.";
+        } else {
+          newErrors.shipperZipcode = ""; // Clear the error if the input is valid
+        }
+        break;
         break;
       default:
         break;

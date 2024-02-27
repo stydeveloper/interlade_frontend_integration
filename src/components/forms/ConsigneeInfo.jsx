@@ -39,7 +39,7 @@ export function ConsigneeInfo({
     switch (field) {
       case "consigneeName":
         newErrors.consigneeName = !validateName(value)
-          ? "Name must be at least three characters long"
+          ? "Name must be at least 3 characters(only) long"
           : "";
         break;
       case "consigneeEmail":
@@ -48,29 +48,59 @@ export function ConsigneeInfo({
           : "";
         break;
       case "consigneeNumber":
-        newErrors.consigneeNumber = !validatePhoneNumber(value)
-          ? "The number should be between 8 and 15 digits."
-          : "";
+        if (!/^\d+$/.test(value)) {
+          newErrors.consigneeNumber = "The number should only contain digits.";
+        } else if (value.length < 8 || value.length > 15) {
+          newErrors.consigneeNumber =
+            "The number should be between 8 and 15 digits long.";
+        } else {
+          newErrors.consigneeNumber = ""; // Clear the error if the number is valid
+        }
         break;
       case "consigneeAddress":
-        newErrors.consigneeAddress = !validateAddress(value)
-          ? "Address should be at least 5 characters long."
-          : "";
+        if (!value || value.length < 5) {
+          newErrors.consigneeAddress =
+            "Address should be at least 5 characters long.";
+        } else if (!/[a-zA-Z]/.test(value)) {
+          newErrors.consigneeAddress =
+            "Address should contain at least one alphabet/character.";
+        } else {
+          newErrors.consigneeAddress = ""; // Clear the error if the address is valid
+        }
         break;
       case "consigneeCity":
-        newErrors.consigneeCity = !validateCity(value)
-          ? "City should be at least 3 characters long."
-          : "";
+        if (!value || value.length < 3) {
+          newErrors.consigneeCity =
+            "City should be at least 3 characters long.";
+        } else if (!/^[a-zA-Z]+$/.test(value.trim())) {
+          newErrors.consigneeCity = "City should only contain letters.";
+        } else if (/\d/.test(value)) {
+          newErrors.consigneeCity = "City should not contain numbers.";
+        } else {
+          newErrors.consigneeCity = ""; // Clear the error if the input is valid
+        }
         break;
       case "consigneeState":
-        newErrors.consigneeState = !validateState(value)
-          ? "State should be at least 3 characters long."
-          : "";
+        if (!value || value.length < 3) {
+          newErrors.consigneeState =
+            "State should be at least 3 characters long.";
+        } else if (!/^[a-zA-Z]+$/.test(value.trim())) {
+          newErrors.consigneeState = "State should only contain letters.";
+        } else if (/\d/.test(value)) {
+          newErrors.consigneeState = "State should not contain numbers.";
+        } else {
+          newErrors.consigneeState = ""; // Clear the error if the input is valid
+        }
         break;
       case "consigneeZipcode":
-        newErrors.consigneeZipcode = !validateZipcode(value)
-          ? "Zipcode should be at least 4 digits long."
-          : "";
+        if (!value || value.length < 4) {
+          newErrors.consigneeZipcode =
+            "Zipcode should be at least 4 digits long.";
+        } else if (!/^\d+$/.test(value.trim())) {
+          newErrors.consigneeZipcode = "Zipcode should only contain digits.";
+        } else {
+          newErrors.consigneeZipcode = ""; // Clear the error if the input is valid
+        }
         break;
       default:
         break;
