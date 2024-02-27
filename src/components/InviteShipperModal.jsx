@@ -59,7 +59,7 @@ function InviteShipperModal({ isOpen, onClose }) {
   return (
     isOpen && (
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50">
-        <div className="relative bg-gray-400 rounded-md flex flex-col items-center py-12 px-24 ">
+        <div className="relative w-[662.8px] bg-gray-400 rounded-md flex flex-col items-center py-12 px-24 border-2 border-red-300 h-[390px]">
           {/* Close button positioned in the top-right corner */}
           <button
             onClick={onClose}
@@ -100,7 +100,7 @@ function InviteShipperModal({ isOpen, onClose }) {
           >
             Send Invite(s) to Create B/L
           </button>
-          <p className="mb-4 font-semibold text-lg my-12">OR</p>
+          {/* <p className="mb-4 font-semibold text-lg my-12">OR</p>
           <div className="flex flex-col w-full">
             {!copied ? (
               <>
@@ -120,7 +120,7 @@ function InviteShipperModal({ isOpen, onClose }) {
                 </p>
               </>
             )}
-          </div>
+          </div> */}
         </div>
       </div>
     )
