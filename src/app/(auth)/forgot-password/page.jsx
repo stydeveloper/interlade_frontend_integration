@@ -94,8 +94,9 @@ const ForgotPassword = () => {
             alt="Back"
             src={BackBtn}
             width={40}
-            className="absolute top-[0.9rem] left-3  cursor-pointer "
+            className="absolute top-[0.9rem] left-3 cursor-pointer"
             onClick={() => router.back()}
+            title="Back to Login"
           />
           <div className="flex flex-col mb-8 items-center justify-center">
             <Image src={interladeBlue} width={50} alt="" />
