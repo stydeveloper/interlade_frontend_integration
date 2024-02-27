@@ -8,7 +8,7 @@ import { CREATE_USER_INVITTATION } from "@/fetching/mutations/user-invitation";
 import { useQuery, useMutation } from "@apollo/client";
 import { emailRegex } from "@/utils/user-validation";
 import { toast } from "react-toastify";
-import withToast from "@/components/hoc/withToast"; // Import the HOC
+import withToast from "@/components/hoc/withToast.jsx"; // Import the HOC
 
 const DispatchBoLToDriverModal = ({ isOpen, onClose }) => {
   const [email, setEmail] = useState("");

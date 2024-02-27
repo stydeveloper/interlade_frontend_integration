@@ -4,7 +4,7 @@ import { useMutation } from "@apollo/client";
 import Image from "next/image";
 import { INVITE_SHIPPER_MUTATION } from "@/fetching/mutations/user";
 import { toast } from "react-toastify";
-import withToast from "@/components/hoc/withToast";
+import withToast from "@/components/hoc/withToast.jsx";
 function InviteShipperModal({ isOpen, onClose }) {
   const [email, setEmail] = useState("");
   const [copied, setCopied] = useState(false);
