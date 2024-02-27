@@ -104,6 +104,7 @@ const LoginPage = () => {
               placeholder="Email"
               value={email}
               onChange={handleEmailChange}
+              required
             />
             {emailError && (
               <p className="text-cancelRed text-xs mt-1">{emailError}</p>
@@ -120,6 +121,7 @@ const LoginPage = () => {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
             {passwordError && (
               <p className="text-cancelRed text-xs mt-1">{passwordError}</p>
