@@ -116,6 +116,10 @@ const SignupPage = () => {
     // Check if there are any errors
     if (Object.values(formErrors).some((error) => error !== "")) {
       toast.error("Please fix all errors before submitting.");
+      setDisabled(true);
+      setTimeout(() => {
+        setDisabled(false);
+      }, 6000);
       return;
     }
 
@@ -126,6 +130,10 @@ const SignupPage = () => {
 
     if (!allFieldsFilled) {
       toast.error("Please fill in all fields.");
+      setDisabled(true);
+      setTimeout(() => {
+        setDisabled(false);
+      }, 6000);
       return;
     }
 
@@ -164,7 +172,7 @@ const SignupPage = () => {
       }, 6000);
     }
   };
-
+  console.log(disable);
   return (
     <div className="flex items-center justify-center bg-cgray">
       <div className="h-[90%] max-w-lg my-8">

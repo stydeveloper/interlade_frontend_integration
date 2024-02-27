@@ -18,7 +18,7 @@ import { Spin } from "antd";
 const Box = ({ title, desc, imageSrc, link }) => {
   return (
     <Link
-      href={link}
+      href={`${link}`}
       className="bg-boxblack hover:bg-blue-700 border-2 border-gray rounded-md w-72 justify-center  h-[100%]  flex flex-col font-semibold"
     >
       <div className="flex items-center m-4">

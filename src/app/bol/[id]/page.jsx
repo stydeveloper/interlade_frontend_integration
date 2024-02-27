@@ -19,6 +19,7 @@ import {
 } from "@/fetching/queries/bol";
 import { Spin } from "antd";
 import { GET_BOLIMAGES_BY_BOLID } from "@/fetching/queries/bol_images";
+import ActAsDriverModal from "@/components/ActAsDriverModal";
 
 const Page = ({ params }) => {
   const [showActAsDriverModal, setShowActAsDriverModal] = useState(false);
@@ -245,6 +246,19 @@ const Page = ({ params }) => {
         isOpen={cancelModal}
         onClose={() => setCancelModal(false)}
         submitFunc={() => console.log("api call with bolId to cancel B/L")}
+      />
+      {/* Modal component */}
+      <ActAsDriverModal
+        isOpen={showActAsDriverModal}
+        onClose={() => setShowActAsDriverModal(false)}
+        onYes={() => {
+          console.log("User confirmed to act as driver");
+          // Handle logic when user confirms
+        }}
+        onNo={() => {
+          console.log("User chose not to act as driver");
+          // Handle logic when user cancels
+        }}
       />
     </div>
   );

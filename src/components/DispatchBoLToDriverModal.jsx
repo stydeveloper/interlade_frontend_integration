@@ -121,13 +121,23 @@ const DispatchBoLToDriverModal = ({ isOpen, onClose }) => {
             Interlade Driver App.
           </p>
 
-          <button
-            disabled={!email || !selectedBolId || emailError}
-            className="bg-linkBlue p-4 h-16 rounded-md text-white font-2xl font-bold mt-8 hover:bg-sky-700 hover:border-white hover:border-2"
-            onClick={handleBolInvite}
-          >
-            Send BoL
-          </button>
+          <div className="flex gap-4 items-center justify-center">
+            <button
+              disabled={!email || !selectedBolId || emailError}
+              className="bg-linkBlue p-4 h-16 rounded-md text-white font-2xl font-bold mt-8 hover:bg-sky-700 hover:border-white hover:border-2"
+              onClick={handleBolInvite}
+            >
+              Send BoL
+            </button>
+
+            <h3 className="text-white font-bold mt-8">OR</h3>
+            <button
+              className="bg-green-700 p-4 h-16 rounded-md text-white font-2xl font-bold mt-8 hover:bg-green-900"
+              // onClick={handleActAsDriver}
+            >
+              Act as Driver
+            </button>
+          </div>
         </div>
       </div>
     )
