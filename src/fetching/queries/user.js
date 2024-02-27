@@ -20,6 +20,7 @@ export const GET_ASSOCIATED_SHIPPER_DETAILS_CARD = gql`
       completedBolsCount
       associatedShippersCount
       prepaidCount
+      collectCount
     }
   }
 `;

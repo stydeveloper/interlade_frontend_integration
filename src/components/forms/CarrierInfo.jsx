@@ -21,6 +21,11 @@ export function CarrierInfo({
       label: `${carrier.name} -- Location: ${carrier.city}, ${carrier.state}`,
     }));
   }
+
+  const selectedCarrier = options.find(
+    (option) => option.value.name === carrierName
+  );
+
   const handleSelectChange = (newValue) => {
     if (newValue) {
       const carrier = newValue;
@@ -44,6 +49,7 @@ export function CarrierInfo({
       <Select
         options={options}
         onChange={handleSelectChange}
+        value={selectedCarrier} // Set the value to the selected carrier
         placeholder="Select Carrier ..."
         className="w-96 mx-4 max-h[38px] border-[1px] border-textgray rounded-md"
         required

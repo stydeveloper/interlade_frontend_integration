@@ -55,6 +55,7 @@ const LoginPage = () => {
         toast.error("An unknown error occurred", { position: "top-right" });
       }
     } finally {
+      setDisabled(true);
       setTimeout(() => {
         setDisabled(false);
       }, 6000);

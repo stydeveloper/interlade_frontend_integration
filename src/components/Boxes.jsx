@@ -48,6 +48,8 @@ const ShippersBox = () => {
   const completedBillCount =
     data?.getAssociatedShipperDetails?.completedBolsCount;
   const prepaidCount = data?.getAssociatedShipperDetails?.prepaidCount;
+  const collectCount = data?.getAssociatedShipperDetails?.collectCount;
+
   return (
     <Link
       href="/shippers"
@@ -69,8 +71,12 @@ const ShippersBox = () => {
           <p className="text-white mx-6 text-sm">
             Completed B/Ls: {completedBillCount}
           </p>
-          <p className="text-white mx-6 text-sm">Prepaid: {prepaidCount}</p>
-          <p className="text-white mx-6 text-sm">Collect: 57</p>
+          <p className="text-white mx-6 text-sm">
+            Prepaid: {prepaidCount || 0}
+          </p>
+          <p className="text-white mx-6 text-sm">
+            Collect: {collectCount || 0}
+          </p>
         </>
       )}
     </Link>
@@ -156,9 +162,7 @@ const DriversBox = () => {
             <Image src={DriversIcon} alt="Drivers Icon" width={50} />
             <p className="text-white ml-4 text-xl">Drivers</p>
           </div>
-          <p className="text-white mx-6 text-sm">
-            In Route to Pickup: {Math.floor(Math.random() * 50) + 1}
-          </p>
+          <p className="text-white mx-6 text-sm">In Route to Pickup: 0</p>
           <p className="text-white mx-6 text-sm">At Pickup: {atPickupCount}</p>
           <p className="text-white mx-6 text-sm">
             In Route to Dropoff: {inTransitCount}
