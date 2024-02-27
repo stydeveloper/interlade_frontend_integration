@@ -174,7 +174,7 @@ const SignupPage = () => {
   };
   console.log(disable);
   return (
-    <div className="flex items-center justify-center bg-cgray">
+    <div className="flex h-screen items-center justify-center bg-cgray">
       <div className="h-[90%] max-w-lg my-8">
         <form
           onSubmit={handleSignup}
