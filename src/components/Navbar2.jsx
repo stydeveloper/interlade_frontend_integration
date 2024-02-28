@@ -82,10 +82,10 @@ function Navbar() {
             </div>
 
             <div className="interlade-nav-links">
-              <Link href="">Home</Link>
-              <Link href="">Features</Link>
-              <Link href="">FAQs</Link>
-              <Link href="">Contact Us</Link>
+              <a href="">Home</a>
+              <a href="">Features</a>
+              <a href="">FAQs</a>
+              <a href="">Contact Us</a>
             </div>
           </div>
 
@@ -110,10 +110,10 @@ function Navbar() {
         className="interlade-toggle"
       />
       <div className="interlade-mobile-nav-links">
-        <Link href="">Home</Link>
-        <Link href="">Features</Link>
-        <Link href="">FAQs</Link>
-        <Link href="">Contact Us</Link>
+        <a href="">Home</a>
+        <a href="">Features</a>
+        <a href="">FAQs</a>
+        <a href="">Contact Us</a>
         <button>Join The Waitlist</button>
       </div>
     </div>
