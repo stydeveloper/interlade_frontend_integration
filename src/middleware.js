@@ -53,7 +53,7 @@ export default function middleware(req) {
       new URL("https://interlade.netlify.app/login", req.url)
     );
   }
-  if (!loggedin && pathname === "/") {
+  if (!loggedin && pathname === "https://interlade.netlify.app/") {
     console.log(req.url);
     return NextResponse.redirect(
       new URL("https://interlade.netlify.app/login", req.url)
