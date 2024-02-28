@@ -6,6 +6,7 @@ import SubscriptionEmailModal from "@/components/SubscriptionEmailModal/Subscrip
 import { useMutation } from "@apollo/client";
 import { REGISTER_CARRIER } from "@/fetching/mutations/user";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie"; // Import js-cookie library
 
 const Pricing = () => {
   const [isMOdalOpen, setIsModalOpen] = useState(false);
@@ -69,19 +70,38 @@ export function PriceCard({
 
     if (response?.data?.registerCarrier?.checkoutUrl) {
       console.log(response?.data?.registerCarrier);
-      const { role_id, token, ...user } = response?.data?.registerCarrier;
+      const {
+        role_id,
+        token,
+        checkoutUrl,
+        password,
+        city,
+        state,
+        address,
+        zipcode,
+        ...user
+      } = response?.data?.registerCarrier;
 
       // Set cookies
 
+      // if (typeof window !== "undefined") {
+      //   localStorage.setItem(
+      //     "role_id",
+      //     `${response.data.registerCarrier.role_id.id}`
+      //   );
+      //   localStorage.setItem("token", `${response.data.registerCarrier.token}`);
+      //   const { checkoutUrl, token, created_at, ...user } =
+      //     response?.data?.registerCarrier;
+      //   localStorage.setItem("user", JSON.stringify(user));
+      // }
+      // Set cookies
+
       if (typeof window !== "undefined") {
-        localStorage.setItem(
-          "role_id",
-          `${response.data.registerCarrier.role_id.id}`
-        );
-        localStorage.setItem("token", `${response.data.registerCarrier.token}`);
-        const { checkoutUrl, token, created_at, ...user } =
-          response?.data?.registerCarrier;
-        localStorage.setItem("user", JSON.stringify(user));
+        Cookies.set("role_id", response.data.registerCarrier.role_id.id);
+        Cookies.set("token", response.data.registerCarrier.token);
+
+        Cookies.set("user", JSON.stringify(user));
+        Cookies.set("isAuthenticated", true);
       }
       router.push(response?.data?.registerCarrier?.checkoutUrl);
     }

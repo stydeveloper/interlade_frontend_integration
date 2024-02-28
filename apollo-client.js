@@ -1,6 +1,6 @@
 // apollo-client.js
 import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
-
+import Cookies from "js-cookie";
 // const authLink = setContext((_, { headers }) => {
 //   // Get the authentication token from wherever it's stored
 //   const token = 'YOUR_AUTH_TOKEN'; // Replace with actual logic to retrieve token
@@ -41,7 +41,8 @@ const httpLink = new HttpLink({
 // });
 const authLink = setContext((_, { headers }) => {
   // Retrieve the authentication token from local storage
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
+  const token = Cookies.get("token");
 
   return {
     headers: {

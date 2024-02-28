@@ -5,9 +5,11 @@ import interladeBlue from "../../../../public/images/interladeBlue.png";
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { io } from "socket.io-client";
+// import { io } from "socket.io-client";
 import { LOGIN_USER_MUTATION } from "@/fetching/mutations/user";
-import { emailRegex, validatePassword } from "@/utils/user-validation"; // Import email regex and password validation
+import { emailRegex } from "@/utils/user-validation"; // Import email regex and password validation
+import { Spin } from "antd";
+import Cookies from "js-cookie"; // Import js-cookie library
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -17,37 +19,57 @@ const LoginPage = () => {
   const [disable, setDisabled] = useState(false);
   const router = useRouter();
 
-  const [loginUser] = useMutation(LOGIN_USER_MUTATION);
+  const [loginUser, { loading }] = useMutation(LOGIN_USER_MUTATION);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setDisabled(true);
 
-    // Check for password validation
-    // if (!validatePassword(password)) {
-    //   setPasswordError(
-    //     "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character."
-    //   );
-    //   return;
-    // } else {
-    //   setPasswordError("");
-    // }
-
     try {
       const response = await loginUser({ variables: { email, password } });
 
-      if (typeof window !== "undefined") {
-        localStorage.setItem(
-          "role_id",
-          `${response.data.loginUser.role_id.id}`
-        );
-        localStorage.setItem("token", `${response.data.loginUser.token}`);
-        localStorage.setItem("user", JSON.stringify(response?.data?.loginUser));
+      // if (typeof window !== "undefined") {
+      //   localStorage.setItem(
+      //     "role_id",
+      //     `${response.data.loginUser.role_id.id}`
+      //   );
+      //   localStorage.setItem("token", `${response.data.loginUser.token}`);
+      //   localStorage.setItem("user", JSON.stringify(response?.data?.loginUser));
+      // }
+      // setEmail("");
+      // setPassword("");
+      // router.push("/");
+
+      if (response?.data?.loginUser) {
+        // Set cookies
+        const {
+          password,
+          address,
+          city,
+          state,
+          zipcode,
+          token,
+          message,
+          number,
+          created_at,
+          termsacknowledged,
+          ...user
+        } = response?.data?.loginUser;
+
+        console.log("loing return value ", response?.data?.loginUser);
+
+        if (typeof window !== "undefined") {
+          Cookies.set("role_id", response.data.loginUser.role_id.id);
+          Cookies.set("token", response.data.loginUser.token);
+          Cookies.set("user", JSON.stringify(user));
+          Cookies.set("isAuthenticated", true);
+          Cookies.set("termsAcknowledged", termsacknowledged);
+        }
+        setEmail("");
+        setPassword("");
+        router.push("/");
+        toast.success("Logged in successfully!", { position: "top-right" });
       }
-      setEmail("");
-      setPassword("");
-      router.push("/");
-      toast.success("Logged in successfully!", { position: "top-right" });
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message, { position: "top-right" });
@@ -78,7 +100,15 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-cgray">
+    <div className="relative flex items-center justify-center h-screen bg-cgray">
+      {loading && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black opacity-65"></div>
+          <div className="relative">
+            <Spin size="large" className="z-10" />
+          </div>
+        </div>
+      )}
       <div className="w-full max-w-xs">
         <form
           onSubmit={handleLogin}

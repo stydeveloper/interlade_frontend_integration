@@ -1,11 +1,27 @@
 import React, { useState } from "react";
+import { UPDATE_USER } from "@/fetching/mutations/user";
+import { useMutation } from "@apollo/client";
+
+// const [loginUser, { loading }] = useMutation(LOGIN_USER_MUTATION);
+
+// const handleLogin = async (e) => {
+//   e.preventDefault();
+//   setDisabled(true);
+
+//   try {
+//     const response = await loginUser({ variables: { email, password } });
 
 function LegalTermsAndConditions({ isOpen, onClose }) {
   const [agreed, setAgreed] = useState(false);
+  const [UpdateUser] = useMutation(UPDATE_USER);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (agreed) {
       console.log("running close");
+      await UpdateUser({
+        variables: { termsacknowledged: true },
+      });
+
       // store their agreement for legal and so the modal doesnt display again
       onClose(); // Only close if agreed
     }

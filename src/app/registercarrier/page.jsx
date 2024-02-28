@@ -72,7 +72,7 @@ const RegisterPage = () => {
     try {
       const response = await registerCarrier({ variables: formData });
       setRegisterResponse("SUCCESS NIGGA");
-      localStorage.setItem("token", response.data.registerCarrier.token); // Store token if needed
+      // localStorage.setItem("token", response.data.registerCarrier.token); // Store token if needed
       console.log(response);
     } catch (error) {
       if (error instanceof Error) {

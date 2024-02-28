@@ -15,6 +15,7 @@ import { useMutation, gql } from "@apollo/client";
 import { toast } from "react-toastify";
 import { Spin } from "antd";
 import { CREATE_BOL_MUTATION } from "@/fetching/mutations/bol";
+import Cookies from "js-cookie"; // Import js-cookie library
 import {
   emailRegex,
   validateAddress,
@@ -90,18 +91,23 @@ export default function Page() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      userInfo = JSON.parse(localStorage.getItem("user"));
+      // Check cookies for the user information
+      const userInfo = Cookies.get("user");
+
       if (userInfo) {
+        // Parse the user information
+        const parsedUserInfo = JSON.parse(userInfo);
+
         // Update data state with shipper information from userInfo
         setData((prevData) => ({
           ...prevData,
-          shipperEmail: userInfo.email || "",
-          shipperName: userInfo.name || "",
-          shipperNumber: userInfo.number || "",
-          shipperAddress: userInfo.address || "",
-          shipperCity: userInfo.city || "",
-          shipperState: userInfo.state || "",
-          shipperZipcode: userInfo.zipcode || "",
+          shipperEmail: parsedUserInfo.email || "",
+          shipperName: parsedUserInfo.name || "",
+          shipperNumber: parsedUserInfo.number || "",
+          shipperAddress: parsedUserInfo.address || "",
+          shipperCity: parsedUserInfo.city || "",
+          shipperState: parsedUserInfo.state || "",
+          shipperZipcode: parsedUserInfo.zipcode || "",
         }));
       }
     }

@@ -108,13 +108,13 @@ const Drivers = () => {
                 Driver(s) will receive an invitation to utilize BLs on the road
                 via the Interlade Driver App.
               </p>
-              <a
+              <Link
                 className="italic text-linkBlue"
                 href="https://www.apple.com/jp/app-store/"
                 target="_blank"
               >
                 (www.linktodownloaddriverapp.com)
-              </a>
+              </Link>
               <button
                 className="bg-linkBlue p-4 h-16 rounded-md text-white font-2xl font-bold mt-8 hover:bg-sky-700 hover:border-white hover:border-2"
                 onClick={() => console.log("invite func")}

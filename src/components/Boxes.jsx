@@ -7,6 +7,7 @@ import CreateDoc from "../../public/images/create-document.png";
 import BoxManIcon from "../../public/images/shipper.png";
 import DriversIcon from "../../public/images/driverIcon.png";
 import { useEffect, useState } from "react";
+import Cookies from "js-cookie"; // Import js-cookie library
 import {
   GET_ASSOCIATED_CARRIER_DETAILS_CARD,
   GET_ASSOCIATED_SHIPPER_DETAILS_CARD,
@@ -182,13 +183,17 @@ const DriversBox = () => {
 const FourBox = () => {
   const [roleId, setRoleId] = useState(null);
   useEffect(() => {
-    setRoleId(localStorage.getItem("role_id"));
+    // Check cookies for the role_id value
+    const roleIdFromCookie = Cookies.get("role_id");
+    setRoleId(roleIdFromCookie);
   }, []);
 
   return (
     <div className="flex justify-between h-[80%] items-center w-full relative z-20 bg-transparent mx-16">
       {roleId && roleId !== "3" && roleId !== "2" && <ShippersBox />}
-      {roleId && roleId !== "3" && roleId !== "2" && <DriversBox />}
+      {roleId && roleId !== "3" && roleId !== "2" && roleId !== "4" && (
+        <DriversBox />
+      )}
       {roleId && roleId !== "1" && <CarriersBox />}
       {roleId && roleId === "2" && (
         <Box

@@ -62,6 +62,7 @@ export const LOGIN_USER_MUTATION = gql`
       number
       token
       created_at
+      termsacknowledged
     }
   }
 `;
@@ -128,6 +129,14 @@ export const INVITE_SHIPPER_MUTATION = gql`
     inviteShipper(email: $email) {
       message
       success
+    }
+  }
+`;
+
+export const UPDATE_USER = gql`
+  mutation UpdateUser($termsacknowledged: Boolean) {
+    updateUser(termsacknowledged: $termsacknowledged) {
+      termsacknowledged
     }
   }
 `;

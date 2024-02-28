@@ -75,3 +75,15 @@ export const CREATE_BOL_MUTATION = gql`
     }
   }
 `;
+
+export const CARRIER_AS_A_DRIVER = gql`
+  mutation AssociateCarrierToBolResolver($bolId: ID!) {
+    associateCarrierToBolResolver(bol_id: $bolId) {
+      id
+      driver_id {
+        id
+        name
+      }
+    }
+  }
+`;

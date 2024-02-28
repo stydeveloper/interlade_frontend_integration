@@ -1,3 +1,4 @@
+import Link from "next/link";
 import "../styles/footer.css";
 import Image from "next/image";
 function Footer() {
@@ -17,15 +18,15 @@ function Footer() {
         <div className="footer-links-sections">
           <div className="interlade-footer-links-sec">
             <h4>Information</h4>
-            <a href="">Home</a>
-            <a href="">Features</a>
-            <a href="">FAQs</a>
-            <a href="">Join The Waitlist</a>
+            <Link href="">Home</Link>
+            <Link href="">Features</Link>
+            <Link href="">FAQs</Link>
+            <Link href="">Join The Waitlist</Link>
           </div>
           <div className="interlade-footer-links-sec">
             <h4>Company</h4>
-            <a href="">Contact us</a>
-            <a href="">Book a demo</a>
+            <Link href="">Contact us</Link>
+            <Link href="">Book a demo</Link>
           </div>
         </div>
       </div>

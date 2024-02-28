@@ -17,6 +17,7 @@ import {
   validatePhoneNumber,
   emailRegex,
 } from "@/utils/user-validation"; // Import the validation functions
+import Link from "next/link";
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({
@@ -278,9 +279,9 @@ const SignupPage = () => {
           </div>
           <p className="text-center mt-4 text-sm text-gray-500">
             Already have an account?{" "}
-            <a className="text-linkBlue" href="/login">
+            <Link className="text-linkBlue" href="/login">
               Log In
-            </a>
+            </Link>
           </p>
         </form>
       </div>

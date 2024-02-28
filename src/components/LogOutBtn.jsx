@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
-
+import Cookies from "js-cookie"; // Import js-cookie library
+import Link from "next/link";
 const LogOutBtn = () => {
   const router = useRouter();
 
@@ -8,9 +9,16 @@ const LogOutBtn = () => {
     // Perform any necessary cleanup or logout logic
 
     // Remove token from local storage
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    localStorage.removeItem("role_id");
+    // localStorage.removeItem("token");
+    // localStorage.removeItem("user");
+    // localStorage.removeItem("role_id");
+
+    // Remove token, user, and role_id from cookies
+    Cookies.remove("token");
+    Cookies.remove("user");
+    Cookies.remove("role_id");
+    Cookies.remove("isAuthenticated");
+    Cookies.remove("termsAcknowledged");
 
     // Redirect to the login page
     router.push("/login");

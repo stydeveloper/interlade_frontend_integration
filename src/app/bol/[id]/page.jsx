@@ -5,13 +5,16 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import View from "../../../../public/images/view.svg";
 import ViewImage from "../../../../public/images/viewImages.svg";
+import UploadImageIcon from "../../../../public/images/upload_image.png";
 import Send from "../../../../public/images/send.svg";
 import Home from "../../../../public/images/home.svg";
 import ActionHistory from "@/components/ActionTable";
 import CurrentBoLLocation from "@/components/BoLLocation";
 import { mockActionData } from "@/components/MockData";
 import CancelBLModal from "@/components/CancelBLModal";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
+import { UPLOAD_IMAGE } from "@/fetching/mutations/bol_images";
+
 import {
   GET_BOL_BY_ID,
   GET_CURRENT_BOL_LOCATION,
@@ -20,24 +23,37 @@ import {
 import { Spin } from "antd";
 import { GET_BOLIMAGES_BY_BOLID } from "@/fetching/queries/bol_images";
 import ActAsDriverModal from "@/components/ActAsDriverModal";
+import Cookies from "js-cookie"; // Import js-cookie library
+import Link from "next/link";
+import { convertToBase64 } from "@/utils/helper";
+import { toast } from "react-toastify";
 
 const Page = ({ params }) => {
   const [showActAsDriverModal, setShowActAsDriverModal] = useState(false);
   let role;
 
   if (typeof window !== "undefined") {
-    role = localStorage.getItem("role_id");
+    // Check cookies for the role_id value
+    role = Cookies.get("role_id");
   }
 
   const { loading, error, data } = useQuery(GET_BOL_BY_ID, {
     variables: { id: params.id },
   });
 
-  const { bolImagesLoading, bolImagesError, bolImagesData } = useQuery(
-    GET_BOLIMAGES_BY_BOLID,
-    {
-      variables: { bolId: params.id },
-    }
+  const [UploadImageMutation] = useMutation(UPLOAD_IMAGE);
+
+  const {
+    bolImagesLoading,
+    bolImagesError,
+    data: bolImagesData,
+    refetch: bolImagesRefetch,
+  } = useQuery(GET_BOLIMAGES_BY_BOLID, {
+    variables: { bolId: params.id },
+  });
+  console.log(
+    `bol images by bol id ${params.id}`,
+    bolImagesData?.getBolImagesByBolId
   );
 
   const {
@@ -86,6 +102,38 @@ const Page = ({ params }) => {
     mockActionData.actionData[mockActionData.actionData.length - 1];
   const latestAgent = mostRecentAction?.agent; // assuming "agent" is a field in the action data
 
+  const handleUploadImage = async () => {
+    // Create a hidden file input element
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*"; // Limit file selection to image files
+
+    // Listen for changes in the selected file
+    input.addEventListener("change", async (event) => {
+      const file = event.target.files[0]; // Get the selected file
+      if (file) {
+        const base64Image = await convertToBase64(file);
+
+        // const imageUrl = URL.createObjectURL(file);
+        console.log("Image URL:", base64Image);
+
+        const { data, loading } = await UploadImageMutation({
+          variables: { bolId: params.id, filename: base64Image },
+        });
+
+        if (data?.createBolImages?.message) {
+          bolImagesRefetch();
+          toast.success(data?.createBolImages?.message, {
+            position: "top-right",
+          });
+        }
+      }
+    });
+
+    // Trigger the file input dialog
+    input.click();
+  };
+
   return (
     <div className="h-screen flex fixed w-full">
       <div className="bg-cgray  rounded-b-md flex flex-col w-[24%]">
@@ -106,15 +154,21 @@ const Page = ({ params }) => {
             label="View BoL"
             actionFunc={() => router.push(`/bol/${params.id}/viewbl`)}
           />
-
-          {bolImagesData?.getBolImagesByBolId &&
-            bolImagesData?.getBolImagesByBolId > 0 && (
+          {bolImagesData &&
+            bolImagesData?.getBolImagesByBolId &&
+            bolImagesData?.getBolImagesByBolId.length > 0 && (
               <DocumentBtn
                 srcImg={ViewImage}
                 label="View Load Image(s)"
                 actionFunc={() => router.push(`/bol/${params.id}/images`)}
               />
             )}
+          <DocumentBtn
+            srcImg={UploadImageIcon}
+            label="Upload Image"
+            actionFunc={handleUploadImage}
+          />
+
           {/* Only Display the below if the BL doesn't have an assigned driver AND if the Role is Carrier */}
           {/* use whatever api sends bl to driver */}
           {/* commented send button  */}
@@ -125,7 +179,6 @@ const Page = ({ params }) => {
               actionFunc={() => console.log("Send Invite to driver")}
             />
           )} */}
-
           {/* Dispatch Driver commented because not in figma */}
           {/* {role && role === "1" && (
             <DocumentBtn
@@ -134,7 +187,6 @@ const Page = ({ params }) => {
               actionFunc={() => setShowActAsDriverModal(true)}
             />
           )} */}
-
           <div className="flex flex-col justify-center items-center mt-8">
             {currentBol && currentBol?.status === "AT_PICKUP" && (
               <button
@@ -172,10 +224,12 @@ const Page = ({ params }) => {
                 <p className="mb-2">Address: {consigneeInfo?.address}</p>
                 <p className="mb-2">
                   Phone:{" "}
-                  <a href={phone}>{consigneeInfo?.number || 9230239122}</a>
+                  <Link href={phone}>
+                    {consigneeInfo?.number || 9230239122}
+                  </Link>
                 </p>
                 <p>
-                  Email: <a href={email}>{consigneeInfo?.email}</a>
+                  Email: <Link href={email}>{consigneeInfo?.email}</Link>
                 </p>
               </>
             )}

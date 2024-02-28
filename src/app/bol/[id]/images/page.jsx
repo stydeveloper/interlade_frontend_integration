@@ -37,7 +37,7 @@ const LoadImages = ({ params }) => {
   let bolImages = [];
   if (data) {
     bolImages = data?.getBolImagesByBolId;
-    console.log(data?.getBolImagesByBolId);
+    console.log("data?.getBolImagesByBolId", data?.getBolImagesByBolId);
   }
 
   const handleImageClick = (imageUrl) => {

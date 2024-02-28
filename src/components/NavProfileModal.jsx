@@ -3,12 +3,13 @@ import Image from "next/image";
 import Close from "../../public/images/cancel.png";
 import Profile from "../../public/images/user.png";
 import LogOutBtn from "./LogOutBtn";
+import Cookies from "js-cookie";
 
 const NavProfileModal = ({ isOpen, onClose }) => {
   let userInfo;
   if (typeof window !== "undefined") {
     try {
-      userInfo = JSON.parse(localStorage.getItem("user"));
+      userInfo = JSON.parse(Cookies.get("user"));
     } catch (error) {
       console.error("Error parsing user info:", error);
       // Handle the error, e.g., set userInfo to a default value

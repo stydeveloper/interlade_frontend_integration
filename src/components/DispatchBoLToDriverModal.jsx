@@ -9,12 +9,15 @@ import { useQuery, useMutation } from "@apollo/client";
 import { emailRegex } from "@/utils/user-validation";
 import { toast } from "react-toastify";
 import withToast from "@/components/hoc/withToast.jsx"; // Import the HOC
+import { CARRIER_AS_A_DRIVER } from "@/fetching/mutations/bol";
 
 const DispatchBoLToDriverModal = ({ isOpen, onClose }) => {
   const [email, setEmail] = useState("");
   const [selectedBolId, setSelectedBolId] = useState(null);
   const [emailError, setEmailError] = useState("");
+  const [disable, setDisabled] = useState(false);
   const [createInvitation] = useMutation(CREATE_USER_INVITTATION);
+  const [associateCarrierToDriver] = useMutation(CARRIER_AS_A_DRIVER);
   const { data, loading, error } = useQuery(GET_BOL_BY_STATUS, {
     variables: { status: "AT_PICKUP" },
   });
@@ -74,6 +77,36 @@ const DispatchBoLToDriverModal = ({ isOpen, onClose }) => {
     }));
   }
 
+  const handleActAsDriver = async () => {
+    try {
+      if (!selectedBolId) return;
+
+      const { data, loading } = await associateCarrierToDriver({
+        variables: { bolId: selectedBolId },
+      });
+
+      if (!loading && data) {
+        setDisabled(true);
+        toast.success(`Now you are a driver for the bol no ${selectedBolId}`, {
+          position: "top-right",
+        });
+        setTimeout(() => {
+          setDisabled(false);
+        }, 6000);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message, { position: "top-right" });
+      } else {
+        toast.error("An unknown error occurred", { position: "top-right" });
+      }
+    } finally {
+      onClose();
+
+      setSelectedBolId(null);
+    }
+  };
+
   return (
     isOpen && (
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50">
@@ -130,13 +163,14 @@ const DispatchBoLToDriverModal = ({ isOpen, onClose }) => {
               Send BoL
             </button>
 
-            {/* <h3 className="text-white font-bold mt-8">OR</h3>
+            <h3 className="text-white font-bold mt-8">OR</h3>
             <button
               className="bg-green-700 p-4 h-16 rounded-md text-white font-2xl font-bold mt-8 hover:bg-green-900"
-              // onClick={handleActAsDriver}
+              onClick={handleActAsDriver}
+              disabled={disable}
             >
               Act as Driver
-            </button> */}
+            </button>
           </div>
         </div>
       </div>
