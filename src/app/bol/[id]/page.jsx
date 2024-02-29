@@ -19,6 +19,7 @@ import {
   GET_BOL_BY_ID,
   GET_CURRENT_BOL_LOCATION,
   GET_BOL_HISTORY_LOGS,
+  GETBOL_BYID,
 } from "@/fetching/queries/bol";
 import { Spin } from "antd";
 import { GET_BOLIMAGES_BY_BOLID } from "@/fetching/queries/bol_images";
@@ -33,14 +34,24 @@ const Page = ({ params }) => {
   const [showActAsDriverModal, setShowActAsDriverModal] = useState(false);
   let role;
   const [inviteOpen, setInviteOpen] = useState(false);
-
+  let loggedInUser;
   if (typeof window !== "undefined") {
     // Check cookies for the role_id value
     role = Cookies.get("role_id");
+    const userCookie = Cookies.get("user");
+    loggedInUser = userCookie ? JSON.parse(userCookie) : null;
   }
 
-  const { loading, error, data } = useQuery(GET_BOL_BY_ID, {
+  const { loading, error, data, refetch } = useQuery(GET_BOL_BY_ID, {
     variables: { id: params.id },
+  });
+  const {
+    loading: bolLoading,
+    error: bolError,
+    data: bolData,
+    refetch: bolDataRefetch,
+  } = useQuery(GETBOL_BYID, {
+    variables: { getBolId: `${params.id}` },
   });
 
   const [UploadImageMutation] = useMutation(UPLOAD_IMAGE);
@@ -53,15 +64,13 @@ const Page = ({ params }) => {
   } = useQuery(GET_BOLIMAGES_BY_BOLID, {
     variables: { bolId: params.id },
   });
-  console.log(
-    `bol images by bol id ${params.id}`,
-    bolImagesData?.getBolImagesByBolId
-  );
+  console.log(`bol data ${params.id}`, bolData);
 
   const {
     loading: currentBlLoading,
     currentBlError,
     data: currentBlData,
+    refetch: currentBlDataRefetch,
   } = useQuery(GET_CURRENT_BOL_LOCATION, {
     variables: { bolId: params.id },
   });
@@ -69,6 +78,7 @@ const Page = ({ params }) => {
     loading: bol_history_loading,
     bol_history_error,
     data: bol_history_data,
+    refetch: bolHistoryLogsRefetch,
   } = useQuery(GET_BOL_HISTORY_LOGS, {
     variables: { bolId: params.id },
   });
@@ -82,13 +92,31 @@ const Page = ({ params }) => {
     lastUser = currentBlData.getCurrentBolLocation;
   }
   let consigneeInfo;
+  let isDriverIsAssigned;
 
   let currentBol;
+  let driverId;
+  let associatedCarrierIdToBol;
+  let IsCarrierAsDriver;
 
-  if (data) {
+  if (bolData && !bolLoading) {
+    console.log("bolData", bolData);
+    isDriverIsAssigned = bolData.getBol?.driver_id.id !== null;
+
+    driverId = bolData.getBol.driver_id.id;
+    associatedCarrierIdToBol = bolData.getBol.carrier_id.id;
+
+    IsCarrierAsDriver =
+      associatedCarrierIdToBol === driverId && driverId === loggedInUser?.id;
+
+    console.log("IsCarrierAsDriver", IsCarrierAsDriver);
+  }
+
+  if (data && !loading) {
+    console.log("----------------------");
+    currentBol = data?.getBol;
+
     consigneeInfo = data.getBol?.consignee_id;
-
-    currentBol = data.getBol;
   }
 
   const router = useRouter();
@@ -125,6 +153,10 @@ const Page = ({ params }) => {
 
         if (data?.createBolImages?.message) {
           bolImagesRefetch();
+          refetch();
+          bolDataRefetch();
+          currentBlDataRefetch();
+          bolHistoryLogsRefetch();
           toast.success(data?.createBolImages?.message, {
             position: "top-right",
           });
@@ -165,12 +197,20 @@ const Page = ({ params }) => {
                 actionFunc={() => router.push(`/bol/${params.id}/images`)}
               />
             )}
-          <DocumentBtn
-            srcImg={UploadImageIcon}
-            label="Upload Image"
-            actionFunc={handleUploadImage}
-          />
-
+          {role &&
+            currentBol &&
+            role === "1" &&
+            IsCarrierAsDriver &&
+            (currentBol.status === "IN_TRANSIT" ||
+              currentBol.status === "AT_DROPOFF" ||
+              currentBol.status === "AT_PICKUP") &&
+            isDriverIsAssigned && (
+              <DocumentBtn
+                srcImg={UploadImageIcon}
+                label="Upload Image"
+                actionFunc={handleUploadImage}
+              />
+            )}
           {/* Only Display the below if the BL doesn't have an assigned driver AND if the Role is Carrier */}
           {/* use whatever api sends bl to driver */}
           {/* commented send button  */}
@@ -182,23 +222,26 @@ const Page = ({ params }) => {
             />
           )} */}
           {/* Dispatch Driver commented because not in figma */}
-          {role && role === "1" && (
+          {role && role === "1" && !isDriverIsAssigned && (
             <DocumentBtn
               srcImg={Send}
-              label="Act as Driver"
+              label="Dispatch Driver"
               actionFunc={() => setInviteOpen(true)}
             />
           )}
           <div className="flex flex-col justify-center items-center mt-8">
-            {currentBol && currentBol?.status === "AT_PICKUP" && (
-              <button
-                onClick={() => setCancelModal(true)}
-                disabled={latestAgent !== "Shipper"}
-                className="bg-cancelRed border-2 border-white rounded-md px-12 py-4 mx-12 text-white font-bold text-xl hover:bg-hoverRed disabled:bg-hoverGray"
-              >
-                Cancel B/L
-              </button>
-            )}
+            {role &&
+              role === "2" &&
+              currentBol &&
+              currentBol?.status === "AT_PICKUP" && (
+                <button
+                  onClick={() => setCancelModal(true)}
+                  disabled={latestAgent !== "Shipper"}
+                  className="bg-cancelRed border-2 border-white rounded-md px-12 py-4 mx-12 text-white font-bold text-xl hover:bg-hoverRed disabled:bg-hoverGray"
+                >
+                  Cancel B/L
+                </button>
+              )}
             {latestAgent !== "Shipper" && (
               <span className="text-white text-xs text-center mt-2">
                 B/L can only be canceled before the Carrier has dispatched a
@@ -237,7 +280,7 @@ const Page = ({ params }) => {
             )}
           </div>
           <div className="relative bg-cgray border-2 border-white rounded-md flex flex-col py-4 px-12 text-white col-start-1 ">
-            {loading || !currentBol ? (
+            {loading ? (
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <Spin />
               </div>
@@ -258,7 +301,7 @@ const Page = ({ params }) => {
           </div>
 
           <div className="relative border-2  bg-cgray border-white rounded-md flex flex-col py-4 px-12 text-white col-span-2">
-            {loading || !currentBol ? (
+            {loading ? (
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <Spin />
               </div>
@@ -268,12 +311,12 @@ const Page = ({ params }) => {
                   Load Information
                 </h3>
                 {/* params.id.load */}
-                <p className="mb-2">Package Type: {currentBol.package_type}</p>
-                <p className="mb-2">Quantity: {currentBol.quantity}</p>
-                <p className="mb-2">Description: {currentBol.description}</p>
-                <p className="mb-2">Volume: {currentBol.volume}</p>
-                <p className="mb-2">Weight: {currentBol.weight}</p>
-                <p className="mb-2">Class: {currentBol.hazard_class}</p>
+                <p className="mb-2">Package Type: {currentBol?.package_type}</p>
+                <p className="mb-2">Quantity: {currentBol?.quantity}</p>
+                <p className="mb-2">Description: {currentBol?.description}</p>
+                <p className="mb-2">Volume: {currentBol?.volume}</p>
+                <p className="mb-2">Weight: {currentBol?.weight}</p>
+                <p className="mb-2">Class: {currentBol?.hazard_class}</p>
               </>
             )}
           </div>
@@ -298,11 +341,13 @@ const Page = ({ params }) => {
           </div>
         </div>
       </div>
-      <CancelBLModal
-        isOpen={cancelModal}
-        onClose={() => setCancelModal(false)}
-        submitFunc={() => console.log("api call with bolId to cancel B/L")}
-      />
+      {role && role === "2" && (
+        <CancelBLModal
+          isOpen={cancelModal}
+          onClose={() => setCancelModal(false)}
+          submitFunc={() => console.log("api call with bolId to cancel B/L")}
+        />
+      )}
       {/* Modal component */}
       {/* <ActAsDriverModal
         isOpen={showActAsDriverModal}

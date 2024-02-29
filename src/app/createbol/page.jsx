@@ -87,29 +87,28 @@ export default function Page() {
     });
   };
 
-  let userInfo;
+  // let userInfo;
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      // Check cookies for the user information
-      const userInfo = Cookies.get("user");
+    // Check cookies for the user information
+    const userInfo = Cookies.get("user");
 
-      if (userInfo) {
-        // Parse the user information
-        const parsedUserInfo = JSON.parse(userInfo);
+    if (userInfo) {
+      // Parse the user information
+      const parsedUserInfo = JSON.parse(userInfo);
+      console.log("parsedUserInfo", parsedUserInfo);
 
-        // Update data state with shipper information from userInfo
-        setData((prevData) => ({
-          ...prevData,
-          shipperEmail: parsedUserInfo.email || "",
-          shipperName: parsedUserInfo.name || "",
-          shipperNumber: parsedUserInfo.number || "",
-          shipperAddress: parsedUserInfo.address || "",
-          shipperCity: parsedUserInfo.city || "",
-          shipperState: parsedUserInfo.state || "",
-          shipperZipcode: parsedUserInfo.zipcode || "",
-        }));
-      }
+      // Update data state with shipper information from userInfo
+      setData((prevData) => ({
+        ...prevData,
+        shipperEmail: parsedUserInfo.email || "",
+        shipperName: parsedUserInfo.name || "",
+        shipperNumber: parsedUserInfo.number || "",
+        shipperAddress: parsedUserInfo.address || "",
+        shipperCity: parsedUserInfo.city || "",
+        shipperState: parsedUserInfo.state || "",
+        shipperZipcode: parsedUserInfo.zipcode || "",
+      }));
     }
   }, []);
 

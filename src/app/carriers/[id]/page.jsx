@@ -94,7 +94,7 @@ const CarrierProfile = ({ params, searchParams }) => {
         <span className="flex items-center justify-center h-[10%] my-4">
           <button
             onClick={handleToggle}
-            className="border-2 bg-gray rounded  p-2"
+            className="border bg-hoverGray rounded  p-2 border-black"
           >
             View{" "}
             {toggleTable === "shipper-carrier-active"

@@ -1,11 +1,24 @@
 // components/SignatureModal.js
+"use client";
+import { CREATE_BOL_VERSION } from "@/fetching/mutations/bol_version";
+import { useMutation } from "@apollo/client";
 import { useRef, useState } from "react";
 import SignatureCanvas from "react-signature-canvas";
 import { toast } from "react-toastify";
-import withToast from "@/components/hoc/withToast.jsx"; // Import the HOC
+// import withToast from "@/components/hoc/withToast.jsx";
+import "react-toastify/dist/ReactToastify.css";
 
-const SignatureModal = ({ isOpen, onClose }) => {
-  const [sign, setSign] = useState(null); // Initialize sign state as null
+const SignatureModal = ({
+  isOpen,
+  onClose,
+  bol_id,
+  refetchBolData,
+  refetchBolVersionData,
+  refetchBolVersionConsigneeData,
+}) => {
+  const [sign, setSign] = useState(); // Initialize sign state as null
+
+  const [CreateBolVersion] = useMutation(CREATE_BOL_VERSION);
 
   const handleClear = () => {
     if (sign) {
@@ -14,19 +27,35 @@ const SignatureModal = ({ isOpen, onClose }) => {
     }
   };
 
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
     if (sign) {
       // Check if sign is not null
       const image = sign.getTrimmedCanvas().toDataURL("image/png");
       console.log(image);
       if (image) {
-        console.log("hello beta");
-        toast.success("Signature saved successfully", {
-          position: "top-right",
-        });
+        try {
+          const response = await CreateBolVersion({
+            variables: { signature: image, bolId: bol_id },
+          });
+
+          if (response?.data?.createBolVersion) {
+            toast.success("Signature saved successfully", {
+              position: "top-right",
+            });
+            sign.clear();
+            refetchBolData();
+            refetchBolVersionData();
+            refetchBolVersionConsigneeData();
+          }
+        } catch (error) {
+          if (error instanceof Error) {
+            toast.error(error.message, { position: "top-right" });
+          } else {
+            toast.error("An unknown error occurred", { position: "top-right" });
+          }
+        }
       }
 
-      setSign(null);
       // Handle saving or further processing of the signature image
       onClose(); // Close the modal after processing
     }
@@ -36,7 +65,7 @@ const SignatureModal = ({ isOpen, onClose }) => {
     <div
       className={`modal ${
         isOpen ? "flex" : "hidden"
-      } justify-center items-center fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50`}
+      } justify-center items-center fixed top-0 left-0 w-full  h-full bg-gray-900 bg-opacity-50`}
     >
       <div className="modal-content bg-white w-[700px]  flex flex-col gap-2 p-8 rounded shadow-lg relative  ">
         <button className="absolute top-0 right-0 p-2" onClick={onClose}>
@@ -55,13 +84,15 @@ const SignatureModal = ({ isOpen, onClose }) => {
             />
           </svg>
         </button>
-        <div className="signature-area">
+        <div className="signature-area h-64">
           <SignatureCanvas
-            ref={(ref) => setSign(ref)}
+            ref={(data) => setSign(data)}
             canvasProps={{
-              className: "signature-canvas border border-black rounded w-full",
+              width: 620,
+              height: 256,
+              className: "sigCanvas border border-black",
             }}
-            clearOnResize={false}
+            // clearOnResize={false}
           />
         </div>
         <div className="button-container mt-4 flex justify-center">
@@ -83,4 +114,4 @@ const SignatureModal = ({ isOpen, onClose }) => {
   );
 };
 
-export default withToast(SignatureModal);
+export default SignatureModal;

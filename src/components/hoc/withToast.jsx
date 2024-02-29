@@ -6,10 +6,10 @@ import "react-toastify/dist/ReactToastify.css";
 const withToast = (WrappedComponent) => {
   const WithToast = (props) => {
     return (
-      <>
+      <div>
         <WrappedComponent {...props} />
         <ToastContainer position="top-right" />
-      </>
+      </div>
     );
   };
 

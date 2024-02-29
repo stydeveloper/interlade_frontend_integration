@@ -44,8 +44,6 @@ const ActionHistory = ({ actionData, bol_history_logs }) => {
 
                 const formattedDate = formatDate(log.created_at);
                 const [datePart, timePart] = formattedDate.split(" ");
-                console.log("datePart", datePart);
-                console.log("timePart", timePart);
 
                 return (
                   <tr

@@ -8,12 +8,118 @@ import Send from "../../../../../public/images/send.svg";
 import Download from "../../../../../public/images/download.png";
 import Home from "../../../../../public/images/home.svg";
 import BLImage from "../../../../../public/images/BLImage.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SignatureModal from "@/components/SignatureModal";
+import { GETBOL_BYID } from "@/fetching/queries/bol";
+import { useQuery } from "@apollo/client";
+import Cookies from "js-cookie";
+import {
+  GET_BOL_VERSION_BYIDS,
+  GET_BOL_VERSION_BY_USERID,
+} from "@/fetching/queries/bol_version";
 
 const ViewBl = ({ params }) => {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const userCookie = Cookies.get("user");
+  const loggedInUser = userCookie ? JSON.parse(userCookie) : null;
+  // console.log("loggedInUser", JSON.parse(Cookies.get("user")).id);
+  // console.log("loggedInUserRoleId", JSON.parse(Cookies.get("user")).role_id.id);
+  let consigneeId;
+  useEffect(() => {
+    if (params.id && loggedInUser?.id) {
+      // Only fetch data if both params.id and loggedInUser.id are present
+
+      console.log("in useEffect");
+      refetchBolData();
+      refetchBolVersionData();
+      refetchBolVersionConsigneeData();
+    }
+  }, [params.id, loggedInUser, consigneeId]);
+  const {
+    loading: bolLoading,
+    error: bolError,
+    data: bolData,
+
+    refetch: refetchBolData,
+  } = useQuery(GETBOL_BYID, {
+    variables: { getBolId: `${params.id}` },
+    skip: !params.id || !loggedInUser?.id, // Skip query if params.id or loggedInUser.id is not present
+  });
+
+  const {
+    loading: bolVersionLoading,
+    error: bolVersionError,
+    data: BolVersionData,
+    refetch: refetchBolVersionData,
+  } = useQuery(GET_BOL_VERSION_BYIDS, {
+    variables: { userId: `${loggedInUser?.id}`, bolId: `${params?.id}` },
+    skip: !loggedInUser?.id || !params?.id, // Skip query if params.id or loggedInUser.id is not present
+  });
+  let driverId;
+  let associatedCarrierIdToBol;
+  let IsCarrierAsDriver;
+
+  let bolStatus;
+
+  if (bolData && !bolLoading) {
+    driverId = bolData.getBol.driver_id.id;
+    associatedCarrierIdToBol = bolData.getBol.carrier_id.id;
+    consigneeId = bolData.getBol.consignee_id.id;
+    bolStatus = bolData.getBol.status;
+
+    IsCarrierAsDriver =
+      associatedCarrierIdToBol === driverId && driverId === loggedInUser.id;
+  }
+
+  const {
+    loading: bolVersionConsigneeLoading,
+    error: bolVersionConsigneeError,
+    data: BolVersionConsigneeData,
+    refetch: refetchBolVersionConsigneeData,
+  } = useQuery(GET_BOL_VERSION_BY_USERID, {
+    variables: { userId: `${consigneeId}` },
+    skip: !consigneeId, // Skip query if params.id or loggedInUser.id is not present
+  });
+
+  let hasAlreadySigned;
+  let hasConsigneeSignature = false;
+
+  if (BolVersionConsigneeData && !bolVersionConsigneeLoading) {
+    const bolVersions = BolVersionConsigneeData.getBolVersionByUserId;
+    console.log(bolVersions);
+    console.log("consigneeId", consigneeId);
+
+    if (bolVersions) {
+      // If data is not null, iterate through each object
+      for (let i = 0; i < bolVersions.length; i++) {
+        const version = bolVersions[i];
+        if (
+          version.bol_id.id === params.id &&
+          version.user_id.id === consigneeId
+        ) {
+          hasConsigneeSignature = true;
+          break;
+        }
+      }
+    }
+
+    // Log the result
+    console.log("Has Signature:", hasConsigneeSignature);
+  }
+
+  if (!bolVersionLoading && BolVersionData) {
+    hasAlreadySigned = BolVersionData.getBolVersionsByIDs;
+  }
+
+  // Determine if the Sign As Consignee button should be disabled
+  const disableSignAsConsignee =
+    (loggedInUser?.role_id.id === "4" && hasAlreadySigned !== null) || // Condition 1
+    (loggedInUser?.role_id.id === "1" &&
+      !hasConsigneeSignature &&
+      bolStatus === "DELIVERED");
+
+  console.log("hasConsigneeSignature", hasConsigneeSignature);
 
   // Function to open modal
   const openModal = () => {
@@ -24,7 +130,6 @@ const ViewBl = ({ params }) => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  console.log(params);
   return (
     <div className="flex  justify-between">
       <div className="bg-cgray rounded-b-md flex w-80 flex-col fixed h-full">
@@ -58,27 +163,58 @@ const ViewBl = ({ params }) => {
       </div>
       <div className="bg-hoverGray gap-2 flex flex-col items-center justify-center py-4 ml-80 px-4">
         {/* params.id.blImage */}
-        <div className="w-full flex gap-2 justify-end">
-          <button
-            className="bg-linkBlue text-white py-4 px-2 rounded-md"
-            onClick={openModal}
-          >
-            Sign As Driver
-          </button>
-          <button
-            className="bg-linkBlue text-white py-4 px-2 rounded-md"
-            onClick={openModal}
-          >
-            Sign As Consignee
-          </button>
-        </div>
+        {((loggedInUser?.role_id.id == "1" && IsCarrierAsDriver) ||
+          loggedInUser?.role_id.id == "4") && (
+          <div className="w-full flex gap-2 justify-end">
+            <button
+              className="bg-linkBlue text-white py-4 px-2 rounded-md"
+              onClick={openModal}
+              disabled={hasAlreadySigned !== null}
+            >
+              Sign As Driver
+            </button>
+            <button
+              className="bg-linkBlue text-white py-4 px-2 rounded-md"
+              onClick={openModal}
+              disabled={disableSignAsConsignee}
+            >
+              Sign As Consignee
+            </button>
+          </div>
+        )}
         <div className="w-full">
           <Image src={BLImage} alt="Bill of Lading" />
         </div>
       </div>
-      <SignatureModal isOpen={isModalOpen} onClose={closeModal} />
+      <SignatureModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        bol_id={params?.id}
+        refetchBolData={refetchBolData}
+        refetchBolVersionData={refetchBolVersionData}
+        refetchBolVersionConsigneeData={refetchBolVersionConsigneeData}
+      />
     </div>
   );
 };
 
 export default ViewBl;
+
+// {loggedInUser?.id !== "1" &&
+// IsCarrierAsDriver && // Remove the parentheses here
+// hasAlreadySigned === null && (
+//   <div className="w-full flex gap-2 justify-end">
+//     <button
+//       className="bg-linkBlue text-white py-4 px-2 rounded-md"
+//       onClick={openModal}
+//     >
+//       Sign As Driver
+//     </button>
+//     <button
+//       className="bg-linkBlue text-white py-4 px-2 rounded-md"
+//       onClick={openModal}
+//     >
+//       Sign As Consignee
+//     </button>
+//   </div>
+// )}

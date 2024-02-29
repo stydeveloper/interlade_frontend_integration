@@ -172,7 +172,7 @@ const DispatchBoLToDriverModal = ({ isOpen, onClose }) => {
             <button
               className="bg-green-700 p-4 h-16 rounded-md text-white font-2xl font-bold mt-8 hover:bg-green-900"
               onClick={handleActAsDriver}
-              disabled={disable}
+              disabled={disable || email}
             >
               Act as Driver
             </button>

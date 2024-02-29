@@ -39,9 +39,9 @@ export function LoadInfo({
         if (value === "") {
           newErrors.units = ""; // Clear the error if the field is empty
         } else if (!/^\d+$/.test(value)) {
-          newErrors.units = "Units must be a positive integer.";
+          newErrors.units = "Unit must be a positive integer.";
         } else if (parseInt(value) === 0) {
-          newErrors.units = "Units must be a positive integer greater than 0.";
+          newErrors.units = "Unit must be a positive integer greater than 0.";
         } else {
           newErrors.units = ""; // Clear the error if the value is valid
         }
@@ -49,11 +49,14 @@ export function LoadInfo({
       case "packageType":
         if (value === "") {
           newErrors.packageType = ""; // Clear the error if the field is empty
-        } else if (!/^[a-zA-Z]{3,15}$/.test(value)) {
+        } else if (!/\S/.test(value)) {
           newErrors.packageType =
-            "Package type must be between 3 to 15 characters.";
+            "Package type cannot be empty or contain only spaces.";
         } else if (/\d/.test(value)) {
           newErrors.packageType = "Package type must not contain numbers.";
+        } else if (!/^[a-zA-Z\s]{3,15}$/.test(value)) {
+          newErrors.packageType =
+            "Package type must be between 3 to 15 characters ";
         } else {
           newErrors.packageType = ""; // Clear the error if the value is valid
         }
@@ -61,12 +64,15 @@ export function LoadInfo({
       case "hazardousClass":
         if (value === "") {
           newErrors.hazardousClass = ""; // Clear the error if the field is empty
-        } else if (!/^[a-zA-Z]{3,15}$/.test(value)) {
+        } else if (!/\S/.test(value)) {
           newErrors.hazardousClass =
-            "Hazardous class must be between 3 to 15 characters.";
+            "Hazardous class cannot be empty or contain only spaces.";
         } else if (/\d/.test(value)) {
           newErrors.hazardousClass =
             "Hazardous class must not contain numbers.";
+        } else if (!/^[a-zA-Z\s]{3,15}$/.test(value)) {
+          newErrors.hazardousClass =
+            "Hazardous class must be between 3 to 15 characters.";
         } else {
           newErrors.hazardousClass = ""; // Clear the error if the value is valid
         }
@@ -74,11 +80,14 @@ export function LoadInfo({
       case "packingGroup":
         if (value === "") {
           newErrors.packingGroup = ""; // Clear the error if the field is empty
-        } else if (!/^[a-zA-Z]{3,15}$/.test(value)) {
+        } else if (!/\S/.test(value)) {
           newErrors.packingGroup =
-            "Packing group must be between 3 to 15 characters.";
+            "Packing group cannot be empty or contain only spaces.";
         } else if (/\d/.test(value)) {
           newErrors.packingGroup = "Packing group must not contain numbers.";
+        } else if (!/^[a-zA-Z\s]{3,15}$/.test(value)) {
+          newErrors.packingGroup =
+            "Packing group must be between 3 to 15 characters.";
         } else {
           newErrors.packingGroup = ""; // Clear the error if the value is valid
         }

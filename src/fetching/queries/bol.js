@@ -49,6 +49,7 @@ export const GET_BOL_BY_ID = gql`
         number
         created_at
       }
+
       weight
       volume
       quantity
@@ -464,6 +465,24 @@ export const GET_BOL_BY_STATUS = gql`
         name
         address
       }
+    }
+  }
+`;
+
+export const GETBOL_BYID = gql`
+  query GetBol($getBolId: ID!) {
+    getBol(id: $getBolId) {
+      id
+      driver_id {
+        id
+      }
+      carrier_id {
+        id
+      }
+      consignee_id {
+        id
+      }
+      status
     }
   }
 `;

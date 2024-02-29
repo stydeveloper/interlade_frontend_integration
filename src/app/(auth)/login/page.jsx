@@ -44,13 +44,10 @@ const LoginPage = () => {
         // Set cookies
         const {
           password,
-          address,
-          city,
-          state,
-          zipcode,
+
           token,
           message,
-          number,
+
           created_at,
           termsacknowledged,
           ...user
