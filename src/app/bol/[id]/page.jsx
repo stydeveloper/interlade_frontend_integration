@@ -304,7 +304,7 @@ const Page = ({ params }) => {
         submitFunc={() => console.log("api call with bolId to cancel B/L")}
       />
       {/* Modal component */}
-      <ActAsDriverModal
+      {/* <ActAsDriverModal
         isOpen={showActAsDriverModal}
         onClose={() => setShowActAsDriverModal(false)}
         onYes={() => {
@@ -315,7 +315,7 @@ const Page = ({ params }) => {
           console.log("User chose not to act as driver");
           // Handle logic when user cancels
         }}
-      />
+      /> */}
       <DispatchBoLToDriverModal
         isOpen={inviteOpen}
         onClose={() => setInviteOpen(false)}
