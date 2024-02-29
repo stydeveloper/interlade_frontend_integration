@@ -79,7 +79,12 @@ const DispatchBoLToDriverModal = ({ isOpen, onClose }) => {
 
   const handleActAsDriver = async () => {
     try {
-      if (!selectedBolId) return;
+      if (!selectedBolId) {
+        toast.error(`Please select any bol from dropdown`, {
+          position: "top-right",
+        });
+        return;
+      }
 
       const { data, loading } = await associateCarrierToDriver({
         variables: { bolId: selectedBolId },
