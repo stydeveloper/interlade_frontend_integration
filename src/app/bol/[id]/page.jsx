@@ -27,10 +27,12 @@ import Cookies from "js-cookie"; // Import js-cookie library
 import Link from "next/link";
 import { convertToBase64 } from "@/utils/helper";
 import { toast } from "react-toastify";
+import DispatchBoLToDriverModal from "@/components/DispatchBoLToDriverModal";
 
 const Page = ({ params }) => {
   const [showActAsDriverModal, setShowActAsDriverModal] = useState(false);
   let role;
+  const [inviteOpen, setInviteOpen] = useState(false);
 
   if (typeof window !== "undefined") {
     // Check cookies for the role_id value
@@ -180,13 +182,13 @@ const Page = ({ params }) => {
             />
           )} */}
           {/* Dispatch Driver commented because not in figma */}
-          {/* {role && role === "1" && (
+          {role && role === "1" && (
             <DocumentBtn
               srcImg={Send}
               label="Act as Driver"
-              actionFunc={() => setShowActAsDriverModal(true)}
+              actionFunc={() => setInviteOpen(true)}
             />
-          )} */}
+          )}
           <div className="flex flex-col justify-center items-center mt-8">
             {currentBol && currentBol?.status === "AT_PICKUP" && (
               <button
@@ -313,6 +315,10 @@ const Page = ({ params }) => {
           console.log("User chose not to act as driver");
           // Handle logic when user cancels
         }}
+      />
+      <DispatchBoLToDriverModal
+        isOpen={inviteOpen}
+        onClose={() => setInviteOpen(false)}
       />
     </div>
   );
