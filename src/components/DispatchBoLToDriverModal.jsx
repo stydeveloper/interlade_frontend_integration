@@ -19,7 +19,7 @@ const DispatchBoLToDriverModal = ({ isOpen, onClose }) => {
   const [createInvitation] = useMutation(CREATE_USER_INVITTATION);
   const [associateCarrierToDriver] = useMutation(CARRIER_AS_A_DRIVER);
   const { data, loading, error } = useQuery(GET_BOL_BY_STATUS, {
-    variables: { status: "AT_PICKUP" },
+    variables: { status: "IN_TRANSIT" },
   });
 
   const handleSelectChange = (selectedOption) => {
