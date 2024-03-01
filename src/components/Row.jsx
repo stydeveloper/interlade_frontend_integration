@@ -33,10 +33,10 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
 
           <td>{rowData.description}</td>
           <td>{rowData?.carrier_id?.name}</td>
-          <td>{rowData.status}</td>
-          <td>hellow</td>
+          <td>{rowData?.status}</td>
+          <td>{rowData?.id}</td>
           <td>
-            <Link href={`/bol/${rowData.id}`} className="underline">
+            <Link href={`/bol/${rowData?.id}`} className="underline">
               View B/L
             </Link>
           </td>

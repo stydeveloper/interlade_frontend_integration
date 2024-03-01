@@ -21,6 +21,7 @@ export default function middleware(req) {
   ];
 
   const { pathname } = req.nextUrl;
+  // https://interlade.netlify.app hosted url
 
   if (loggedin && pathname === "/login") {
     return NextResponse.redirect(

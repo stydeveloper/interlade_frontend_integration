@@ -13,6 +13,8 @@ import SignatureModal from "@/components/SignatureModal";
 import { GETBOL_BYID } from "@/fetching/queries/bol";
 import { useQuery } from "@apollo/client";
 import Cookies from "js-cookie";
+import BackBtn from "../../../../../public/images/arrow-92-48.png";
+
 import {
   GET_BOL_VERSION_BYIDS,
   GET_BOL_VERSION_BY_USERID,
@@ -63,10 +65,10 @@ const ViewBl = ({ params }) => {
   let bolStatus;
 
   if (bolData && !bolLoading) {
-    driverId = bolData.getBol.driver_id.id;
-    associatedCarrierIdToBol = bolData.getBol.carrier_id.id;
-    consigneeId = bolData.getBol.consignee_id.id;
-    bolStatus = bolData.getBol.status;
+    driverId = bolData?.getBol?.driver_id?.id;
+    associatedCarrierIdToBol = bolData?.getBol?.carrier_id?.id;
+    consigneeId = bolData?.getBol?.consignee_id?.id;
+    bolStatus = bolData?.getBol?.status;
 
     IsCarrierAsDriver =
       associatedCarrierIdToBol === driverId && driverId === loggedInUser.id;
@@ -133,12 +135,20 @@ const ViewBl = ({ params }) => {
   return (
     <div className="flex  justify-between">
       <div className="bg-cgray rounded-b-md flex w-80 flex-col fixed h-full">
-        <div className="mx-8">
+        <div className="relative mx-8">
+          <Image
+            alt="Back"
+            src={BackBtn}
+            width={25}
+            className="absolute top-[0.9rem] left-0 cursor-pointer "
+            onClick={() => router.back()}
+            title="Go Back"
+          />
           <div className="flex justify-center my-8">
             <MainBtn
               srcImg={Home}
-              label="back"
-              actionFunc={() => router.back()}
+              label="Home"
+              actionFunc={() => router.push("/")}
             />
           </div>
           <p className="text-white font-bold text-2xl text-center mb-4">
@@ -186,14 +196,16 @@ const ViewBl = ({ params }) => {
           <Image src={BLImage} alt="Bill of Lading" />
         </div>
       </div>
-      <SignatureModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        bol_id={params?.id}
-        refetchBolData={refetchBolData}
-        refetchBolVersionData={refetchBolVersionData}
-        refetchBolVersionConsigneeData={refetchBolVersionConsigneeData}
-      />
+      {isModalOpen && (
+        <SignatureModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          bol_id={params?.id}
+          refetchBolData={refetchBolData}
+          refetchBolVersionData={refetchBolVersionData}
+          refetchBolVersionConsigneeData={refetchBolVersionConsigneeData}
+        />
+      )}
     </div>
   );
 };

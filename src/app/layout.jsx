@@ -34,21 +34,19 @@ export default function RootLayout({ children }) {
 
   // Check if the current route is in the array of routes without Navbar
   const hideNavbar = routesWithoutNavbar.includes(pathname);
-  const showNavbar2 = routesWithNavbar2.includes(pathname);
+  // const showNavbar2 = routesWithNavbar2.includes(pathname);
 
   return (
     <html lang="en">
       <ApolloProvider client={client}>
         <body className={inter.className}>
           {!hideNavbar && <Navbar />}
-
-          {showNavbar2 && <Navbar2 />}
-
-          <ToastContainer />
+          {/* {showNavbar2 && <Navbar2 />} */}
           <div className={`h-full ${!hideNavbar ? "pt-14" : ""}`}>
             {children}
           </div>
-          {showNavbar2 && <Footer2 />}
+          <ToastContainer />
+          {/* {showNavbar2 && <Footer2 />} */}
         </body>
       </ApolloProvider>
     </html>

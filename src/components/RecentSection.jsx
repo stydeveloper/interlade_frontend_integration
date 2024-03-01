@@ -10,7 +10,7 @@ const RecentSection = ({ customHeightClass }) => {
     fetchPolicy: "network-only", // or "cache-and-network"
   });
   let allBols;
-  if (data) {
+  if (data && !loading) {
     allBols = data.getBols;
     console.log(allBols);
   }

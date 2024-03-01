@@ -9,6 +9,7 @@ import { useQuery } from "@apollo/client";
 import { Spin } from "antd";
 import { useState } from "react";
 import { GET_BOLIMAGES_BY_BOLID } from "@/fetching/queries/bol_images";
+import BackBtn from "../../../../../public/images/arrow-92-48.png";
 
 // const DOWNLOAD_IMAGE = gql`
 //   query DownloadImage($imageUrl: String!) {
@@ -73,12 +74,20 @@ const LoadImages = ({ params }) => {
   return (
     <div className="flex ">
       <div className="bg-cgray rounded-b-md flex w-96 flex-col fixed h-full">
-        <div className="mx-8">
+        <div className="relative mx-8">
+          <Image
+            alt="Back"
+            src={BackBtn}
+            width={25}
+            className="absolute top-[0.9rem] left-0 cursor-pointer "
+            onClick={() => router.back()}
+            title="Go Back"
+          />
           <div className="flex justify-center my-8">
             <MainBtn
               srcImg={Home}
-              label="back"
-              actionFunc={() => router.back()}
+              label="Home"
+              actionFunc={() => router.push("/")}
             />
           </div>
           {bolImages && bolImages.length > 0 && (

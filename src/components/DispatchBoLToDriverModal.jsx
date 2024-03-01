@@ -11,8 +11,19 @@ import { toast } from "react-toastify";
 import withToast from "@/components/hoc/withToast.jsx"; // Import the HOC
 import { CARRIER_AS_A_DRIVER } from "@/fetching/mutations/bol";
 
-const DispatchBoLToDriverModal = ({ isOpen, onClose }) => {
+const DispatchBoLToDriverModal = ({
+  isOpen,
+  onClose,
+  callStatus,
+  id,
+  refetch,
+  bolDataRefetch,
+  bolImagesRefetch,
+  currentBlDataRefetch,
+  bolHistoryLogsRefetch,
+}) => {
   const [email, setEmail] = useState("");
+
   const [selectedBolId, setSelectedBolId] = useState(null);
   const [emailError, setEmailError] = useState("");
   const [disable, setDisabled] = useState(false);
@@ -39,7 +50,21 @@ const DispatchBoLToDriverModal = ({ isOpen, onClose }) => {
   };
 
   const handleBolInvite = async () => {
-    if (!email || !selectedBolId || emailError) return;
+    if (emailError) {
+      toast.error("Please check your mail.", { position: "top-right" });
+      return;
+    }
+
+    if (!email) {
+      toast.error("Email is required.", { position: "top-right" });
+      return;
+    }
+    if (!selectedBolId) {
+      toast.error("Please select any bol from dropdown.", {
+        position: "top-right",
+      });
+      return;
+    }
 
     try {
       const { data } = await createInvitation({
@@ -70,11 +95,36 @@ const DispatchBoLToDriverModal = ({ isOpen, onClose }) => {
     }
   };
   let options = [];
-  if (data && data.getBolsByStatus) {
-    options = data.getBolsByStatus.map((bol) => ({
-      value: bol,
-      label: `Order No: ${bol.id} -- Shipper : ${bol.shipper_id.name}`,
-    }));
+
+  // if (data && data?.getBolsByStatus) {
+  //   options = data.getBolsByStatus.map((bol) => ({
+  //     value: bol,
+  //     label: `Order No: ${bol.id} -- Shipper : ${bol.shipper_id.name}`,
+  //   }));
+  // }
+  if (data && data?.getBolsByStatus) {
+    if (id) {
+      // Find the Bol with the matching id
+      const selectedBol = data.getBolsByStatus.find((bol) => bol.id === id);
+
+      if (selectedBol) {
+        // Set the selected Bol as the only option
+        options = [
+          {
+            value: selectedBol,
+            label: `Order No: ${selectedBol.id} -- Shipper : ${selectedBol.shipper_id.name}`,
+          },
+        ];
+
+        // Set the selected Bol's id
+        // setSelectedBolId(selectedBol.id);
+      }
+    } else {
+      options = data.getBolsByStatus.map((bol) => ({
+        value: bol,
+        label: `Order No: ${bol.id} -- Shipper : ${bol.shipper_id.name}`,
+      }));
+    }
   }
 
   const handleActAsDriver = async () => {
@@ -86,12 +136,21 @@ const DispatchBoLToDriverModal = ({ isOpen, onClose }) => {
         return;
       }
 
+      const bol_id = selectedBolId ? selectedBolId : id;
+
       const { data, loading } = await associateCarrierToDriver({
-        variables: { bolId: selectedBolId },
+        variables: { bolId: bol_id },
       });
 
       if (!loading && data) {
         setDisabled(true);
+        if (callStatus === true) {
+          refetch();
+          bolDataRefetch();
+          bolImagesRefetch();
+          currentBlDataRefetch();
+          bolHistoryLogsRefetch();
+        }
         toast.success(`Now you are a driver for the bol no ${selectedBolId}`, {
           position: "top-right",
         });
@@ -135,6 +194,7 @@ const DispatchBoLToDriverModal = ({ isOpen, onClose }) => {
               onChange={handleSelectChange}
               placeholder="Select Active BoL ..."
               className="w-96 max-h[38px] border-[1px] rounded-md mb-4"
+              defaultValue={id && options[0]}
               required
             />
           </div>
@@ -184,3 +244,4 @@ const DispatchBoLToDriverModal = ({ isOpen, onClose }) => {
 };
 
 export default withToast(DispatchBoLToDriverModal);
+// export default DispatchBoLToDriverModal;

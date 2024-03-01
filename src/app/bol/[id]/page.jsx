@@ -14,6 +14,7 @@ import { mockActionData } from "@/components/MockData";
 import CancelBLModal from "@/components/CancelBLModal";
 import { useMutation, useQuery } from "@apollo/client";
 import { UPLOAD_IMAGE } from "@/fetching/mutations/bol_images";
+import BackBtn from "../../../../public/images/arrow-92-48.png";
 
 import {
   GET_BOL_BY_ID,
@@ -29,6 +30,7 @@ import Link from "next/link";
 import { convertToBase64 } from "@/utils/helper";
 import { toast } from "react-toastify";
 import DispatchBoLToDriverModal from "@/components/DispatchBoLToDriverModal";
+import Image from "next/image";
 
 const Page = ({ params }) => {
   const [showActAsDriverModal, setShowActAsDriverModal] = useState(false);
@@ -90,6 +92,7 @@ const Page = ({ params }) => {
   let lastUser;
   if (currentBlData) {
     lastUser = currentBlData.getCurrentBolLocation;
+    console.log("lastUserlastUserlastUserlastUserlastUserlastUser", lastUser);
   }
   let consigneeInfo;
   let isDriverIsAssigned;
@@ -168,10 +171,55 @@ const Page = ({ params }) => {
     input.click();
   };
 
+  // const handleUploadImage = async () => {
+  //   // Trigger the file input dialog
+  //   const input = document.createElement("input");
+  //   input.type = "file";
+  //   input.accept = "image/*";
+  //   input.style.display = "none";
+  //   document.body.appendChild(input);
+
+  //   // Listen for changes in the selected file
+  //   input.addEventListener("change", async (event) => {
+  //     const file = event.target.files[0]; // Get the selected file
+  //     if (file) {
+  //       const base64Image = await convertToBase64(file);
+  //       const { data, loading } = await UploadImageMutation({
+  //         variables: { bolId: params.id, filename: base64Image },
+  //       });
+
+  //       if (data?.createBolImages?.message) {
+  //         bolImagesRefetch();
+  //         refetch();
+  //         bolDataRefetch();
+  //         currentBlDataRefetch();
+  //         bolHistoryLogsRefetch();
+  //         toast.success(data?.createBolImages?.message, {
+  //           position: "top-right",
+  //         });
+  //       }
+  //     }
+
+  //     // Remove the input element from the DOM
+  //     document.body.removeChild(input);
+  //   });
+
+  //   // Trigger the file input dialog
+  //   input.click();
+  // };
+
   return (
     <div className="h-screen flex fixed w-full">
       <div className="bg-cgray  rounded-b-md flex flex-col w-[24%]">
-        <div className="mx-4">
+        <div className="relative mx-4 ">
+          <Image
+            alt="Back"
+            src={BackBtn}
+            width={25}
+            className="absolute top-[0.9rem] left-0 cursor-pointer "
+            onClick={() => router.back()}
+            title="Back to Home"
+          />
           <div className="flex justify-center my-8">
             <MainBtn
               srcImg={Home}
@@ -286,7 +334,7 @@ const Page = ({ params }) => {
               </div>
             ) : (
               <>
-                <h3 className="font-semibold underline mb-2 text-center text-xl">
+                <h3 className="font-semibold underline mb-1 text-center text-xl">
                   Current "Location"
                 </h3>
                 {/* based on most recent B/L agent in the action data*/}
@@ -306,18 +354,18 @@ const Page = ({ params }) => {
                 <Spin />
               </div>
             ) : (
-              <>
+              <div className="">
                 <h3 className="font-semibold underline mb-2 text-center text-xl">
                   Load Information
                 </h3>
                 {/* params.id.load */}
-                <p className="mb-2">Package Type: {currentBol?.package_type}</p>
-                <p className="mb-2">Quantity: {currentBol?.quantity}</p>
-                <p className="mb-2">Description: {currentBol?.description}</p>
-                <p className="mb-2">Volume: {currentBol?.volume}</p>
-                <p className="mb-2">Weight: {currentBol?.weight}</p>
-                <p className="mb-2">Class: {currentBol?.hazard_class}</p>
-              </>
+                <p className="mb-1">Package Type: {currentBol?.package_type}</p>
+                <p className="mb-1">Quantity: {currentBol?.quantity}</p>
+                <p className="mb-1">Description: {currentBol?.description}</p>
+                <p className="mb-1">Volume: {currentBol?.volume}</p>
+                <p className="mb-1">Weight: {currentBol?.weight}</p>
+                <p className="mb-1">Class: {currentBol?.hazard_class}</p>
+              </div>
             )}
           </div>
 
@@ -361,10 +409,19 @@ const Page = ({ params }) => {
           // Handle logic when user cancels
         }}
       /> */}
-      <DispatchBoLToDriverModal
-        isOpen={inviteOpen}
-        onClose={() => setInviteOpen(false)}
-      />
+      {inviteOpen && params?.id && (
+        <DispatchBoLToDriverModal
+          isOpen={inviteOpen}
+          onClose={() => setInviteOpen(false)}
+          callStatus={true}
+          id={params.id}
+          refetch={refetch}
+          bolDataRefetch={bolDataRefetch}
+          bolImagesRefetch={bolImagesRefetch}
+          currentBlDataRefetch={currentBlDataRefetch}
+          bolHistoryLogsRefetch={bolHistoryLogsRefetch}
+        />
+      )}
     </div>
   );
 };
