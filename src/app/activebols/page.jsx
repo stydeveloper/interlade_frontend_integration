@@ -18,7 +18,6 @@ const ActiveBoLs = ({ searchParams }) => {
   if (data) {
     allBols = data?.getActiveBols;
   }
-  console.log(searchParams);
 
   if (loading)
     return (
@@ -35,12 +34,13 @@ const ActiveBoLs = ({ searchParams }) => {
         <h1 className="underline text-2xl font-semibold flex items-center h-[10%] ">
           Active B/Ls
         </h1>
-        {allBols && allBols.length > 0 && (
+        {allBols && allBols.length > 0 && searchParams && (
           <Table
             type={`${searchParams?.type}`}
             tableData={carrierActiveMockData}
             allBols={allBols}
             heightClass="h-[90%]"
+            searchParams={searchParams}
           />
         )}
       </div>
