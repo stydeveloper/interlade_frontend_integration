@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Table from "@/components/Tables";
 import {
   completeMockData,
@@ -10,8 +10,11 @@ import { useQuery } from "@apollo/client";
 import { Spin } from "antd";
 import { GET_COMPLETED_BOLS } from "@/fetching/queries/bol";
 
-const CompletedBoLs = ({ searchParams }) => {
+const CompletedBoLs = () => {
   const router = useRouter();
+
+  const searchParams = useSearchParams();
+  const search = searchParams.get("type");
 
   const { loading, error, data } = useQuery(GET_COMPLETED_BOLS);
   let allBols;
@@ -35,9 +38,9 @@ const CompletedBoLs = ({ searchParams }) => {
         </h1>
         {/* <Table type="complete" tableData={completeMockData} /> */}
         {/* carrier view */}
-        {allBols && allBols.length > 0 && searchParams && (
+        {allBols && allBols.length > 0 && search && (
           <Table
-            type={`${searchParams?.type}`}
+            type={`${search}`}
             tableData={carrierCompleteMockData}
             allBols={allBols}
             heightClass="h-[90%]"

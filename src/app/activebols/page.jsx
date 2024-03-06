@@ -7,11 +7,15 @@ import { gql, useQuery } from "@apollo/client";
 import { Spin } from "antd";
 import "../../styles/table.css";
 import { GET_ACTIVE_BOLS } from "@/fetching/queries/bol";
+import { useSearchParams } from "next/navigation";
 
 // needs to take in user's role & id to decide which view of active b/ls to show (shipper/carrier/drivers/receiver)
 
-const ActiveBoLs = ({ searchParams }) => {
+const ActiveBoLs = () => {
   const router = useRouter();
+
+  const searchParams = useSearchParams();
+  const search = searchParams.get("type");
 
   const { loading, error, data } = useQuery(GET_ACTIVE_BOLS);
   let allBols;
@@ -34,13 +38,12 @@ const ActiveBoLs = ({ searchParams }) => {
         <h1 className="underline text-2xl font-semibold flex items-center h-[10%] ">
           Active B/Ls
         </h1>
-        {allBols && allBols.length > 0 && searchParams && (
+        {allBols && allBols.length > 0 && search && (
           <Table
-            type={`${searchParams?.type}`}
+            type={`${search}`}
             tableData={carrierActiveMockData}
             allBols={allBols}
             heightClass="h-[90%]"
-            searchParams={searchParams}
           />
         )}
       </div>

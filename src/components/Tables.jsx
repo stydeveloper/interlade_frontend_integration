@@ -185,7 +185,7 @@ const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
     </thead>
   );
 };
-const Table = ({ type, tableData, allBols, heightClass, searchParams }) => {
+const Table = ({ type, tableData, allBols, heightClass }) => {
   const [selectAll, setSelectAll] = useState(false);
   const [checkboxes, setCheckboxes] = useState(
     tableData ? Array(tableData.length).fill(false) : []
@@ -195,8 +195,6 @@ const Table = ({ type, tableData, allBols, heightClass, searchParams }) => {
     setSelectAll(!selectAll);
     setCheckboxes(Array(tableData.length).fill(!selectAll));
   };
-
-  console.log("searchParams", searchParams);
 
   const toggleCheckbox = (index) => {
     const newCheckboxes = [...checkboxes];
