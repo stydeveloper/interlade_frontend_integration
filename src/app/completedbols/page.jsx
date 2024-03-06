@@ -9,6 +9,7 @@ import SidePanel from "@/components/SidePanel";
 import { useQuery } from "@apollo/client";
 import { Spin } from "antd";
 import { GET_COMPLETED_BOLS } from "@/fetching/queries/bol";
+import withSuspense from "@/components/hoc/withSuspense";
 
 const CompletedBoLs = () => {
   const router = useRouter();
@@ -51,4 +52,4 @@ const CompletedBoLs = () => {
   );
 };
 
-export default CompletedBoLs;
+export default withSuspense(CompletedBoLs);

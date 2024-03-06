@@ -8,6 +8,7 @@ import { Spin } from "antd";
 import "../../styles/table.css";
 import { GET_ACTIVE_BOLS } from "@/fetching/queries/bol";
 import { useSearchParams } from "next/navigation";
+import withSuspense from "@/components/hoc/withSuspense";
 
 // needs to take in user's role & id to decide which view of active b/ls to show (shipper/carrier/drivers/receiver)
 
@@ -51,4 +52,4 @@ const ActiveBoLs = () => {
   );
 };
 
-export default ActiveBoLs;
+export default withSuspense(ActiveBoLs);
