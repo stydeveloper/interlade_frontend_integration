@@ -2,11 +2,12 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import interladeBlue from "../../../../public/images/interladeBlue.png";
-import { useMutation, gql } from "@apollo/client";
+
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import SubscriptionEmailModal from "@/components/SubscriptionEmailModal/SubscriptionEmailModal";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
+
 import {
   validatePassword,
   validateName,
@@ -18,6 +19,8 @@ import {
   emailRegex,
 } from "@/utils/user-validation"; // Import the validation functions
 import Link from "next/link";
+import { GET_USER_BY_EMAIL } from "@/fetching/queries/user";
+import { useQuery } from "@apollo/client";
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({
@@ -40,6 +43,11 @@ const SignupPage = () => {
     city: "",
     zipcode: "",
     number: "",
+  });
+
+  const { data, loading, refetch } = useQuery(GET_USER_BY_EMAIL, {
+    variables: { email: formData.email },
+    skip: !formData.email, // Skip the query if formData.email is empty
   });
   const [showPassword, setShowPassword] = useState(false);
   const [signupResponse, setSignupResponse] = useState("");
@@ -139,6 +147,23 @@ const SignupPage = () => {
     }
 
     try {
+      // Refetch the query to get updated data
+      await refetch();
+
+      // Check if user exists
+
+      if (data && data?.getUserByEmail !== null) {
+        // User already exists, throw an error
+        toast.error("User already exist with this email.", {
+          position: "top-right",
+        });
+        setDisabled(true);
+        setTimeout(() => {
+          setDisabled(false);
+        }, 6000);
+        return;
+      }
+
       // Call the signup mutation
       // const response = await signupUser({
       //   variables: formData,
@@ -161,11 +186,17 @@ const SignupPage = () => {
       // });
 
       // Show success modal only if all fields are filled and no errors
-      setShowModal(true);
+      if (!data || data?.getUserByEmail === null) {
+        setShowModal(true);
+      }
       // toast.success("Signed up successfully!", { position: "top-right" });
       // router.push("/");
     } catch (error) {
-      toast.error("An error occurred while signing up.");
+      if (error instanceof Error) {
+        toast.error(error.message, { position: "top-right" });
+      } else {
+        toast.error("An unknown error occurred", { position: "top-right" });
+      }
     } finally {
       setDisabled(true);
       setTimeout(() => {
@@ -175,11 +206,11 @@ const SignupPage = () => {
   };
   console.log(disable);
   return (
-    <div className="flex h-screen items-center justify-center bg-cgray">
+    <div className="flex h-[120vh] items-center justify-center bg-cgray ">
       <div className="h-[90%] max-w-lg my-8">
         <form
           onSubmit={handleSignup}
-          className="bg-white shadow-md rounded-md px-8 pt-6 pb-8 mb-4"
+          className="bg-white  shadow-md rounded-md px-8 pt-6 pb-8 "
         >
           <div className="flex flex-col mb-8 items-center justify-center">
             <Image src={interladeBlue} width={50} alt="" />
@@ -269,7 +300,7 @@ const SignupPage = () => {
           <div className="flex items-center justify-between">
             <button
               className={`${
-                disable ? "bg-linkBlue" : "bg-linkBlue hover:bg-sky-800"
+                disable ? "bg-linkBlue " : "bg-linkBlue hover:bg-sky-800"
               } text-white font-bold mt-2 py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
               type="submit"
               disabled={disable}

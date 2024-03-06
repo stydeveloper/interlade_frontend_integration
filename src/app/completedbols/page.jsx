@@ -10,7 +10,7 @@ import { useQuery } from "@apollo/client";
 import { Spin } from "antd";
 import { GET_COMPLETED_BOLS } from "@/fetching/queries/bol";
 
-const CompletedBoLs = () => {
+const CompletedBoLs = ({ searchParams }) => {
   const router = useRouter();
 
   const { loading, error, data } = useQuery(GET_COMPLETED_BOLS);
@@ -36,7 +36,7 @@ const CompletedBoLs = () => {
         {/* <Table type="complete" tableData={completeMockData} /> */}
         {/* carrier view */}
         <Table
-          type="rolewise-complete"
+          type={`${searchParams.type}`}
           tableData={carrierCompleteMockData}
           allBols={allBols}
           heightClass="h-[90%]"

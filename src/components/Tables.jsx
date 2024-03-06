@@ -43,7 +43,12 @@ export const TableType =
   "shipper-carrier-active" ||
   "shipper-carrier-complete" ||
   "driver-logs";
-
+const excludedTypes = [
+  "shipper-active",
+  "shipper-complete",
+  "carrier-active",
+  "carrier-complete",
+];
 const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
   return (
     <thead className="bg-white sticky top-0">
@@ -58,7 +63,8 @@ const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
         </th>
         {(() => {
           switch (type) {
-            case "active" || "recent":
+            case "active":
+            case "recent":
               return (
                 <>
                   <th>Consignee</th>
@@ -78,26 +84,46 @@ const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
                   <th></th>
                 </>
               );
-            case "rolewise-active":
+            case "shipper-active":
+              return (
+                <>
+                  <th className="w-[15%]">Consignee</th>
+                  <th className="w-[15%]">Load Description</th>
+                  <th className="w-[15%]">Carrier</th>
+                  <th className="w-[15%]">Status</th>
+                  <th className="w-[10%]">Last Opened</th>
+                </>
+              );
+            case "shipper-complete":
+              return (
+                <>
+                  <th className="w-[15%]">ID</th>
+                  <th className="w-[15%]">Shipper</th>
+                  <th className="w-[15%]">Load Description</th>
+                  <th className="w-[15%]">Carrier</th>
+                  <th className="w-[10%]">Prepaid/Collect</th>
+                </>
+              );
+            case "carrier-active":
               return (
                 <>
                   <th className="w-[15%]">Shipper</th>
                   <th className="w-[15%]">Consignee</th>
                   <th className="w-[15%]">Driver</th>
                   <th className="w-[15%]">Status</th>
-                  <th className="w-[10%]">Payment Type</th>
-                  <th className="w-[15%]">Placed At</th>
+                  <th className="w-[10%]">Prepaid/Collect</th>
+                  <th className="w-[15%]">Placed </th>
                 </>
               );
-            case "rolewise-complete":
+            case "carrier-complete":
               return (
                 <>
                   <th>Shipper</th>
                   <th>Consignee</th>
-                  <th>Placed At</th>
+                  <th>Placed</th>
                   <th>Driver</th>
                   <th>Completed At</th>
-                  <th>Payment Type</th>
+                  <th>Prepaid/Collect</th>
                 </>
               );
             case "carrier-shipper-active":
@@ -152,12 +178,13 @@ const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
               );
           }
         })()}
-        <th className="w-[10%]">Go to B/L</th>
+        {!excludedTypes.includes(type) && (
+          <th className="w-[10%]">Go to B/L</th>
+        )}
       </tr>
     </thead>
   );
 };
-
 const Table = ({ type, tableData, allBols, heightClass }) => {
   const [selectAll, setSelectAll] = useState(false);
   const [checkboxes, setCheckboxes] = useState(

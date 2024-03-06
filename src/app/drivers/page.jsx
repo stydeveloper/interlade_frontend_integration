@@ -89,7 +89,7 @@ const Drivers = () => {
               </div>
             )}
           </>
-          {inviteOpen && (
+          {/* {inviteOpen && (
             <div className="bg-gray rounded-md flex flex-col items-center justify-center py-12 px-24 ">
               <p className="text-2xl font-bold mb-6 underline">
                 Invite Driver(s)
@@ -122,13 +122,15 @@ const Drivers = () => {
                 Send Invite(s)
               </button>
             </div>
-          )}
+          )} */}
         </div>
       </div>
-      <InviteDriverModal
-        isOpen={inviteOpen}
-        onClose={() => setInviteOpen(false)}
-      />
+      {inviteOpen && (
+        <InviteDriverModal
+          isOpen={inviteOpen}
+          onClose={() => setInviteOpen(false)}
+        />
+      )}
     </>
   );
 };

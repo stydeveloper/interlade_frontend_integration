@@ -116,7 +116,7 @@ const Shippers = () => {
             )}
           </div>
 
-          {inviteOpen && (
+          {/* {inviteOpen && (
             <div className="bg-gray rounded-md flex flex-col items-center justify-center py-12 px-24 ">
               <p className="text-2xl font-bold mb-6 underline">
                 Invite Shipper(s) to Create B/L
@@ -166,13 +166,15 @@ const Shippers = () => {
                 )}
               </div>
             </div>
-          )}
+          )} */}
         </div>
       </div>
-      <InviteShipperModal
-        isOpen={inviteOpen}
-        onClose={() => setInviteOpen(false)}
-      />
+      {inviteOpen && (
+        <InviteShipperModal
+          isOpen={inviteOpen}
+          onClose={() => setInviteOpen(false)}
+        />
+      )}
     </>
   );
 };

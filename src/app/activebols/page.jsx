@@ -10,7 +10,7 @@ import { GET_ACTIVE_BOLS } from "@/fetching/queries/bol";
 
 // needs to take in user's role & id to decide which view of active b/ls to show (shipper/carrier/drivers/receiver)
 
-const ActiveBoLs = () => {
+const ActiveBoLs = ({ searchParams }) => {
   const router = useRouter();
 
   const { loading, error, data } = useQuery(GET_ACTIVE_BOLS);
@@ -18,6 +18,7 @@ const ActiveBoLs = () => {
   if (data) {
     allBols = data?.getActiveBols;
   }
+  console.log(searchParams);
 
   if (loading)
     return (
@@ -36,7 +37,7 @@ const ActiveBoLs = () => {
         </h1>
         {allBols && allBols.length > 0 && (
           <Table
-            type="rolewise-active"
+            type={`${searchParams?.type}`}
             tableData={carrierActiveMockData}
             allBols={allBols}
             heightClass="h-[90%]"

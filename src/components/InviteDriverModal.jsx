@@ -3,11 +3,14 @@ import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import Image from "next/image";
 import { INVITE_DRIVER_MUTATION } from "@/fetching/mutations/user";
+import { emailRegex } from "@/utils/user-validation";
+import { toast } from "react-toastify";
 
 function InviteDriverModal({ isOpen, onClose }) {
   const [email, setEmail] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [disable, setDisable] = useState(false);
 
   const [inviteDriver, { data, loading, error }] = useMutation(
     INVITE_DRIVER_MUTATION
@@ -15,11 +18,37 @@ function InviteDriverModal({ isOpen, onClose }) {
 
   const handleSendInvite = async () => {
     try {
-      console.log(email);
+      if (!email) {
+        toast.error("Email is required!", { position: "top-right" });
+        setDisable(true);
+        setTimeout(() => {
+          setDisable(false);
+        }, 6000);
+        return;
+      }
+
+      if (!emailRegex.test(email)) {
+        toast.error("Please enter a valid email address.", {
+          position: "top-right",
+        });
+        setDisable(true);
+        setTimeout(() => {
+          setDisable(false);
+        }, 6000);
+        return;
+      }
       const response = await inviteDriver({ variables: { email } });
       console.log(response);
-      if (response.data.inviteDriver.success) {
+      if (response?.data?.inviteDriver?.success) {
         console.log(response.data.inviteDriver.message);
+
+        toast.success("Invitation sent successfully.", {
+          position: "top-right",
+        });
+        setDisable(true);
+        setTimeout(() => {
+          setDisable(false);
+        }, 6000);
         setSuccessMessage(
           "Success! The Driver Will Recieve An Email Invite for BoL document!"
         );
@@ -29,19 +58,27 @@ function InviteDriverModal({ isOpen, onClose }) {
         // Set a timer to clear the success message after 5 seconds
         setTimeout(() => {
           setSuccessMessage("");
-        }, 10000);
+        }, 5000);
+        setTimeout(() => {
+          onClose();
+        }, 1500);
       } else {
         setErrorMessage("Failed to send invite. Please try again.");
       }
     } catch (error) {
       // Check if error is an instance of Error and then access its message property
       if (error instanceof Error) {
-        setErrorMessage(
-          error.message || "An error occurred. Please try again."
-        );
+        toast.error(error.message, { position: "top-right" });
+        setDisable(true);
+        setTimeout(() => {
+          setDisable(false);
+        }, 6000);
       } else {
-        // Handle cases where the error is not an instance of Error
-        setErrorMessage("An unexpected error occurred. Please try again.");
+        toast.error("An unknown error occurred", { position: "top-right" });
+        setDisable(true);
+        setTimeout(() => {
+          setDisable(false);
+        }, 6000);
       }
     }
   };
@@ -99,6 +136,7 @@ function InviteDriverModal({ isOpen, onClose }) {
           <button
             className="bg-linkBlue p-4 h-16 rounded-md text-white font-2xl font-bold mt-8 hover:bg-sky-700 hover:border-white hover:border-2"
             onClick={handleSendInvite}
+            disabled={disable}
           >
             Send Invite(s)
           </button>

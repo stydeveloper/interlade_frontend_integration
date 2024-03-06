@@ -4,10 +4,12 @@ import { useMutation } from "@apollo/client";
 import Image from "next/image";
 import { INVITE_SHIPPER_MUTATION } from "@/fetching/mutations/user";
 import { toast } from "react-toastify";
-import withToast from "@/components/hoc/withToast.jsx";
+import { emailRegex } from "@/utils/user-validation";
+// import withToast from "@/components/hoc/withToast.jsx";
 function InviteShipperModal({ isOpen, onClose }) {
   const [email, setEmail] = useState("");
   const [copied, setCopied] = useState(false);
+  const [disable, setDisable] = useState(false);
   const textToCopy = "www.interlade.com/carrieruniqueinvite4shippertocreateBoL";
   const [inviteShipper, { data, loading, error }] = useMutation(
     INVITE_SHIPPER_MUTATION
@@ -26,14 +28,37 @@ function InviteShipperModal({ isOpen, onClose }) {
 
   const handleSendInvite = async () => {
     try {
-      console.log(email);
+      if (!email) {
+        toast.error("Email is required!", { position: "top-right" });
+        setDisable(true);
+        setTimeout(() => {
+          setDisable(false);
+        }, 6000);
+        return;
+      }
+
+      if (!emailRegex.test(email)) {
+        toast.error("Please enter a valid email address.", {
+          position: "top-right",
+        });
+        setDisable(true);
+        setTimeout(() => {
+          setDisable(false);
+        }, 6000);
+        return;
+      }
+
       const response = await inviteShipper({ variables: { email } });
-      console.log(response);
-      if (response.data.inviteShipper.success) {
+
+      if (response?.data?.inviteShipper?.success) {
         console.log(response.data.inviteShipper.message);
         toast.success("Invitation sent successfully.", {
           position: "top-right",
         });
+        setDisable(true);
+        setTimeout(() => {
+          setDisable(false);
+        }, 6000);
         setSuccessMessage(
           "Success! The Shipper Will Recieve An Email Invite To Create A Bill of Lading"
         );
@@ -43,22 +68,34 @@ function InviteShipperModal({ isOpen, onClose }) {
         // Set a timer to clear the success message after 5 seconds
         setTimeout(() => {
           setSuccessMessage("");
-        }, 10000);
-      } else {
-        setErrorMessage("Failed to send invite. Please try again.");
+        }, 5000);
+        setTimeout(() => {
+          onClose();
+        }, 1500);
       }
     } catch (error) {
       // Check if error is an instance of Error and then access its message property
+      // if (error instanceof Error) {
+      //   setErrorMessage(
+      //     error.message || "An error occurred. Please try again."
+      //   );
+      // } else {
+      //   // Handle cases where the error is not an instance of Error
+      //   setErrorMessage("An unexpected error occurred. Please try again.");
+      // }
       if (error instanceof Error) {
-        setErrorMessage(
-          error.message || "An error occurred. Please try again."
-        );
+        toast.error(error.message, { position: "top-right" });
+        setDisable(true);
+        setTimeout(() => {
+          setDisable(false);
+        }, 6000);
       } else {
-        // Handle cases where the error is not an instance of Error
-        setErrorMessage("An unexpected error occurred. Please try again.");
+        toast.error("An unknown error occurred", { position: "top-right" });
+        setDisable(true);
+        setTimeout(() => {
+          setDisable(false);
+        }, 6000);
       }
-    } finally {
-      onClose();
     }
   };
 
@@ -103,6 +140,7 @@ function InviteShipperModal({ isOpen, onClose }) {
           <button
             className="bg-sky-600 p-4 h-16 rounded-md text-white font-2xl font-bold mt-8 hover:bg-sky-700 hover:border-white hover:border-2"
             onClick={handleSendInvite}
+            disabled={disable}
           >
             Send Invite(s) to Create B/L
           </button>
@@ -133,4 +171,4 @@ function InviteShipperModal({ isOpen, onClose }) {
   );
 }
 
-export default withToast(InviteShipperModal);
+export default InviteShipperModal;

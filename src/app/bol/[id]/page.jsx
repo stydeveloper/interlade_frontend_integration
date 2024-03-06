@@ -45,7 +45,7 @@ const Page = ({ params }) => {
   }
 
   const { loading, error, data, refetch } = useQuery(GET_BOL_BY_ID, {
-    variables: { id: params.id },
+    variables: { id: params?.id },
   });
   const {
     loading: bolLoading,
@@ -53,7 +53,7 @@ const Page = ({ params }) => {
     data: bolData,
     refetch: bolDataRefetch,
   } = useQuery(GETBOL_BYID, {
-    variables: { getBolId: `${params.id}` },
+    variables: { getBolId: `${params?.id}` },
   });
 
   const [UploadImageMutation] = useMutation(UPLOAD_IMAGE);
@@ -103,10 +103,12 @@ const Page = ({ params }) => {
   let IsCarrierAsDriver;
 
   if (bolData && !bolLoading) {
-    console.log("bolData", bolData);
-    isDriverIsAssigned = bolData.getBol?.driver_id.id !== null;
+    console.log("kkasdassasscasa");
+    console.log("bolData");
+    isDriverIsAssigned = bolData.getBol?.driver_id !== null;
 
-    driverId = bolData.getBol.driver_id.id;
+    driverId = bolData?.getBol?.driver_id?.id;
+    driverId = loggedInUser?.id;
     associatedCarrierIdToBol = bolData.getBol.carrier_id.id;
 
     IsCarrierAsDriver =
@@ -116,7 +118,6 @@ const Page = ({ params }) => {
   }
 
   if (data && !loading) {
-    console.log("----------------------");
     currentBol = data?.getBol;
 
     consigneeInfo = data.getBol?.consignee_id;
@@ -211,15 +212,7 @@ const Page = ({ params }) => {
   return (
     <div className="h-screen flex fixed w-full">
       <div className="bg-cgray  rounded-b-md flex flex-col w-[24%]">
-        <div className="relative mx-4 ">
-          <Image
-            alt="Back"
-            src={BackBtn}
-            width={25}
-            className="absolute top-[0.9rem] left-0 cursor-pointer "
-            onClick={() => router.back()}
-            title="Back to Home"
-          />
+        <div className=" mx-4 ">
           <div className="flex justify-center my-8">
             <MainBtn
               srcImg={Home}
@@ -281,7 +274,8 @@ const Page = ({ params }) => {
             {role &&
               role === "2" &&
               currentBol &&
-              currentBol?.status === "AT_PICKUP" && (
+              currentBol?.status === "IN_TRANSIT" &&
+              !isDriverIsAssigned && (
                 <button
                   onClick={() => setCancelModal(true)}
                   disabled={latestAgent !== "Shipper"}
@@ -313,15 +307,15 @@ const Page = ({ params }) => {
                   Consignee
                 </h3>
                 {/* params.id.consignee */}
-                <p className="mb-2">Name: {consigneeInfo?.name}</p>
-                <p className="mb-2">Address: {consigneeInfo?.address}</p>
-                <p className="mb-2">
+                <p className=" text-base">Name: {consigneeInfo?.name}</p>
+                <p className=" text-base">Address: {consigneeInfo?.address}</p>
+                <p className=" text-base">
                   Phone:{" "}
                   <Link href={phone}>
                     {consigneeInfo?.number || 9230239122}
                   </Link>
                 </p>
-                <p>
+                <p className="text-base">
                   Email: <Link href={email}>{consigneeInfo?.email}</Link>
                 </p>
               </>

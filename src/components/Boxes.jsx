@@ -16,10 +16,11 @@ import {
 import { useQuery } from "@apollo/client";
 import { Spin } from "antd";
 
-const Box = ({ title, desc, imageSrc, link }) => {
+const Box = ({ title, desc, imageSrc, link, type }) => {
+  console.log("tupe", type);
   return (
     <Link
-      href={`${link}`}
+      href={`${link}?type=${type}`}
       className="bg-boxblack hover:bg-blue-700 border-2 border-gray rounded-md w-72 justify-center  h-[100%]  flex flex-col font-semibold"
     >
       <div className="flex items-center m-4">
@@ -182,10 +183,18 @@ const DriversBox = () => {
 
 const FourBox = () => {
   const [roleId, setRoleId] = useState(null);
+  const [userRole, setUserRole] = useState(null);
   useEffect(() => {
     // Check cookies for the role_id value
     const roleIdFromCookie = Cookies.get("role_id");
     setRoleId(roleIdFromCookie);
+
+    // Determine user role based on roleId
+    if (roleIdFromCookie === "1") {
+      setUserRole("carrier");
+    } else if (roleIdFromCookie === "2") {
+      setUserRole("shipper");
+    }
   }, []);
 
   return (
@@ -208,12 +217,14 @@ const FourBox = () => {
         desc="See all your BoLs that have yet to be delivered"
         imageSrc={Active}
         link="/activebols"
+        type={`${userRole}-active`}
       />
       <Box
         title="View Complete BoLs"
         desc="See all your BoLs that have been delivered"
         imageSrc={Completed}
         link="/completedbols"
+        type={`${userRole}-complete`}
       />
     </div>
     // <div className="flex justify-between pt-6 mb-12 mx-16">

@@ -62,7 +62,7 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
           </td>
         </tr>
       );
-    case "rolewise-complete":
+    case "carrier-complete":
       return (
         <tr className="text-center table-row-class bg-cgray text-white hover:bg-gray-300">
           <Checkbox
@@ -76,14 +76,14 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
           <td>{rowData?.driver_id?.name || "unknown"}</td>
           <td>{formatDate(rowData?.created_at)} </td>
           <td>{rowData?.price}</td>
-          <td>
+          {/* <td>
             <Link href={`/bol/${rowData.id}`} className="underline">
               View B/L
             </Link>
-          </td>
+          </td> */}
         </tr>
       );
-    case "rolewise-active":
+    case "carrier-active":
       return (
         <tr className="text-center table-row-class bg-cgray text-white hover:bg-gray-300 text-sm">
           <Checkbox
@@ -97,11 +97,44 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
           <td>{rowData?.status || "asasd"}</td>
           <td>{rowData?.price}</td>
           <td>{formatDate(rowData?.created_at)}</td>
-          <td>
+          {/* <td>
             <Link href={`/bol/${rowData.id}`} className="underline">
               View B/L
             </Link>
-          </td>
+          </td> */}
+        </tr>
+      );
+    case "shipper-active":
+      return (
+        <tr className="text-center table-row-class bg-cgray text-white hover:bg-gray-300 text-sm">
+          <Checkbox
+            isChecked={checked}
+            toggleFunc={toggleCheckbox}
+            index={index}
+          />
+
+          <td>{rowData?.consignee_id?.name || "consignee"}</td>
+          <td>{rowData?.description || "unknown"}</td>
+          <td>{rowData?.carrier_id?.name || "asasd"}</td>
+          <td>{rowData?.status}</td>
+          <td>{formatDate(rowData?.created_at)}</td>
+        </tr>
+      );
+    case "shipper-complete":
+      return (
+        <tr className="text-center table-row-class bg-cgray text-white hover:bg-gray-300 text-sm">
+          <Checkbox
+            isChecked={checked}
+            toggleFunc={toggleCheckbox}
+            index={index}
+          />
+
+          <td>{rowData?.id || "id"}</td>
+          <td>{rowData?.shipper_id?.name || "asasd"}</td>
+          <td>{rowData?.description || "unknown"}</td>
+          <td>{rowData?.carrier_id?.name || "asasd"}</td>
+
+          <td>{rowData.price}</td>
         </tr>
       );
     case "shipper-carrier-active":

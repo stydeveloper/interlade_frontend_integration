@@ -122,7 +122,7 @@ const LoginPage = () => {
           </div>
           <h3 className="mb-3 text-3xl text-center  font-bold">Log In</h3>
           <div className="mb-4">
-            <label className="block text-sm font-bold mb-2" htmlFor="email">
+            <label className="block text-sm font-bold " htmlFor="email">
               Email
             </label>
             <input
@@ -138,8 +138,8 @@ const LoginPage = () => {
               <p className="text-cancelRed text-xs mt-1">{emailError}</p>
             )}
           </div>
-          <div>
-            <label className="block text-sm font-bold mb-2" htmlFor="password">
+          <div className="flex flex-col">
+            <label className="block text-sm font-bold " htmlFor="password">
               Password
             </label>
             <input
@@ -155,7 +155,7 @@ const LoginPage = () => {
               <p className="text-cancelRed text-xs mt-1">{passwordError}</p>
             )}
             <a
-              className="text-xs text-linkBlue flex justify-end cursor-pointer"
+              className="text-xs w-max text-linkBlue self-end cursor-pointer"
               onClick={handleForgotPassword}
             >
               Forgot Password?

@@ -8,7 +8,7 @@ import { CREATE_USER_INVITTATION } from "@/fetching/mutations/user-invitation";
 import { useQuery, useMutation } from "@apollo/client";
 import { emailRegex } from "@/utils/user-validation";
 import { toast } from "react-toastify";
-import withToast from "@/components/hoc/withToast.jsx"; // Import the HOC
+// import withToast from "@/components/hoc/withToast.jsx";
 import { CARRIER_AS_A_DRIVER } from "@/fetching/mutations/bol";
 
 const DispatchBoLToDriverModal = ({
@@ -243,5 +243,5 @@ const DispatchBoLToDriverModal = ({
   );
 };
 
-export default withToast(DispatchBoLToDriverModal);
+export default DispatchBoLToDriverModal;
 // export default DispatchBoLToDriverModal;

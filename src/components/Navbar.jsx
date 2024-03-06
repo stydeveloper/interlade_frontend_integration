@@ -6,11 +6,13 @@ import SupportModal from "./SupportModal";
 import NavProfileModal from "./NavProfileModal";
 import NotificationPanel from "./NotificationPanel";
 import { io } from "socket.io-client";
+import Cookies from "js-cookie";
 
 const Navbar = () => {
   const [supportOpen, setSupportOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
+  const [email, setEmail] = useState("");
   const [messages, setMessages] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
 
@@ -23,12 +25,21 @@ const Navbar = () => {
   // ];
 
   useEffect(() => {
+    const user = Cookies.get("user");
+    const loggedInUserEmail = user ? JSON.parse(user) : null;
+    console.log(loggedInUserEmail?.email);
+    setEmail(loggedInUserEmail?.email);
+  }, [email]);
+
+  useEffect(() => {
     const socket = io("http://3.86.80.67", {
       rememberUpgrade: true,
       transports: ["websocket"],
       secure: true,
       rejectUnauthorized: false,
     });
+
+    console.log("useEffect running");
 
     socket.on("message", (data) => {
       // Update message list with the received message
@@ -46,14 +57,17 @@ const Navbar = () => {
       setUnreadCount((prevCount) => prevCount + 1);
     });
 
-    socket.on("bolStatusUpdate", (data) => {
-      // Update your component state or perform any other action
-      console.log(data);
-      // For example, you can set a specific message for this event
-      setMessages((prevMessages) => [...prevMessages, data.message]);
-      // Increment unread message count if needed
-      setUnreadCount((prevCount) => prevCount + 1);
-    });
+    if (email) {
+      console.log(`hello listening to email :bolStatusUpdate-${email}`);
+      socket.on(`bolStatusUpdate-${email}`, (data) => {
+        // Update your component state or perform any other action
+        console.log(data);
+        // For example, you can set a specific message for this event
+        setMessages((prevMessages) => [...prevMessages, data.message]);
+        // Increment unread message count if needed
+        setUnreadCount((prevCount) => prevCount + 1);
+      });
+    }
 
     socket.on("invitationStatusUpdate", (data) => {
       // Update your component state or perform any other action
@@ -68,7 +82,7 @@ const Navbar = () => {
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [email]);
 
   const handleNotificationClick = () => {
     // Toggle notification panel visibility

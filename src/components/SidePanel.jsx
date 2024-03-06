@@ -9,6 +9,7 @@ import Active from "../../public/images/document.png";
 import Carrier from "../../public/images/shipper.png";
 import DriversIcon from "../../public/images/driverIcon.png";
 import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
 const ConditionalDocumentBtn = ({
   currentPath,
@@ -30,7 +31,8 @@ const SidePanel = () => {
   const [roleId, setRoleId] = useState(null);
 
   useEffect(() => {
-    setRoleId(localStorage.getItem("role_id"));
+    const roleIdFromCookie = Cookies.get("role_id");
+    setRoleId(roleIdFromCookie);
   }, []);
 
   return (

@@ -58,3 +58,11 @@ export const GET_ALL_CARRIERS_QUERY = gql`
     }
   }
 `;
+
+export const GET_USER_BY_EMAIL = gql`
+  query GetUserByEmail($email: String!) {
+    getUserByEmail(email: $email) {
+      id
+    }
+  }
+`;
