@@ -62,42 +62,48 @@ export function ConsigneeInfo({
         }
         break;
       case "consigneeAddress":
-        if (value === "") {
-          newErrors.consigneeAddress = ""; // Clear the error if the field is empty
-        } else if (!value || value.length < 5) {
+        if (value.trim() === "") {
+          newErrors.consigneeAddress = "Address cannot be empty.";
+        } else if (value.length < 5) {
           newErrors.consigneeAddress =
             "Address should be at least 5 characters long.";
-        } else if (!/[a-zA-Z]/.test(value)) {
+        } else if (!/[a-zA-Z]/.test(value) && !/\d/.test(value)) {
           newErrors.consigneeAddress =
-            "Address should contain at least one alphabet/character.";
+            "Address should contain at least one letter or number.";
         } else {
           newErrors.consigneeAddress = ""; // Clear the error if the address is valid
         }
         break;
       case "consigneeCity":
-        if (value === "") {
-          newErrors.consigneeCity = ""; // Clear the error if the field is empty
-        } else if (!value || value.length < 3) {
+        if (value.trim() === "") {
+          newErrors.consigneeCity = "City cannot be empty.";
+        } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
           newErrors.consigneeCity =
-            "City should be at least 3 characters long.";
-        } else if (!/^[a-zA-Z]+$/.test(value.trim())) {
-          newErrors.consigneeCity = "City should only contain letters.";
+            "City should only contain letters or spaces.";
+        } else if (!/[a-zA-Z]/.test(value)) {
+          newErrors.consigneeCity = "City must contain at least one letter.";
         } else if (/\d/.test(value)) {
           newErrors.consigneeCity = "City should not contain numbers.";
+        } else if (value.length < 3) {
+          newErrors.consigneeCity =
+            "City should be at least 3 characters long.";
         } else {
           newErrors.consigneeCity = ""; // Clear the error if the input is valid
         }
         break;
       case "consigneeState":
-        if (value === "") {
-          newErrors.consigneeState = ""; // Clear the error if the field is empty
-        } else if (!value || value.length < 3) {
+        if (value.trim() === "") {
+          newErrors.consigneeState = "State cannot be empty.";
+        } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
           newErrors.consigneeState =
-            "State should be at least 3 characters long.";
-        } else if (!/^[a-zA-Z]+$/.test(value.trim())) {
-          newErrors.consigneeState = "State should only contain letters.";
+            "State should only contain letters or spaces.";
+        } else if (!/[a-zA-Z]/.test(value)) {
+          newErrors.consigneeState = "State must contain at least one letter.";
         } else if (/\d/.test(value)) {
           newErrors.consigneeState = "State should not contain numbers.";
+        } else if (value.length < 3) {
+          newErrors.consigneeState =
+            "State should be at least 3 characters long.";
         } else {
           newErrors.consigneeState = ""; // Clear the error if the input is valid
         }

@@ -87,19 +87,38 @@ const SignupPage = () => {
         }
         break;
       case "address":
-        newErrors.address = !validateAddress(value)
-          ? "Address should be at least 5 characters long."
-          : "";
+        if (value.trim() === "") {
+          newErrors.address = "Address cannot be empty.";
+        } else if (value.length < 5) {
+          newErrors.address = "Address should be at least 5 characters long.";
+        } else if (!/[a-zA-Z]/.test(value) && !/\d/.test(value)) {
+          newErrors.address =
+            "Address should contain at least one letter or number.";
+        } else {
+          newErrors.address = ""; // Clear the error if the address is valid
+        }
         break;
       case "state":
-        newErrors.state = !validateState(value)
-          ? "State should be at least 3 characters long."
-          : "";
+        if (value.trim() === "") {
+          newErrors.state = "State cannot be empty.";
+        } else if (/\d/.test(value)) {
+          newErrors.state = "State cannot contain numbers.";
+        } else if (!/^[a-zA-Z\s-]{2,}$/.test(value)) {
+          newErrors.state = "State should be at least 3 characters long.";
+        } else {
+          newErrors.state = "";
+        }
         break;
       case "city":
-        newErrors.city = !validateCity(value)
-          ? "City should be at least 3 characters long."
-          : "";
+        if (value.trim() === "") {
+          newErrors.city = "City cannot be empty.";
+        } else if (/\d/.test(value)) {
+          newErrors.city = "City cannot contain numbers.";
+        } else if (!/^[a-zA-Z\s-]{3,}$/.test(value)) {
+          newErrors.city = "City should be at least 3 characters long.";
+        } else {
+          newErrors.city = "";
+        }
         break;
       case "zipcode":
         newErrors.zipcode = !validateZipcode(value)

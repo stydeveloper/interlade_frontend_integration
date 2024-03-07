@@ -46,41 +46,44 @@ export function ShipperInfo({
         }
         break;
       case "shipperAddress":
-        if (value === "") {
-          newErrors.shipperAddress = ""; // Clear the error if the field is empty
-        } else if (!value || value.length < 5) {
+        if (value.trim() === "") {
+          newErrors.shipperAddress = "Address cannot be empty.";
+        } else if (value.length < 5) {
           newErrors.shipperAddress =
             "Address should be at least 5 characters long.";
-        } else if (!/[a-zA-Z]/.test(value)) {
+        } else if (!/[a-zA-Z]/.test(value) && !/\d/.test(value)) {
           newErrors.shipperAddress =
-            "Address should contain at least one alphabet/character.";
+            "Address should contain at least one letter or number.";
         } else {
           newErrors.shipperAddress = ""; // Clear the error if the address is valid
         }
         break;
-      case "shipperCity":
-        if (value === "") {
-          newErrors.shipperCity = ""; // Clear the error if the field is empty
-        } else if (!value || value.length < 3) {
+
+      case "city":
+        if (value.trim() === "") {
+          newErrors.shipperCity = "City cannot be empty.";
+        } else if (/\d/.test(value)) {
+          newErrors.shipperCity = "City cannot contain numbers.";
+        } else if (!/^[a-zA-Z\s-]{3,}$/.test(value)) {
           newErrors.shipperCity = "City should be at least 3 characters long.";
-        } else if (!/^[a-zA-Z]+$/.test(value.trim())) {
-          newErrors.shipperCity = "City should only contain letters.";
         } else {
-          newErrors.shipperCity = ""; // Clear the error if the input is valid
+          newErrors.shipperCity = "";
         }
         break;
+
       case "shipperState":
-        if (value === "") {
-          newErrors.shipperState = ""; // Clear the error if the field is empty
-        } else if (!value || value.length < 3) {
+        if (value.trim() === "") {
+          newErrors.shipperState = "State cannot be empty.";
+        } else if (/\d/.test(value)) {
+          newErrors.shipperState = "State cannot contain numbers.";
+        } else if (!/^[a-zA-Z\s-]{2,}$/.test(value)) {
           newErrors.shipperState =
             "State should be at least 3 characters long.";
-        } else if (!/^[a-zA-Z]+$/.test(value.trim())) {
-          newErrors.shipperState = "State should only contain letters.";
         } else {
-          newErrors.shipperState = ""; // Clear the error if the input is valid
+          newErrors.shipperState = "";
         }
         break;
+
       case "shipperZipcode":
         if (value === "") {
           newErrors.shipperZipcode = ""; // Clear the error if the field is empty
