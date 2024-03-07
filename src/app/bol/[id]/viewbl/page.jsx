@@ -32,13 +32,19 @@ const ViewBl = ({ params }) => {
   useEffect(() => {
     if (params.id && loggedInUser?.id) {
       // Only fetch data if both params.id and loggedInUser.id are present
-
       refetchBolData();
       refetchBolVersionData();
       refetchBolVersionConsigneeData();
       refetchBolImagesData();
     }
-  }, [params.id, loggedInUser, consigneeId]);
+  }, [
+    params.id,
+    loggedInUser,
+    refetchBolData,
+    refetchBolImagesData,
+    refetchBolVersionConsigneeData,
+    refetchBolVersionData,
+  ]);
   const {
     loading: bolLoading,
     error: bolError,
