@@ -14,6 +14,7 @@ import { GETBOL_BYID } from "@/fetching/queries/bol";
 import { useQuery } from "@apollo/client";
 import Cookies from "js-cookie";
 import BackBtn from "../../../../../public/images/arrow-92-48.png";
+import { GET_BOLIMAGES_BY_BOLID } from "@/fetching/queries/bol_images";
 
 import {
   GET_BOL_VERSION_BYIDS,
@@ -32,10 +33,10 @@ const ViewBl = ({ params }) => {
     if (params.id && loggedInUser?.id) {
       // Only fetch data if both params.id and loggedInUser.id are present
 
-      console.log("in useEffect");
       refetchBolData();
       refetchBolVersionData();
       refetchBolVersionConsigneeData();
+      refetchBolImagesData();
     }
   }, [params.id, loggedInUser, consigneeId]);
   const {
@@ -48,6 +49,24 @@ const ViewBl = ({ params }) => {
     variables: { getBolId: `${params.id}` },
     skip: !params.id || !loggedInUser?.id, // Skip query if params.id or loggedInUser.id is not present
   });
+
+  const {
+    loading: bolImagesLoading,
+    error: bolImagesError,
+    data: bolImagesData,
+
+    refetch: refetchBolImagesData,
+  } = useQuery(GET_BOLIMAGES_BY_BOLID, {
+    variables: { bolId: `${params.id}` },
+    skip: !params.id, // Skip query if params.id or loggedInUser.id is not present
+  });
+
+  let hasDriverUploadedImage;
+
+  if (bolImagesData && !bolImagesLoading) {
+    hasDriverUploadedImage = bolImagesData.getBolImagesByBolId.length > 0;
+    console.log("hasDriverUploadedImage", hasDriverUploadedImage);
+  }
 
   const {
     loading: bolVersionLoading,
@@ -70,6 +89,8 @@ const ViewBl = ({ params }) => {
     consigneeId = bolData?.getBol?.consignee_id?.id;
     bolStatus = bolData?.getBol?.status;
 
+    console.log("bolStatus", bolStatus !== "AT_PICKUP");
+
     IsCarrierAsDriver =
       associatedCarrierIdToBol === driverId && driverId === loggedInUser.id;
   }
@@ -89,8 +110,6 @@ const ViewBl = ({ params }) => {
 
   if (BolVersionConsigneeData && !bolVersionConsigneeLoading) {
     const bolVersions = BolVersionConsigneeData.getBolVersionByUserId;
-    console.log(bolVersions);
-    console.log("consigneeId", consigneeId);
 
     if (bolVersions) {
       // If data is not null, iterate through each object
@@ -105,13 +124,11 @@ const ViewBl = ({ params }) => {
         }
       }
     }
-
-    // Log the result
-    console.log("Has Signature:", hasConsigneeSignature);
   }
 
   if (!bolVersionLoading && BolVersionData) {
     hasAlreadySigned = BolVersionData.getBolVersionsByIDs;
+    console.log("hasAlreadySigned", hasAlreadySigned);
   }
 
   // Determine if the Sign As Consignee button should be disabled
@@ -119,9 +136,8 @@ const ViewBl = ({ params }) => {
     (loggedInUser?.role_id.id === "4" && hasAlreadySigned !== null) || // Condition 1
     (loggedInUser?.role_id.id === "1" &&
       !hasConsigneeSignature &&
-      bolStatus === "DELIVERED");
-
-  console.log("hasConsigneeSignature", hasConsigneeSignature);
+      hasDriverUploadedImage &&
+      (bolStatus !== "AT_DROPOFF" || bolStatus !== "DELIVERED"));
 
   // Function to open modal
   const openModal = () => {
@@ -176,17 +192,26 @@ const ViewBl = ({ params }) => {
         {((loggedInUser?.role_id.id == "1" && IsCarrierAsDriver) ||
           loggedInUser?.role_id.id == "4") && (
           <div className="w-full flex gap-2 justify-end">
+            {console.log(
+              "disable",
+
+              !hasDriverUploadedImage && bolStatus !== "IN_TRANSIT"
+            )}
             <button
               className="bg-linkBlue text-white py-4 px-2 rounded-md"
               onClick={openModal}
-              disabled={hasAlreadySigned !== null}
+              disabled={
+                !hasAlreadySigned !== null &&
+                !hasDriverUploadedImage &&
+                bolStatus !== "IN_TRANSIT"
+              }
             >
               Sign As Driver
             </button>
             <button
               className="bg-linkBlue text-white py-4 px-2 rounded-md"
               onClick={openModal}
-              disabled={disableSignAsConsignee}
+              // disabled={disableSignAsConsignee}
             >
               Sign As Consignee
             </button>

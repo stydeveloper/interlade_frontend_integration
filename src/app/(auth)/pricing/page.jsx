@@ -79,6 +79,7 @@ export function PriceCard({
         state,
         address,
         zipcode,
+        termsacknowledged,
         ...user
       } = response?.data?.registerCarrier;
 
@@ -102,6 +103,7 @@ export function PriceCard({
 
         Cookies.set("user", JSON.stringify(user));
         Cookies.set("isAuthenticated", true);
+        Cookies.set("termsAcknowledged", termsacknowledged);
       }
       router.push(response?.data?.registerCarrier?.checkoutUrl);
     }

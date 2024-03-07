@@ -274,7 +274,7 @@ const Page = ({ params }) => {
             {role &&
               role === "2" &&
               currentBol &&
-              currentBol?.status === "IN_TRANSIT" &&
+              currentBol?.status === "AT_PICKUP" &&
               !isDriverIsAssigned && (
                 <button
                   onClick={() => setCancelModal(true)}
@@ -332,7 +332,7 @@ const Page = ({ params }) => {
                   Current "Location"
                 </h3>
                 {/* based on most recent B/L agent in the action data*/}
-
+                {console.log("last user ==", lastUser)}
                 <CurrentBoLLocation
                   data={mockActionData}
                   lastUser={lastUser}
@@ -408,7 +408,7 @@ const Page = ({ params }) => {
           isOpen={inviteOpen}
           onClose={() => setInviteOpen(false)}
           callStatus={true}
-          id={params.id}
+          id={params?.id}
           refetch={refetch}
           bolDataRefetch={bolDataRefetch}
           bolImagesRefetch={bolImagesRefetch}
