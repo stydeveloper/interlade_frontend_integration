@@ -153,6 +153,7 @@ export default function Page() {
           // Validate shipper info fields
 
           isValid =
+            validateName(data.shipperName) &&
             validatePhoneNumber(data.shipperNumber) &&
             validateAddress(data.shipperAddress) &&
             validateCity(data.shipperCity) &&

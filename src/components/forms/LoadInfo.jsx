@@ -105,7 +105,7 @@ export function LoadInfo({
       case "unOrNaNumber":
         if (value === "") {
           newErrors.unOrNaNumber = ""; // Clear the error if the field is empty
-        } else if (!value || value.length < 4) {
+        } else if (!value || value.length < 4 || value.length > 6) {
           newErrors.unOrNaNumber =
             "UN or NA Number must be between 4 to 6 digits.";
         } else if (!/^\d{4,6}$/.test(value.trim())) {

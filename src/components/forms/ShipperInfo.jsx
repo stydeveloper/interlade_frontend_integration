@@ -20,6 +20,7 @@ export function ShipperInfo({
   update,
 }) {
   const [formErrors, setFormErrors] = useState({
+    shipperName: "",
     shipperNumber: "",
     shipperAddress: "",
     shipperCity: "",
@@ -33,6 +34,12 @@ export function ShipperInfo({
     // Validate input dynamically
     const newErrors = { ...formErrors };
     switch (field) {
+      case "shipperName":
+        newErrors.shipperName =
+          !value || value.length < 3
+            ? "Name must be at least 3 characters long"
+            : "";
+        break;
       case "shipperNumber":
         if (value === "") {
           newErrors.shipperNumber = ""; // Clear the error if the field is empty
@@ -126,10 +133,14 @@ export function ShipperInfo({
           required
           type="text"
           value={shipperName}
-          // onChange={(e) => handleInputChange(e, "shipperName")}
+          onChange={(e) => handleInputChange(e, "shipperName")}
           className="px-2 rounded-md"
-          readOnly
         />
+        {formErrors.shipperName && (
+          <p className="text-cancelRed text-xs  ml-1">
+            {formErrors.shipperName}
+          </p>
+        )}
       </div>
       <label>Shipper Number:</label>
       <div className="flex flex-col gap-1">

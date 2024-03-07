@@ -242,9 +242,7 @@ const Page = ({ params }) => {
             currentBol &&
             role === "1" &&
             IsCarrierAsDriver &&
-            (currentBol.status === "IN_TRANSIT" ||
-              currentBol.status === "AT_DROPOFF" ||
-              currentBol.status === "AT_PICKUP") &&
+            currentBol.status !== "CANCELLED" &&
             isDriverIsAssigned && (
               <DocumentBtn
                 srcImg={UploadImageIcon}
@@ -252,6 +250,7 @@ const Page = ({ params }) => {
                 actionFunc={handleUploadImage}
               />
             )}
+
           {/* Only Display the below if the BL doesn't have an assigned driver AND if the Role is Carrier */}
           {/* use whatever api sends bl to driver */}
           {/* commented send button  */}

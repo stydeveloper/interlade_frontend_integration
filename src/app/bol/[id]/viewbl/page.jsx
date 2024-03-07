@@ -189,7 +189,9 @@ const ViewBl = ({ params }) => {
       </div>
       <div className="bg-hoverGray gap-2 flex flex-col items-center justify-center py-4 ml-80 px-4">
         {/* params.id.blImage */}
-        {((loggedInUser?.role_id.id == "1" && IsCarrierAsDriver) ||
+        {((loggedInUser?.role_id.id == "1" &&
+          IsCarrierAsDriver &&
+          bolStatus !== "CANCELLED") ||
           loggedInUser?.role_id.id == "4") && (
           <div className="w-full flex gap-2 justify-end">
             {console.log(
