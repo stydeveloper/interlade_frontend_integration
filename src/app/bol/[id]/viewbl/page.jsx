@@ -127,7 +127,8 @@ const ViewBl = ({ params }) => {
   }
 
   if (!bolVersionLoading && BolVersionData) {
-    hasAlreadySigned = BolVersionData.getBolVersionsByIDs;
+    hasAlreadySigned =
+      BolVersionData.getBolVersionsByIDs === null ? false : true;
     console.log("hasAlreadySigned", hasAlreadySigned);
   }
 
