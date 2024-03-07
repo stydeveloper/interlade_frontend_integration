@@ -83,7 +83,7 @@ export default function Page() {
   ] = useMutation(CREATE_BOL_MUTATION);
   const userInfo = Cookies.get("user");
 
-  const parsedUserInfo = userCookie ? JSON.parse(userInfo) : null;
+  const parsedUserInfo = userInfo ? JSON.parse(userInfo) : null;
 
   const {
     data: userData,
