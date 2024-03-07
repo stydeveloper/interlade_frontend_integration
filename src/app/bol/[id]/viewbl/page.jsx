@@ -204,7 +204,7 @@ const ViewBl = ({ params }) => {
               className="bg-linkBlue text-white py-4 px-2 rounded-md"
               onClick={openModal}
               disabled={
-                !hasAlreadySigned !== null &&
+                !hasAlreadySigned &&
                 !hasDriverUploadedImage &&
                 bolStatus !== "IN_TRANSIT"
               }

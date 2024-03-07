@@ -39,14 +39,21 @@ const CompletedBoLs = () => {
         </h1>
         {/* <Table type="complete" tableData={completeMockData} /> */}
         {/* carrier view */}
-        {allBols && allBols.length > 0 && search && (
+        {/* {allBols && allBols.length > 0 && search && (
           <Table
             type={`${search}`}
             tableData={carrierCompleteMockData}
             allBols={allBols}
             heightClass="h-[90%]"
           />
-        )}
+        )} */}
+
+        <Table
+          type={`${search}`}
+          tableData={carrierCompleteMockData}
+          allBols={allBols}
+          heightClass="h-[90%]"
+        />
       </div>
     </div>
   );

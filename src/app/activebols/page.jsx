@@ -39,14 +39,21 @@ const ActiveBoLs = () => {
         <h1 className="underline text-2xl font-semibold flex items-center h-[10%] ">
           Active B/Ls
         </h1>
-        {allBols && allBols.length > 0 && search && (
+        {/* {allBols && allBols.length > 0 && search && (
           <Table
             type={`${search}`}
             tableData={carrierActiveMockData}
             allBols={allBols}
             heightClass="h-[90%]"
           />
-        )}
+        )} */}
+
+        <Table
+          type={`${search}`}
+          tableData={carrierActiveMockData}
+          allBols={allBols}
+          heightClass="h-[90%]"
+        />
       </div>
     </div>
   );

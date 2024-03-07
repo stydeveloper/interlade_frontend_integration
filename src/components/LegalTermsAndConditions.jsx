@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { UPDATE_USER } from "@/fetching/mutations/user";
 import { useMutation } from "@apollo/client";
+import { toast } from "react-toastify";
 
 // const [loginUser, { loading }] = useMutation(LOGIN_USER_MUTATION);
 
@@ -13,9 +14,24 @@ import { useMutation } from "@apollo/client";
 
 function LegalTermsAndConditions({ isOpen, onClose }) {
   const [agreed, setAgreed] = useState(false);
+  const [disable, setDisabled] = useState(false);
   const [UpdateUser] = useMutation(UPDATE_USER);
 
   const handleSubmit = async () => {
+    if (!agreed) {
+      toast.error(
+        "Please check the Terms and Condition box if you want to proceed.",
+        {
+          position: "top-right",
+        }
+      );
+
+      setDisabled(true);
+      setTimeout(() => {
+        setDisabled(false);
+      }, 6000);
+      return;
+    }
     if (agreed) {
       console.log("running close");
       await UpdateUser({
@@ -29,10 +45,10 @@ function LegalTermsAndConditions({ isOpen, onClose }) {
 
   return (
     isOpen && (
-      <div className="fixed inset-0 z-30 flex items-center justify-center bg-black bg-opacity-70   ">
-        <div className="relative  flex flex-col bg-black text-white py-2 px-4 border-2 border-gray rounded-md mx-12 mt-10">
-          <div className=" flex items-center w-full h-full">
-            <div className=" w-full h-full">
+      <div className="fixed  inset-0 z-30 flex items-center justify-center bg-black bg-opacity-90   ">
+        <div className="relative  flex flex-col bg-black text-white py-2 px-4 border-2 h-[87%] border-hoverGray rounded-md mx-12 mt-14">
+          <div className=" flex items-center w-full h-full ">
+            <div className=" w-full h-full mb-3">
               <h1 className="text-2xl font-semibold my-2">
                 Terms and Conditions
               </h1>
@@ -65,27 +81,29 @@ function LegalTermsAndConditions({ isOpen, onClose }) {
                   accepting the transfers as if the Electronic Bill of Lading
                   was a paper bill of lading.
                 </p>
-                <strong className="flex justify-center border-2 mt-12">
+                <strong className="flex justify-center border-2 ">
                   In order to continue using Interlade these terms must be
                   accepted.
                 </strong>
               </div>
-              <div className="h-[2px] bg-white my-6"></div>
-              <div>
+              <div className="h-[2px] bg-white my-2"></div>
+              <div className="flex items-center ">
                 <input
                   type="checkbox"
                   id="agree"
                   name="agree"
                   checked={agreed}
                   onChange={() => setAgreed(!agreed)}
+                  className="w-4 h-4 cursor-pointer"
                 />
-                <label htmlFor="agree" className="ml-2 text-lg">
+                <label htmlFor="agree" className="ml-2 text-base">
                   I Agree to the Terms and Conditions
                 </label>
               </div>
               <button
                 onClick={handleSubmit}
-                className="bg-gray-400 hover:border-slate-950 border-2 rounded-md px-4 py-2 mt-4 text-black"
+                className="bg-blue-600 hover:bg-blue-800 border-2 rounded-md  px-4 py-2 mt-4 text-white"
+                disabled={disable}
               >
                 Submit
               </button>

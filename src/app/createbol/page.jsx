@@ -11,7 +11,7 @@ import { PaymentInfo } from "@/components/forms/PaymentInfo";
 import { ReviewInfo } from "@/components/forms/ReviewInfo";
 import { useEffect, useState } from "react";
 import SidePanel from "@/components/SidePanel";
-import { useMutation, gql } from "@apollo/client";
+import { useMutation, gql, useQuery } from "@apollo/client";
 import { toast } from "react-toastify";
 import { Spin } from "antd";
 import { CREATE_BOL_MUTATION } from "@/fetching/mutations/bol";
@@ -35,6 +35,7 @@ import {
   validateUnNaNumber,
   validateString,
 } from "@/utils/bol-validation";
+import { GET_USER_BY_EMAIL } from "@/fetching/queries/user";
 
 const initialData = {
   shipperEmail: "",
@@ -80,6 +81,19 @@ export default function Page() {
     createBol,
     { data: mutationData, loading: mutationLoading, error: mutationError },
   ] = useMutation(CREATE_BOL_MUTATION);
+  const userInfo = Cookies.get("user");
+  const parsedUserInfo = JSON.parse(userInfo);
+
+  const {
+    data: userData,
+    loading: userDataLoading,
+    error: userDataError,
+  } = useQuery(GET_USER_BY_EMAIL, {
+    variables: {
+      email: parsedUserInfo?.email,
+    },
+    skip: !parsedUserInfo,
+  });
 
   const [loading, setLoading] = useState(false);
 
@@ -93,26 +107,42 @@ export default function Page() {
 
   useEffect(() => {
     // Check cookies for the user information
-    const userInfo = Cookies.get("user");
+    // const userInfo = Cookies.get("user");
 
-    if (userInfo) {
+    // if (userInfo) {
+    //   // Parse the user information
+    //   const parsedUserInfo = JSON.parse(userInfo);
+    //   console.log("parsedUserInfo", parsedUserInfo);
+
+    //   // Update data state with shipper information from userInfo
+    //   setData((prevData) => ({
+    //     ...prevData,
+    //     shipperEmail: parsedUserInfo.email || "",
+    //     shipperName: parsedUserInfo.name || "",
+    //     shipperNumber: parsedUserInfo.number || "",
+    //     shipperAddress: parsedUserInfo.address || "",
+    //     shipperCity: parsedUserInfo.city || "",
+    //     shipperState: parsedUserInfo.state || "",
+    //     shipperZipcode: parsedUserInfo.zipcode || "",
+    //   }));
+    // }
+
+    if (userData) {
       // Parse the user information
-      const parsedUserInfo = JSON.parse(userInfo);
-      console.log("parsedUserInfo", parsedUserInfo);
 
       // Update data state with shipper information from userInfo
       setData((prevData) => ({
         ...prevData,
-        shipperEmail: parsedUserInfo.email || "",
-        shipperName: parsedUserInfo.name || "",
-        shipperNumber: parsedUserInfo.number || "",
-        shipperAddress: parsedUserInfo.address || "",
-        shipperCity: parsedUserInfo.city || "",
-        shipperState: parsedUserInfo.state || "",
-        shipperZipcode: parsedUserInfo.zipcode || "",
+        shipperEmail: userData?.getUserByEmail?.email || "",
+        shipperName: userData?.getUserByEmail?.name || "",
+        shipperNumber: userData?.getUserByEmail?.number || "",
+        shipperAddress: userData?.getUserByEmail?.address || "",
+        shipperCity: userData?.getUserByEmail?.city || "",
+        shipperState: userData?.getUserByEmail?.state || "",
+        shipperZipcode: userData?.getUserByEmail?.zipcode || "",
       }));
     }
-  }, []);
+  }, [userData]);
 
   const {
     step,
@@ -348,9 +378,12 @@ export default function Page() {
       }
 
       console.log("BOL Created", response.data.createBol);
-      setData(initialData);
     } catch (error) {
-      console.log("Console.log Error", error);
+      if (error instanceof Error) {
+        toast.error(error.message, { position: "top-right" });
+      } else {
+        toast.error("An unknown error occurred", { position: "top-right" });
+      }
       // Handle the error appropriately
     } finally {
       setLoading(false);
