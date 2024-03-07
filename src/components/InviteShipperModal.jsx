@@ -71,7 +71,7 @@ function InviteShipperModal({ isOpen, onClose }) {
         }, 5000);
         setTimeout(() => {
           onClose();
-        }, 1500);
+        }, 6000);
       }
     } catch (error) {
       // Check if error is an instance of Error and then access its message property
