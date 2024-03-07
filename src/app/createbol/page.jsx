@@ -348,6 +348,7 @@ export default function Page() {
       }
 
       console.log("BOL Created", response.data.createBol);
+      setData(initialData);
     } catch (error) {
       console.log("Console.log Error", error);
       // Handle the error appropriately
