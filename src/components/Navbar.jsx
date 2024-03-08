@@ -41,8 +41,9 @@ const Navbar = () => {
     });
 
     socket.on("message", (data) => {
-      setMessages((prevMessages) => [...prevMessages, data]);
-      setUnreadCount((prevCount) => prevCount + 1);
+      console.log(data);
+      // setMessages((prevMessages) => [...prevMessages, data]);
+      // setUnreadCount((prevCount) => prevCount + 1);
     });
 
     socket.on("userSubscriptionStatusUpdate", (data) => {
