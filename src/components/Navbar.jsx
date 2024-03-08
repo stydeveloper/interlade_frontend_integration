@@ -54,7 +54,7 @@ const Navbar = () => {
   const [deleteSingle] = useMutation(DELETE_SINGLE);
   const [deleteAll] = useMutation(DELETE_ALL_NOTIFICATIONS);
 
-  if (!allNotificationsLoading && allNotificationsData) {
+  if (!allNotificationsLoading && allNotificationsRefetch) {
     allNotificationsRefetchFunction = allNotificationsRefetch;
   }
 
@@ -65,25 +65,18 @@ const Navbar = () => {
   useEffect(() => {
     if (allNotificationsData) {
       // Set notifications to the state
+      console.log("kkkkkkkkkkkkkkkkkkkkkkkk");
       setMessages(allNotificationsData?.getAllNotifications);
-
-      // Calculate and set the unread count
-      // const unreadCount = allNotificationsData.getAllNotifications.filter(
-      //   (notification) => !notification.is_read
-      // ).length;
-      // setUnreadCount(unreadCount);
     }
 
     if (unreadCountData) {
+      console.log(
+        "unreadCountData?.getUnreadCount",
+        unreadCountData?.getUnreadCount
+      );
       setUnreadCount(unreadCountData?.getUnreadCount);
     }
-  }, [
-    allNotificationsData,
-    allNotificationsLoading,
-    unreadCountData,
-    unreadCountLoading,
-    email,
-  ]);
+  }, [unreadCountData, allNotificationsData]);
 
   // useEffect(() => {
   //   const user = Cookies.get("user");
@@ -115,27 +108,36 @@ const Navbar = () => {
       rejectUnauthorized: false,
     });
 
-    socket.on("message", (data) => {
-      console.log(data);
-      // setMessages((prevMessages) => [...prevMessages, data]);
-      // setUnreadCount((prevCount) => prevCount + 1);
-    });
+    // socket.on("message", (data) => {
+    //   console.log(data);
 
-    socket.on("userSubscriptionStatusUpdate", (data) => {
-      setMessages((prevMessages) => [...prevMessages, data.message]);
-      setUnreadCount((prevCount) => prevCount + 1);
-    });
+    // });
+
+    // socket.on("userSubscriptionStatusUpdate", (data) => {
+    //   setMessages((prevMessages) => [...prevMessages, data.message]);
+    //   setUnreadCount((prevCount) => prevCount + 1);
+    // });
 
     if (email) {
+      console.log("email hai bhai");
       socket.on(`bolStatusUpdate-${email}`, (data) => {
-        console.log(data);
+        // Update messages state with the new notification
+
+        // Update unreadCount state
+        // setUnreadCount((prevCount) => prevCount + 1);
+
+        allNotificationsRefetch();
+        // setMessages(allNotificationsData?.getAllNotifications);
+
+        unreadCountRefetch();
+        // setUnreadCount(unreadCountData?.getUnreadCount);
       });
     }
 
-    socket.on("invitationStatusUpdate", (data) => {
-      setMessages((prevMessages) => [...prevMessages, data.message]);
-      setUnreadCount((prevCount) => prevCount + 1);
-    });
+    // socket.on("invitationStatusUpdate", (data) => {
+    //   setMessages((prevMessages) => [...prevMessages, data.message]);
+    //   setUnreadCount((prevCount) => prevCount + 1);
+    // });
 
     return () => {
       socket.disconnect();
