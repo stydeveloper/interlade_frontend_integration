@@ -21,6 +21,7 @@ const NotificationPanel = ({
   onClose,
   onClearAll,
   onRemoveMessage,
+  setMessages,
 }) => {
   useEffect(() => {
     const { messages: storedMessages } = getNotificationDataFromCookies();

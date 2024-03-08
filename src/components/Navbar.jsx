@@ -135,6 +135,7 @@ const Navbar = () => {
           onClose={() => setNotificationOpen(false)}
           onRemoveMessage={handleRemoveMessage}
           onClearAll={handleClearAll}
+          setMessages={setMessages}
         />
       )}
     </>
