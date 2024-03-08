@@ -1,4 +1,3 @@
-"use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,20 +15,11 @@ const Navbar = () => {
   const [messages, setMessages] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
 
-  // // Mock notification messages
-  // const notificationMessages = [
-  //   "Notification 1",
-  //   "Notification 2",
-  //   "Notification 3",
-  //   // Add more notification messages as needed
-  // ];
-
   useEffect(() => {
     const user = Cookies.get("user");
     const loggedInUserEmail = user ? JSON.parse(user) : null;
-    console.log(loggedInUserEmail?.email);
     setEmail(loggedInUserEmail?.email);
-  }, [email]);
+  }, []);
 
   useEffect(() => {
     const socket = io("https://api.interlade.com", {
@@ -39,55 +29,35 @@ const Navbar = () => {
       rejectUnauthorized: false,
     });
 
-    console.log("useEffect running");
-
     socket.on("message", (data) => {
-      // Update message list with the received message
       setMessages((prevMessages) => [...prevMessages, data]);
-      // Increment unread message count
       setUnreadCount((prevCount) => prevCount + 1);
     });
 
     socket.on("userSubscriptionStatusUpdate", (data) => {
-      // Update your component state or perform any other action
-      console.log(data);
-      // For example, you can set a specific message for this event
       setMessages((prevMessages) => [...prevMessages, data.message]);
-      // Increment unread message count if needed
       setUnreadCount((prevCount) => prevCount + 1);
     });
 
     if (email) {
-      console.log(`hello listening to email :bolStatusUpdate-${email}`);
       socket.on(`bolStatusUpdate-${email}`, (data) => {
-        // Update your component state or perform any other action
-        console.log(data);
-        // For example, you can set a specific message for this event
         setMessages((prevMessages) => [...prevMessages, data.message]);
-        // Increment unread message count if needed
         setUnreadCount((prevCount) => prevCount + 1);
       });
     }
 
     socket.on("invitationStatusUpdate", (data) => {
-      // Update your component state or perform any other action
-      console.log(data);
-      // For example, you can set a specific message for this event
       setMessages((prevMessages) => [...prevMessages, data.message]);
-      // Increment unread message count if needed
       setUnreadCount((prevCount) => prevCount + 1);
     });
 
-    // Clean up the socket connection when the component unmounts
     return () => {
       socket.disconnect();
     };
   }, [email]);
 
   const handleNotificationClick = () => {
-    // Toggle notification panel visibility
     setNotificationOpen((prevOpen) => !prevOpen);
-    // Reset unread message count when opening the notification panel
     setUnreadCount(0);
   };
 
