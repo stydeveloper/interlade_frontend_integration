@@ -16,6 +16,10 @@ import { toast } from "react-toastify";
 import { Spin } from "antd";
 import { CREATE_BOL_MUTATION } from "@/fetching/mutations/bol";
 import "react-toastify/dist/ReactToastify.css";
+import {
+  allNotificationsRefetchFunction,
+  unreadCountRefetchFunction,
+} from "@/components/Navbar";
 
 import Cookies from "js-cookie"; // Import js-cookie library
 import {
@@ -375,6 +379,10 @@ export default function Page() {
       if (response?.data?.createBol) {
         console.log("in bol created succesffuly");
         toast.success("bol created successfully!", { position: "top-right" });
+
+        allNotificationsRefetchFunction();
+        unreadCountRefetchFunction();
+
         router.push("/");
       }
 

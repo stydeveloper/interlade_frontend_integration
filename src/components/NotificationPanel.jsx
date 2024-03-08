@@ -1,17 +1,15 @@
 // import { useEffect } from "react";
 
-import {
-  setNotificationDataToCookies,
-  removeNotificationDataFromCookies,
-} from "@/utils/notificationUtils";
+// import {
+//   setNotificationDataToCookies,
+//   removeNotificationDataFromCookies,
+// } from "@/utils/notificationUtils";
 
 const NotificationPanel = ({
   messages,
   onClose,
   onClearAll,
   onRemoveMessage,
-  setMessages,
-  email,
 }) => {
   // useEffect(() => {
   //   const { messages: storedMessages } = getNotificationDataFromCookies();
@@ -24,19 +22,11 @@ const NotificationPanel = ({
   // }, []);
 
   const handleRemoveMessage = (index) => {
-    const updatedMessages = [...messages];
-    updatedMessages.splice(index, 1);
-    setMessages(updatedMessages);
-    setNotificationDataToCookies(email, { messages: updatedMessages });
     onRemoveMessage(index);
   };
 
   const handleClearAll = () => {
-    setMessages([]);
-    removeNotificationDataFromCookies();
     onClearAll();
-    // Update cookies when clearing all notifications
-    setNotificationDataToCookies(email, { messages: [] });
   };
 
   return (
@@ -50,9 +40,9 @@ const NotificationPanel = ({
           <li
             key={index}
             className="hover:bg-slate-300 p-2 cursor-pointer"
-            onClick={() => handleRemoveMessage(index)}
+            onClick={() => handleRemoveMessage(message.id)}
           >
-            {message}
+            {message?.message}
           </li>
         ))}
       </ul>

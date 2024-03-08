@@ -6,12 +6,26 @@ import NavProfileModal from "./NavProfileModal";
 import NotificationPanel from "./NotificationPanel";
 import { io } from "socket.io-client";
 import Cookies from "js-cookie";
+import { useQuery, useMutation } from "@apollo/client";
+import {
+  GET_ALL_NOTIFICATIONS,
+  GET_UNREAD_COUNT,
+} from "@/fetching/queries/notifications";
+
 import {
   setNotificationDataToCookies,
   getUnreadCountFromCookies,
   setUnreadCountToCookies,
   getNotificationDataFromCookies,
 } from "@/utils/notificationUtils";
+import {
+  MARK_ALL_AS_READ,
+  DELETE_ALL_NOTIFICATIONS,
+  DELETE_SINGLE,
+} from "@/fetching/mutations/notifications";
+
+let allNotificationsRefetchFunction;
+let unreadCountRefetchFunction;
 
 const Navbar = () => {
   const [supportOpen, setSupportOpen] = useState(false);
@@ -20,28 +34,78 @@ const Navbar = () => {
   const [email, setEmail] = useState("");
   const [messages, setMessages] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
-
   useEffect(() => {
     const user = Cookies.get("user");
     const loggedInUserEmail = user ? JSON.parse(user) : null;
     setEmail(loggedInUserEmail?.email);
-
-    // Retrieve notification data from cookies on mount
-    const { messages: storedMessages } = getNotificationDataFromCookies(email);
-    console.log("ak47", storedMessages);
-    if (storedMessages.length > 0) {
-      console.log("ak57", storedMessages);
-
-      setMessages(storedMessages);
-      setUnreadCount(storedMessages.length);
-    }
-
-    // Retrieve unread count from cookies on mount
-    const storedUnreadCount = getUnreadCountFromCookies();
-    if (storedUnreadCount >= 0) {
-      setUnreadCount(storedUnreadCount);
-    }
   }, []);
+  const {
+    data: allNotificationsData,
+    loading: allNotificationsLoading,
+    refetch: allNotificationsRefetch,
+  } = useQuery(GET_ALL_NOTIFICATIONS);
+  const {
+    data: unreadCountData,
+    loading: unreadCountLoading,
+    refetch: unreadCountRefetch,
+  } = useQuery(GET_UNREAD_COUNT);
+
+  const [markAllAsRead] = useMutation(MARK_ALL_AS_READ);
+  const [deleteSingle] = useMutation(DELETE_SINGLE);
+  const [deleteAll] = useMutation(DELETE_ALL_NOTIFICATIONS);
+
+  if (!allNotificationsLoading && allNotificationsData) {
+    allNotificationsRefetchFunction = allNotificationsRefetch;
+  }
+
+  if (!unreadCountLoading && unreadCountRefetch) {
+    unreadCountRefetchFunction = unreadCountRefetch;
+  }
+
+  useEffect(() => {
+    if (allNotificationsData) {
+      // Set notifications to the state
+      setMessages(allNotificationsData?.getAllNotifications);
+
+      // Calculate and set the unread count
+      // const unreadCount = allNotificationsData.getAllNotifications.filter(
+      //   (notification) => !notification.is_read
+      // ).length;
+      // setUnreadCount(unreadCount);
+    }
+
+    if (unreadCountData) {
+      setUnreadCount(unreadCountData?.getUnreadCount);
+    }
+  }, [
+    allNotificationsData,
+    allNotificationsLoading,
+    unreadCountData,
+    unreadCountLoading,
+    email,
+  ]);
+
+  // useEffect(() => {
+  //   const user = Cookies.get("user");
+  //   const loggedInUserEmail = user ? JSON.parse(user) : null;
+  //   setEmail(loggedInUserEmail?.email);
+
+  //   // Retrieve notification data from cookies on mount
+  //   const { messages: storedMessages } = getNotificationDataFromCookies(email);
+  //   console.log("ak47", storedMessages);
+  //   if (storedMessages.length > 0) {
+  //     console.log("ak57", storedMessages);
+
+  //     setMessages(storedMessages);
+  //     setUnreadCount(storedMessages.length);
+  //   }
+
+  //   // Retrieve unread count from cookies on mount
+  //   const storedUnreadCount = getUnreadCountFromCookies();
+  //   if (storedUnreadCount >= 0) {
+  //     setUnreadCount(storedUnreadCount);
+  //   }
+  // }, []);
 
   useEffect(() => {
     const socket = io("https://api.interlade.com", {
@@ -64,18 +128,7 @@ const Navbar = () => {
 
     if (email) {
       socket.on(`bolStatusUpdate-${email}`, (data) => {
-        setMessages((prevMessages) => {
-          const updatedMessages = [...prevMessages, data.message];
-          setNotificationDataToCookies(email, { messages: updatedMessages });
-          return updatedMessages;
-        });
-        // Increment the unread count when a new message is received
-        setUnreadCount((prevCount) => {
-          const newCount = prevCount + 1;
-          // Update unread count in cookies
-          setUnreadCountToCookies(newCount);
-          return newCount;
-        });
+        console.log(data);
       });
     }
 
@@ -89,39 +142,42 @@ const Navbar = () => {
     };
   }, [email]);
 
-  const handleNotificationClick = () => {
-    setNotificationOpen((prevOpen) => !prevOpen);
-    // Reset unread count only when opening the notification panel
-    if (!notificationOpen) {
-      setUnreadCount(0);
-      setUnreadCountToCookies(0);
+  const handleNotificationClick = async () => {
+    try {
+      setNotificationOpen((prev) => !prev);
+      await markAllAsRead();
+      unreadCountRefetch();
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  const handleRemoveMessage = (index) => {
-    const updatedMessages = [...messages];
-    updatedMessages.splice(index, 1);
-    setMessages(updatedMessages);
-    // Decrement the unread count when removing a message
-    setUnreadCount((prevCount) => Math.max(0, prevCount - 1));
-    // Update unread count in cookies
-    setUnreadCountToCookies(Math.max(0, unreadCount - 1));
+  const handleRemoveMessage = async (id) => {
+    try {
+      await deleteSingle({ variables: { id } });
+      allNotificationsRefetch();
+    } catch (error) {
+      console.log("Error in removing the single message", error);
+    }
+    // const updatedMessages = [...messages];
+    // updatedMessages.splice(index, 1);
+    // setMessages(updatedMessages);
+    // // Decrement the unread count when removing a message
+    // setUnreadCount((prevCount) => Math.max(0, prevCount - 1));
+    // // Update unread count in cookies
+    // setUnreadCountToCookies(Math.max(0, unreadCount - 1));
   };
 
-  const handleClearAll = () => {
-    // Clear all messages
-    setMessages([]);
-    // Reset the unread count to zero
-    setUnreadCount(0);
-    // Clear unread count from cookies
-    setUnreadCountToCookies(0);
+  const handleClearAll = async () => {
+    try {
+      await deleteAll();
+      allNotificationsRefetch();
+    } catch (error) {
+      console.log("error in clearing all messages");
+    }
   };
 
   const handleNotificationClose = () => {
-    // Update notification data in cookies only if the panel was open previously
-    if (notificationOpen) {
-      setNotificationDataToCookies(email, { messages });
-    }
     // Always close the notification panel
     setNotificationOpen(false);
   };
@@ -197,5 +253,7 @@ const Navbar = () => {
     </>
   );
 };
+
+export { allNotificationsRefetchFunction, unreadCountRefetchFunction };
 
 export default Navbar;
