@@ -76,7 +76,7 @@ const Navbar = () => {
       );
       setUnreadCount(unreadCountData?.getUnreadCount);
     }
-  }, [unreadCountData, allNotificationsData]);
+  }, [unreadCountData, allNotificationsData, email]);
 
   // useEffect(() => {
   //   const user = Cookies.get("user");
