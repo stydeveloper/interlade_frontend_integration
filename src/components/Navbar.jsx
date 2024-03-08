@@ -28,7 +28,10 @@ const Navbar = () => {
 
     // Retrieve notification data from cookies on mount
     const { messages: storedMessages } = getNotificationDataFromCookies();
+    console.log("ak47", storedMessages);
     if (storedMessages.length > 0) {
+      console.log("ak57", storedMessages);
+
       setMessages(storedMessages);
       setUnreadCount(storedMessages.length);
     }
