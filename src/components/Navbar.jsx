@@ -63,11 +63,9 @@ const Navbar = () => {
   }
 
   useEffect(() => {
-    if (allNotificationsData) {
-      // Set notifications to the state
-      console.log("kkkkkkkkkkkkkkkkkkkkkkkk");
-      setMessages(allNotificationsData?.getAllNotifications);
-    }
+    // Set notifications to the state
+    console.log("kkkkkkkkkkkkkkkkkkkkkkkk");
+    setMessages(allNotificationsData?.getAllNotifications);
 
     if (unreadCountData) {
       console.log(
