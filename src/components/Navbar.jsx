@@ -63,10 +63,14 @@ const Navbar = () => {
   }
 
   useEffect(() => {
-    // Set notifications to the state
-    console.log("kkkkkkkkkkkkkkkkkkkkkkkk");
-    setMessages(allNotificationsData?.getAllNotifications);
+    if (allNotificationsData) {
+      // Set notifications to the state
+      console.log("kkkkkkkkkkkkkkkkkkkkkkkk");
+      setMessages(allNotificationsData?.getAllNotifications);
+    }
+  }, [allNotificationsData]);
 
+  useEffect(() => {
     if (unreadCountData) {
       console.log(
         "unreadCountData?.getUnreadCount",
@@ -74,7 +78,7 @@ const Navbar = () => {
       );
       setUnreadCount(unreadCountData?.getUnreadCount);
     }
-  }, [unreadCountData, allNotificationsData, email]);
+  }, [unreadCountData]);
 
   // useEffect(() => {
   //   const user = Cookies.get("user");
