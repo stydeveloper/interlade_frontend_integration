@@ -58,7 +58,13 @@ const Navbar = () => {
           setNotificationDataToCookies({ messages: updatedMessages });
           return updatedMessages;
         });
-        setUnreadCount((prevCount) => prevCount + 1);
+        // Increment the unread count when a new message is received
+        setUnreadCount((prevCount) => {
+          const newCount = prevCount + 1;
+          // Update unread count in cookies
+          setUnreadCountToCookies(newCount);
+          return newCount;
+        });
       });
     }
 
