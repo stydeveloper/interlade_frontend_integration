@@ -1,7 +1,6 @@
 // import { useEffect } from "react";
 
 import {
-  getNotificationDataFromCookies,
   setNotificationDataToCookies,
   removeNotificationDataFromCookies,
 } from "@/utils/notificationUtils";
@@ -12,6 +11,7 @@ const NotificationPanel = ({
   onClearAll,
   onRemoveMessage,
   setMessages,
+  email,
 }) => {
   // useEffect(() => {
   //   const { messages: storedMessages } = getNotificationDataFromCookies();
@@ -27,7 +27,7 @@ const NotificationPanel = ({
     const updatedMessages = [...messages];
     updatedMessages.splice(index, 1);
     setMessages(updatedMessages);
-    setNotificationDataToCookies({ messages: updatedMessages });
+    setNotificationDataToCookies(email, { messages: updatedMessages });
     onRemoveMessage(index);
   };
 
@@ -36,7 +36,7 @@ const NotificationPanel = ({
     removeNotificationDataFromCookies();
     onClearAll();
     // Update cookies when clearing all notifications
-    setNotificationDataToCookies({ messages: [] });
+    setNotificationDataToCookies(email, { messages: [] });
   };
 
   return (

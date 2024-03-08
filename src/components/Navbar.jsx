@@ -27,7 +27,7 @@ const Navbar = () => {
     setEmail(loggedInUserEmail?.email);
 
     // Retrieve notification data from cookies on mount
-    const { messages: storedMessages } = getNotificationDataFromCookies();
+    const { messages: storedMessages } = getNotificationDataFromCookies(email);
     console.log("ak47", storedMessages);
     if (storedMessages.length > 0) {
       console.log("ak57", storedMessages);
@@ -66,7 +66,7 @@ const Navbar = () => {
       socket.on(`bolStatusUpdate-${email}`, (data) => {
         setMessages((prevMessages) => {
           const updatedMessages = [...prevMessages, data.message];
-          setNotificationDataToCookies({ messages: updatedMessages });
+          setNotificationDataToCookies(email, { messages: updatedMessages });
           return updatedMessages;
         });
         // Increment the unread count when a new message is received
@@ -120,7 +120,7 @@ const Navbar = () => {
   const handleNotificationClose = () => {
     // Update notification data in cookies only if the panel was open previously
     if (notificationOpen) {
-      setNotificationDataToCookies({ messages });
+      setNotificationDataToCookies(email, { messages });
     }
     // Always close the notification panel
     setNotificationOpen(false);
@@ -191,6 +191,7 @@ const Navbar = () => {
           onRemoveMessage={handleRemoveMessage}
           onClearAll={handleClearAll}
           setMessages={setMessages}
+          email={email}
         />
       )}
     </>
