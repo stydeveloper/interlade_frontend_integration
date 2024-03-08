@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+// import { useEffect } from "react";
 
 import {
   getNotificationDataFromCookies,
@@ -13,12 +13,15 @@ const NotificationPanel = ({
   onRemoveMessage,
   setMessages,
 }) => {
-  useEffect(() => {
-    const { messages: storedMessages } = getNotificationDataFromCookies();
-    if (storedMessages.length > 0) {
-      setMessages(storedMessages);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const { messages: storedMessages } = getNotificationDataFromCookies();
+  //   console.log("ak47", storedMessages);
+  //   if (storedMessages.length > 0) {
+  //     console.log("ak57", storedMessages);
+
+  //     setMessages(storedMessages);
+  //   }
+  // }, []);
 
   const handleRemoveMessage = (index) => {
     const updatedMessages = [...messages];

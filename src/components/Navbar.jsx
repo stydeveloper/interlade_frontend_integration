@@ -10,6 +10,7 @@ import {
   setNotificationDataToCookies,
   getUnreadCountFromCookies,
   setUnreadCountToCookies,
+  getNotificationDataFromCookies,
 } from "@/utils/notificationUtils";
 
 const Navbar = () => {
@@ -24,6 +25,13 @@ const Navbar = () => {
     const user = Cookies.get("user");
     const loggedInUserEmail = user ? JSON.parse(user) : null;
     setEmail(loggedInUserEmail?.email);
+
+    // Retrieve notification data from cookies on mount
+    const { messages: storedMessages } = getNotificationDataFromCookies();
+    if (storedMessages.length > 0) {
+      setMessages(storedMessages);
+      setUnreadCount(storedMessages.length);
+    }
 
     // Retrieve unread count from cookies on mount
     const storedUnreadCount = getUnreadCountFromCookies();
