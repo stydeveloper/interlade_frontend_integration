@@ -7,9 +7,9 @@ import NotificationPanel from "./NotificationPanel";
 import { io } from "socket.io-client";
 import Cookies from "js-cookie";
 import {
-  getNotificationDataFromCookies,
   setNotificationDataToCookies,
-  removeNotificationDataFromCookies,
+  getUnreadCountFromCookies,
+  setUnreadCountToCookies,
 } from "@/utils/notificationUtils";
 
 const Navbar = () => {
@@ -24,6 +24,12 @@ const Navbar = () => {
     const user = Cookies.get("user");
     const loggedInUserEmail = user ? JSON.parse(user) : null;
     setEmail(loggedInUserEmail?.email);
+
+    // Retrieve unread count from cookies on mount
+    const storedUnreadCount = getUnreadCountFromCookies();
+    if (storedUnreadCount >= 0) {
+      setUnreadCount(storedUnreadCount);
+    }
   }, []);
 
   useEffect(() => {
@@ -70,6 +76,7 @@ const Navbar = () => {
     // Reset unread count only when opening the notification panel
     if (!notificationOpen) {
       setUnreadCount(0);
+      setUnreadCountToCookies(0);
     }
   };
 
@@ -79,6 +86,8 @@ const Navbar = () => {
     setMessages(updatedMessages);
     // Decrement the unread count when removing a message
     setUnreadCount((prevCount) => Math.max(0, prevCount - 1));
+    // Update unread count in cookies
+    setUnreadCountToCookies(Math.max(0, unreadCount - 1));
   };
 
   const handleClearAll = () => {
@@ -86,6 +95,8 @@ const Navbar = () => {
     setMessages([]);
     // Reset the unread count to zero
     setUnreadCount(0);
+    // Clear unread count from cookies
+    setUnreadCountToCookies(0);
   };
 
   const handleNotificationClose = () => {

@@ -14,3 +14,16 @@ export const setNotificationDataToCookies = (data) => {
 export const removeNotificationDataFromCookies = () => {
   Cookies.remove(COOKIE_NAME);
 };
+
+export const getUnreadCountFromCookies = () => {
+  const count = Cookies.get("unreadCount");
+  return count ? parseInt(count) : 0;
+};
+
+export const setUnreadCountToCookies = (count) => {
+  Cookies.set("unreadCount", count, { expires: 7 });
+};
+
+export const removeUnreadCountFromCookies = () => {
+  Cookies.remove("unreadCount");
+};
