@@ -44,13 +44,6 @@ const Navbar = () => {
       setUnreadCount((prevCount) => prevCount + 1);
     });
 
-    // if (email) {
-    //   socket.on(`bolStatusUpdate-${email}`, (data) => {
-    //     setMessages((prevMessages) => [...prevMessages, data.message]);
-    //     setUnreadCount((prevCount) => prevCount + 1);
-    //   });
-    // }
-
     if (email) {
       socket.on(`bolStatusUpdate-${email}`, (data) => {
         setMessages((prevMessages) => {
@@ -74,23 +67,34 @@ const Navbar = () => {
 
   const handleNotificationClick = () => {
     setNotificationOpen((prevOpen) => !prevOpen);
-    setUnreadCount(0);
+    // Reset unread count only when opening the notification panel
+    if (!notificationOpen) {
+      setUnreadCount(0);
+    }
   };
 
   const handleRemoveMessage = (index) => {
     const updatedMessages = [...messages];
     updatedMessages.splice(index, 1);
     setMessages(updatedMessages);
+    // Decrement the unread count when removing a message
+    setUnreadCount((prevCount) => Math.max(0, prevCount - 1));
   };
 
   const handleClearAll = () => {
+    // Clear all messages
     setMessages([]);
+    // Reset the unread count to zero
+    setUnreadCount(0);
   };
 
   const handleNotificationClose = () => {
-    // Update the count only when the notification panel is closed
+    // Update notification data in cookies only if the panel was open previously
+    if (notificationOpen) {
+      setNotificationDataToCookies({ messages });
+    }
+    // Always close the notification panel
     setNotificationOpen(false);
-    setUnreadCount(0); // Reset count when the panel is closed
   };
 
   return (
@@ -154,7 +158,6 @@ const Navbar = () => {
       {notificationOpen && (
         <NotificationPanel
           messages={messages}
-          // onClose={() => setNotificationOpen(false)}
           onClose={handleNotificationClose}
           onRemoveMessage={handleRemoveMessage}
           onClearAll={handleClearAll}
