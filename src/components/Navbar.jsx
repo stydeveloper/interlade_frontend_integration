@@ -32,7 +32,7 @@ const Navbar = () => {
   }, [email]);
 
   useEffect(() => {
-    const socket = io("http://3.86.80.67", {
+    const socket = io("https://api.interlade.com", {
       rememberUpgrade: true,
       transports: ["websocket"],
       secure: true,
