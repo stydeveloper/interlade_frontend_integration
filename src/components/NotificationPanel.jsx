@@ -1,20 +1,10 @@
 import { useEffect } from "react";
-import Cookies from "js-cookie";
 
-const COOKIE_NAME = "notification_data";
-
-const getNotificationDataFromCookies = () => {
-  const cookieData = Cookies.get(COOKIE_NAME);
-  return cookieData ? JSON.parse(cookieData) : { messages: [] };
-};
-
-const setNotificationDataToCookies = (data) => {
-  Cookies.set(COOKIE_NAME, JSON.stringify(data));
-};
-
-const removeNotificationDataFromCookies = () => {
-  Cookies.remove(COOKIE_NAME);
-};
+import {
+  getNotificationDataFromCookies,
+  setNotificationDataToCookies,
+  removeNotificationDataFromCookies,
+} from "@/utils/notificationUtils";
 
 const NotificationPanel = ({
   messages,
@@ -42,6 +32,8 @@ const NotificationPanel = ({
     setMessages([]);
     removeNotificationDataFromCookies();
     onClearAll();
+    // Update cookies when clearing all notifications
+    setNotificationDataToCookies({ messages: [] });
   };
 
   return (

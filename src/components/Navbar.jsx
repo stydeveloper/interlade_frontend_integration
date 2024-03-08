@@ -6,6 +6,11 @@ import NavProfileModal from "./NavProfileModal";
 import NotificationPanel from "./NotificationPanel";
 import { io } from "socket.io-client";
 import Cookies from "js-cookie";
+import {
+  getNotificationDataFromCookies,
+  setNotificationDataToCookies,
+  removeNotificationDataFromCookies,
+} from "@/utils/notificationUtils";
 
 const Navbar = () => {
   const [supportOpen, setSupportOpen] = useState(false);
@@ -39,9 +44,20 @@ const Navbar = () => {
       setUnreadCount((prevCount) => prevCount + 1);
     });
 
+    // if (email) {
+    //   socket.on(`bolStatusUpdate-${email}`, (data) => {
+    //     setMessages((prevMessages) => [...prevMessages, data.message]);
+    //     setUnreadCount((prevCount) => prevCount + 1);
+    //   });
+    // }
+
     if (email) {
       socket.on(`bolStatusUpdate-${email}`, (data) => {
-        setMessages((prevMessages) => [...prevMessages, data.message]);
+        setMessages((prevMessages) => {
+          const updatedMessages = [...prevMessages, data.message];
+          setNotificationDataToCookies({ messages: updatedMessages });
+          return updatedMessages;
+        });
         setUnreadCount((prevCount) => prevCount + 1);
       });
     }
@@ -69,6 +85,12 @@ const Navbar = () => {
 
   const handleClearAll = () => {
     setMessages([]);
+  };
+
+  const handleNotificationClose = () => {
+    // Update the count only when the notification panel is closed
+    setNotificationOpen(false);
+    setUnreadCount(0); // Reset count when the panel is closed
   };
 
   return (
@@ -132,7 +154,8 @@ const Navbar = () => {
       {notificationOpen && (
         <NotificationPanel
           messages={messages}
-          onClose={() => setNotificationOpen(false)}
+          // onClose={() => setNotificationOpen(false)}
+          onClose={handleNotificationClose}
           onRemoveMessage={handleRemoveMessage}
           onClearAll={handleClearAll}
           setMessages={setMessages}
