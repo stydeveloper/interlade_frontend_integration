@@ -196,18 +196,34 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
             toggleFunc={toggleCheckbox}
             index={index}
           />
+
+          {/* <>
+            <th>Consignee</th>
+            <th>Placed</th>
+            <th>Driver</th>
+            <th>Status</th>
+            <th>Prepaid/Collect</th>
+            <th className="w-[10%]">Go to B/L</th>
+            <th>Last Opened</th>
+          </> */}
+
           <td>{rowData?.consignee_id?.name || "consignee"}</td>
           {/* //placedAt */}
           <td>{formatDate(rowData?.created_at)} </td>
 
-          <td>{rowData?.status || "asasd"}</td>
+          <td>{rowData?.driver_id?.name || "not assigned"}</td>
           {/* //payment type */}
+          <td>{rowData?.status}</td>
           <td>{rowData?.price}</td>
-          <td>{rowData.id}</td>
           <td>
-            <Link href={`/bol/${rowData.id}`} className="underline">
+            <Link href={`/bol/${rowData?.id}`} className="underline">
               View B/L
             </Link>
+          </td>
+          <td>
+            {rowData?.last_opened === undefined || rowData?.last_opened === null
+              ? "----"
+              : formatDate(rowData?.last_opened)}
           </td>
         </tr>
       );
@@ -219,16 +235,29 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
             toggleFunc={toggleCheckbox}
             index={index}
           />
+
+          {/* <>
+            <th>Consignee</th>
+            <th>Placed </th>
+            <th>Driver</th>
+            <th>Completed</th>
+            <th>Prepaid/Collect</th>
+
+            <th>Last Opened</th>
+          </> */}
+
           <td>{rowData?.consignee_id?.name || "consignee"}</td>
           {/* //placedAt */}
           <td>{formatDate(rowData?.created_at)} </td>
           {/* completed at / updated at */}
-          <td>{formatDate(rowData?.updated_at) || "unknown"}</td>
+          <td>{rowData?.driver_id?.name || "not assigned"}</td>
 
           {/* //payment type */}
+
+          <td>{formatDate(rowData?.updated_at)} </td>
           <td>{rowData?.price} </td>
           {/* //bol id */}
-          <td>{rowData.id}</td>
+
           <td>
             <Link href={`/bol/${rowData.id}`} className="underline">
               View B/L

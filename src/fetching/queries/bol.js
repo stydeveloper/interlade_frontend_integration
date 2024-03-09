@@ -62,6 +62,7 @@ export const GET_BOL_BY_ID = gql`
       price
       created_at
       last_opened
+      updated_at
     }
   }
 `;
@@ -139,6 +140,7 @@ export const GET_ALL_BOLS_QUERY = gql`
       hazard_class
       created_at
       last_opened
+      updated_at
     }
   }
 `;
@@ -225,6 +227,7 @@ export const GET_ACTIVE_BOLS = gql`
       status
       price
       created_at
+      updated_at
     }
   }
 `;

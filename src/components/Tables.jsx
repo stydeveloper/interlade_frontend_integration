@@ -72,6 +72,8 @@ const excludedTypes = [
   "consignee-active",
   "recent",
   "active",
+  "shipper-carrier-active",
+  "shipper-carrier-complete",
 ];
 const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
   return (
@@ -179,20 +181,24 @@ const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
               return (
                 <>
                   <th>Consignee</th>
-                  <th>Placed At</th>
+                  <th>Placed</th>
+                  <th>Driver</th>
                   <th>Status</th>
-                  <th>Payment Type</th>
-                  <th>Last Action</th>
+                  <th>Prepaid/Collect</th>
+                  <th className="w-[10%]">Go to B/L</th>
+                  <th>Last Opened</th>
                 </>
               );
             case "shipper-carrier-complete":
               return (
                 <>
                   <th>Consignee</th>
-                  <th>Placed At</th>
-                  <th>Completed At</th>
-                  <th>Payment Type</th>
-                  <th>Last Action</th>
+                  <th>Placed </th>
+                  <th>Driver</th>
+                  <th>Completed</th>
+                  <th>Prepaid/Collect</th>
+
+                  <th>Last Opened</th>
                 </>
               );
             case "driver-logs":
@@ -344,7 +350,7 @@ const Table = ({ type, tableData, allBols, heightClass }) => {
               masterInputCheck={selectAll}
               masterInputOnChange={toggleSelectAll}
             />
-            <tbody className="h-full bg-hoverGray">
+            <tbody className="h-full ">
               {allBols &&
                 allBols.length > 0 &&
                 allBols.map((rowData, index) => (
