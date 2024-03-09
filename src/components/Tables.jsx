@@ -18,6 +18,14 @@ const getMessageByType = (type) => {
       title: "No Completed B/Ls",
       description: "Documents that are live in the field will appear here.",
     },
+    "consignee-active": {
+      title: "No Active B/Ls",
+      description: "Documents that are live in the field will appear here.",
+    },
+    "consignee-complete": {
+      title: "No Completed B/Ls",
+      description: "Documents that are live in the field will appear here.",
+    },
     "shipper-active": {
       title: "No Active B/Ls",
       description: "Documents that are live in the field will appear here.",
@@ -60,6 +68,8 @@ const excludedTypes = [
   "shipper-complete",
   "carrier-active",
   "carrier-complete",
+  "consignee-complete",
+  "consignee-active",
   "recent",
   "active",
 ];
@@ -85,6 +95,7 @@ const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
                   <th>Load Description</th>
                   <th>Carrier</th>
                   <th>Status</th>
+                  <th className="w-[10%]">Go to B/L</th>
                   <th>Last Opened</th>
                 </>
               );
@@ -98,21 +109,24 @@ const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
                   <th></th>
                 </>
               );
+            case "consignee-active":
             case "shipper-active":
               return (
                 <>
-                  <th className="w-[15%]">Consignee</th>
+                  <th className="w-[15%]">Shipper</th>
                   <th className="w-[15%]">Load Description</th>
                   <th className="w-[15%]">Carrier</th>
                   <th className="w-[15%]">Status</th>
+                  <th className="w-[10%]">Go to B/L</th>
                   <th className="w-[10%]">Last Opened</th>
                 </>
               );
+            case "consignee-complete":
             case "shipper-complete":
               return (
                 <>
                   <th className="w-[15%]">ID</th>
-                  <th className="w-[15%]">Shipper</th>
+                  <th className="w-[15%]">Consignee</th>
                   <th className="w-[15%]">Load Description</th>
                   <th className="w-[15%]">Carrier</th>
                   <th className="w-[10%]">Prepaid/Collect</th>
@@ -126,17 +140,17 @@ const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
                   <th className="w-[15%]">Driver</th>
                   <th className="w-[15%]">Status</th>
                   <th className="w-[10%]">Prepaid/Collect</th>
+                  <th className="w-[10%]">Go to B/L</th>
                   <th className="w-[15%]">Last Opened</th>
                 </>
               );
             case "carrier-complete":
               return (
                 <>
-                  <th>Shipper</th>
                   <th>Consignee</th>
                   <th>Placed</th>
                   <th>Driver</th>
-                  <th>Completed At</th>
+                  <th>Completed</th>
                   <th>Prepaid/Collect</th>
                 </>
               );

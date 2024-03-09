@@ -95,3 +95,11 @@ export const CANCEL_BOL = gql`
     }
   }
 `;
+export const UPDATE_BOL = gql`
+  mutation UpdateBol($id: ID!, $lastOpened: Date) {
+    updateBol(id: $id, last_opened: $lastOpened) {
+      id
+      last_opened
+    }
+  }
+`;

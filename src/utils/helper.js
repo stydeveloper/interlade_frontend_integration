@@ -1,6 +1,8 @@
 export const formatDate = (dateString) => {
   // Parse the date string into a Date object
+  console.log("dateString", dateString);
   const date = new Date(dateString);
+  console.log("dateString after", dateString);
 
   // Format the date without comma
   const formattedDate = date

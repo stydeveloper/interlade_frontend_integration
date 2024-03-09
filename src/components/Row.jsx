@@ -1,6 +1,9 @@
 import Link from "next/link";
 import "../styles/table.css";
 import { formatDate } from "@/utils/helper";
+import { UPDATE_BOL } from "@/fetching/mutations/bol";
+import { useMutation } from "@apollo/client";
+
 const Checkbox = ({ isChecked, toggleFunc, index }) => {
   return (
     <td>
@@ -18,6 +21,23 @@ const Checkbox = ({ isChecked, toggleFunc, index }) => {
 // type={type}
 
 const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
+  const [updateBol] = useMutation(UPDATE_BOL);
+  console.log("rowData.last_opened", rowData.last_opened);
+  const handleClick = async (bolId) => {
+    const currentDate = new Date().toISOString();
+    // Perform your API call here
+    try {
+      // Example API call using fetch
+      const response = await updateBol({
+        variables: { id: bolId, lastOpened: currentDate },
+      });
+      if (response?.data?.updateBol) {
+        console.log("hellop");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
   console.log("rowdata ====>", type);
   switch (type) {
     case "active":
@@ -34,7 +54,20 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
           <td>{rowData.description}</td>
           <td>{rowData?.carrier_id?.name}</td>
           <td>{rowData?.status}</td>
-          <td>{formatDate(rowData?.created_at)}</td>
+          <td>
+            <Link
+              href={`/bol/${rowData.id}`}
+              className="underline"
+              onClick={() => handleClick(rowData?.id)}
+            >
+              View B/L
+            </Link>
+          </td>
+          <td>
+            {rowData?.last_opened === undefined || rowData?.last_opened === null
+              ? "----"
+              : formatDate(rowData?.last_opened)}
+          </td>
         </tr>
       );
     case "complete":
@@ -65,11 +98,11 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
             toggleFunc={toggleCheckbox}
             index={index}
           />
-          <td>{rowData?.shipper_id?.name || shipper}</td>
+
           <td>{rowData?.consignee_id?.name || "consignee"}</td>
           <td>{formatDate(rowData?.created_at)} </td>
-          <td>{rowData?.driver_id?.name || "unknown"}</td>
-          <td>{formatDate(rowData?.created_at)} </td>
+          <td>{rowData?.status || "unknown"}</td>
+          <td>{formatDate(rowData?.updated_at) || "hello"} </td>
           <td>{rowData?.price}</td>
           {/* <td>
             <Link href={`/bol/${rowData.id}`} className="underline">
@@ -88,17 +121,26 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
           />
           <td>{rowData?.consignee_id?.name || "consignee"}</td>
           <td>{formatDate(rowData?.created_at)}</td>
-          <td>{rowData?.driver_id?.name || "unknown"}</td>
+          <td>{rowData?.driver_id?.name || "not assigned"}</td>
           <td>{rowData?.status || "asasd"}</td>
           <td>{rowData?.price}</td>
-          <td>{rowData?.shipper_id?.name || shipper}</td>
-          {/* <td>
-            <Link href={`/bol/${rowData.id}`} className="underline">
+          <td>
+            <Link
+              href={`/bol/${rowData.id}`}
+              className="underline"
+              onClick={() => handleClick(rowData?.id)}
+            >
               View B/L
             </Link>
-          </td> */}
+          </td>
+          <td>
+            {rowData?.last_opened === undefined || rowData?.last_opened === null
+              ? "----"
+              : formatDate(rowData?.last_opened)}
+          </td>
         </tr>
       );
+    case "consignee-active":
     case "shipper-active":
       return (
         <tr className="text-center table-row-class bg-cgray text-white hover:bg-gray-300 text-sm">
@@ -108,13 +150,27 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
             index={index}
           />
 
-          <td>{rowData?.consignee_id?.name || "consignee"}</td>
+          <td>{rowData?.shipper_id?.name || "shipper"}</td>
           <td>{rowData?.description || "unknown"}</td>
           <td>{rowData?.carrier_id?.name || "asasd"}</td>
           <td>{rowData?.status}</td>
-          <td>{formatDate(rowData?.created_at)}</td>
+          <td>
+            <Link
+              href={`/bol/${rowData.id}`}
+              className="underline"
+              onClick={() => handleClick(rowData?.id)}
+            >
+              View B/L
+            </Link>
+          </td>
+          <td>
+            {rowData?.last_opened === undefined || rowData?.last_opened === null
+              ? "----"
+              : formatDate(rowData?.last_opened)}
+          </td>
         </tr>
       );
+    case "consignee-complete":
     case "shipper-complete":
       return (
         <tr className="text-center table-row-class bg-cgray text-white hover:bg-gray-300 text-sm">
@@ -125,7 +181,7 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
           />
 
           <td>{rowData?.id || "id"}</td>
-          <td>{rowData?.shipper_id?.name || "asasd"}</td>
+          <td>{rowData?.consignee_id?.name || "asasd"}</td>
           <td>{rowData?.description || "unknown"}</td>
           <td>{rowData?.carrier_id?.name || "asasd"}</td>
 

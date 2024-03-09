@@ -61,6 +61,7 @@ export const GET_BOL_BY_ID = gql`
       status
       price
       created_at
+      last_opened
     }
   }
 `;
@@ -137,6 +138,7 @@ export const GET_ALL_BOLS_QUERY = gql`
       weight
       hazard_class
       created_at
+      last_opened
     }
   }
 `;

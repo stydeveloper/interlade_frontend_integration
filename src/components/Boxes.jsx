@@ -194,6 +194,8 @@ const FourBox = () => {
       setUserRole("carrier");
     } else if (roleIdFromCookie === "2") {
       setUserRole("shipper");
+    } else if (roleIdFromCookie === "4") {
+      setUserRole("consignee");
     }
   }, []);
 
