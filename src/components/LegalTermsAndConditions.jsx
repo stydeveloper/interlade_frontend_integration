@@ -81,12 +81,12 @@ function LegalTermsAndConditions({ isOpen, onClose }) {
                   accepting the transfers as if the Electronic Bill of Lading
                   was a paper bill of lading.
                 </p>
-                <strong className="flex justify-center border-2 ">
+                <strong className="flex justify-center border-2 mt-12">
                   In order to continue using Interlade these terms must be
                   accepted.
                 </strong>
               </div>
-              <div className="h-[2px] bg-white my-2"></div>
+              <div className="h-[2px] bg-white my-6"></div>
               <div className="flex items-center ">
                 <input
                   type="checkbox"
@@ -102,7 +102,7 @@ function LegalTermsAndConditions({ isOpen, onClose }) {
               </div>
               <button
                 onClick={handleSubmit}
-                className="bg-blue-600 hover:bg-blue-800 border-2 rounded-md  px-4 py-2 mt-4 text-white"
+                className="bg-blue-600 hover:bg-blue-800 border-2 rounded-md  px-4 py-2 mt-1 text-white"
                 disabled={disable}
               >
                 Submit
