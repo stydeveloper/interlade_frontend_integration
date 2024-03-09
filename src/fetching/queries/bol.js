@@ -228,6 +228,7 @@ export const GET_ACTIVE_BOLS = gql`
       price
       created_at
       updated_at
+      last_opened
     }
   }
 `;
@@ -305,6 +306,7 @@ export const GET_ACTIVE_ROLES_BY_ROLE = gql`
       price
       created_at
       updated_at
+      last_opened
     }
   }
 `;

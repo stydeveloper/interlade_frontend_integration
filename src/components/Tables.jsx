@@ -126,7 +126,7 @@ const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
             case "shipper-active":
               return (
                 <>
-                  <th className="w-[15%]">Shipper</th>
+                  <th className="w-[15%]">Consignee</th>
                   <th className="w-[15%]">Load Description</th>
                   <th className="w-[15%]">Carrier</th>
                   <th className="w-[15%]">Status</th>
