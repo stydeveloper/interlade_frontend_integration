@@ -99,16 +99,23 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
             index={index}
           />
 
+          {/* <th>Consignee</th>
+          <th>Placed</th>
+          <th>Driver</th>
+          <th>Completed</th>
+          <th>Prepaid/Collect</th>
+          <th className="w-[15%]">Last Opened</th> */}
+
           <td>{rowData?.consignee_id?.name || "consignee"}</td>
           <td>{formatDate(rowData?.created_at)} </td>
-          <td>{rowData?.status || "unknown"}</td>
+          <td>{rowData?.driver_id?.name || "not assigned"}</td>
           <td>{formatDate(rowData?.updated_at) || "hello"} </td>
           <td>{rowData?.price}</td>
-          {/* <td>
-            <Link href={`/bol/${rowData.id}`} className="underline">
-              View B/L
-            </Link>
-          </td> */}
+          <td>
+            {rowData?.last_opened === undefined || rowData?.last_opened === null
+              ? "----"
+              : formatDate(rowData?.last_opened)}
+          </td>
         </tr>
       );
     case "carrier-active":
@@ -216,7 +223,11 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
           <td>{rowData?.status}</td>
           <td>{rowData?.price}</td>
           <td>
-            <Link href={`/bol/${rowData?.id}`} className="underline">
+            <Link
+              href={`/bol/${rowData?.id}`}
+              className="underline"
+              onClick={() => handleClick(rowData?.id)}
+            >
               View B/L
             </Link>
           </td>
@@ -259,9 +270,9 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
           {/* //bol id */}
 
           <td>
-            <Link href={`/bol/${rowData.id}`} className="underline">
-              View B/L
-            </Link>
+            {rowData?.last_opened === undefined || rowData?.last_opened === null
+              ? "----"
+              : formatDate(rowData?.last_opened)}
           </td>
         </tr>
       );
@@ -274,21 +285,37 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
             toggleFunc={toggleCheckbox}
             index={index}
           />
+
+          {/* <>
+            <th>Consignee</th>
+            <th>Placed</th>
+            <th>Driver</th>
+            <th>Status</th>
+            <th>Prepaid/Collect</th>
+            <th className="w-[10%]">Go to B/L</th>
+            <th className="w-[15%]">Last Opened</th>
+          </> */}
+
           <td>{rowData?.consignee_id?.name || "consignee"}</td>
           {/* //placedAt */}
           <td>{formatDate(rowData?.created_at)} </td>
           {/* driver name */}
-          <td>driver</td>
+          <td>{rowData?.driver_id?.name || "not assigned"}</td>
 
           {/* //status*/}
           <td>{rowData?.status} </td>
           {/* //bol id */}
           <td>{rowData.price}</td>
-          <td>last action</td>
+
           <td>
             <Link href={`/bol/${rowData.id}`} className="underline">
               View B/L
             </Link>
+          </td>
+          <td>
+            {rowData?.last_opened === undefined || rowData?.last_opened === null
+              ? "----"
+              : formatDate(rowData?.last_opened)}
           </td>
         </tr>
       );
@@ -301,11 +328,21 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
             toggleFunc={toggleCheckbox}
             index={index}
           />
+
+          {/* <>
+            <th>Consignee</th>
+            <th>Placed </th>
+            <th>Driver</th>
+            <th>Completed </th>
+            <th>Prepaid/Collect</th>
+            <th className="w-[15%]">Last Opened</th>
+          </> */}
+
           <td>{rowData?.consignee_id?.name || "consignee"}</td>
           {/* //placedAt */}
           <td>{formatDate(rowData?.created_at)} </td>
           {/* driver name */}
-          <td>driver</td>
+          <td>{rowData?.driver_id?.name || "not assigned"}</td>
 
           {/* //status*/}
           <td>{formatDate(rowData?.updated_at)} </td>
@@ -313,9 +350,9 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
           <td>{rowData.price}</td>
 
           <td>
-            <Link href={`/bol/${rowData.id}`} className="underline">
-              View B/L
-            </Link>
+            {rowData?.last_opened === undefined || rowData?.last_opened === null
+              ? "----"
+              : formatDate(rowData?.last_opened)}
           </td>
         </tr>
       );

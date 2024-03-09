@@ -370,6 +370,7 @@ export const GET_COMPLETED_ROLES_BY_ROLE = gql`
       price
       created_at
       updated_at
+      last_opened
     }
   }
 `;
@@ -434,6 +435,8 @@ export const GET_COMPLETED_BOLS = gql`
       status
       price
       created_at
+      updated_at
+      last_opened
     }
   }
 `;

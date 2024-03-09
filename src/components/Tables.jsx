@@ -43,6 +43,15 @@ const getMessageByType = (type) => {
       description:
         "Documents that have been signed by the consignee will appear here.",
     },
+    "carrier-shipper-active": {
+      title: "No Active B/Ls",
+      description: "Documents that are live in the field will appear here.",
+    },
+    "carrier-shipper-complete": {
+      title: "No Completed B/Ls",
+      description:
+        "Documents that have been signed by the consignee will appear here.",
+    },
     recent: {
       title: "No Recent B/Ls",
       description: "Documents that you recently worked on will appear here.",
@@ -74,6 +83,8 @@ const excludedTypes = [
   "active",
   "shipper-carrier-active",
   "shipper-carrier-complete",
+  "carrier-shipper-active",
+  "carrier-shipper-complete",
 ];
 const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
   return (
@@ -154,27 +165,30 @@ const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
                   <th>Driver</th>
                   <th>Completed</th>
                   <th>Prepaid/Collect</th>
+                  <th className="w-[15%]">Last Opened</th>
                 </>
               );
             case "carrier-shipper-active":
               return (
                 <>
                   <th>Consignee</th>
-                  <th>Placed At</th>
+                  <th>Placed</th>
                   <th>Driver</th>
                   <th>Status</th>
-                  <th>Payment Type</th>
-                  <th>Last Action</th>
+                  <th>Prepaid/Collect</th>
+                  <th className="w-[10%]">Go to B/L</th>
+                  <th className="w-[15%]">Last Opened</th>
                 </>
               );
             case "carrier-shipper-complete":
               return (
                 <>
                   <th>Consignee</th>
-                  <th>Placed At</th>
+                  <th>Placed </th>
                   <th>Driver</th>
-                  <th>Completed At</th>
-                  <th>Payment Type</th>
+                  <th>Completed </th>
+                  <th>Prepaid/Collect</th>
+                  <th className="w-[15%]">Last Opened</th>
                 </>
               );
             case "shipper-carrier-active":

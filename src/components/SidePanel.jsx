@@ -17,11 +17,19 @@ const ConditionalDocumentBtn = ({
   srcImg,
   label,
   actionFunc,
+  type, // Accepting type attribute
 }) => {
   if (currentPath === path) {
     return null;
   }
-  return <DocumentBtn srcImg={srcImg} label={label} actionFunc={actionFunc} />;
+  return (
+    <DocumentBtn
+      srcImg={srcImg}
+      label={label}
+      actionFunc={actionFunc}
+      type={type} // Passing type attribute to DocumentBtn
+    />
+  );
 };
 
 const SidePanel = () => {
@@ -29,10 +37,20 @@ const SidePanel = () => {
   const pathname = usePathname();
 
   const [roleId, setRoleId] = useState(null);
+  const [userRole, setUserRole] = useState(null);
 
   useEffect(() => {
     const roleIdFromCookie = Cookies.get("role_id");
     setRoleId(roleIdFromCookie);
+
+    // Determine user role based on roleId
+    if (roleIdFromCookie === "1") {
+      setUserRole("carrier");
+    } else if (roleIdFromCookie === "2") {
+      setUserRole("shipper");
+    } else if (roleIdFromCookie === "4") {
+      setUserRole("consignee");
+    }
   }, []);
 
   return (
@@ -91,14 +109,20 @@ const SidePanel = () => {
           path="/activebols"
           srcImg={Active}
           label="Active B/Ls"
-          actionFunc={() => router.push(`/activebols`)}
+          type={`${userRole}-active`}
+          // actionFunc={() => router.push(`/activebols`)}
+          actionFunc={() => router.push(`/activebols?type=${userRole}-active`)}
         />
         <ConditionalDocumentBtn
           currentPath={pathname}
           path="/completedbols"
           srcImg={Complete}
           label="Complete B/Ls"
-          actionFunc={() => router.push(`/completedbols`)}
+          type={`${userRole}-complete`}
+          // actionFunc={() => router.push(`/completedbols`)}
+          actionFunc={() =>
+            router.push(`/completedbols?type=${userRole}-complete`)
+          }
         />
       </div>
     </div>
