@@ -308,7 +308,11 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
           <td>{rowData.price}</td>
 
           <td>
-            <Link href={`/bol/${rowData.id}`} className="underline">
+            <Link
+              href={`/bol/${rowData.id}`}
+              className="underline"
+              onClick={() => handleClick(rowData?.id)}
+            >
               View B/L
             </Link>
           </td>
