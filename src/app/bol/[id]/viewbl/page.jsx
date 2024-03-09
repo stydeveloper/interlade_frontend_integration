@@ -29,22 +29,7 @@ const ViewBl = ({ params }) => {
   // console.log("loggedInUser", JSON.parse(Cookies.get("user")).id);
   // console.log("loggedInUserRoleId", JSON.parse(Cookies.get("user")).role_id.id);
   let consigneeId;
-  useEffect(() => {
-    if (params.id && loggedInUser?.id) {
-      // Only fetch data if both params.id and loggedInUser.id are present
-      refetchBolData();
-      refetchBolVersionData();
-      refetchBolVersionConsigneeData();
-      refetchBolImagesData();
-    }
-  }, [
-    params.id,
-    loggedInUser,
-    refetchBolData,
-    refetchBolImagesData,
-    refetchBolVersionConsigneeData,
-    refetchBolVersionData,
-  ]);
+
   const {
     loading: bolLoading,
     error: bolError,
@@ -110,12 +95,27 @@ const ViewBl = ({ params }) => {
     variables: { userId: `${consigneeId}` },
     skip: !consigneeId, // Skip query if params.id or loggedInUser.id is not present
   });
-
+  useEffect(() => {
+    if (params.id && loggedInUser?.id) {
+      // Only fetch data if both params.id and loggedInUser.id are present
+      refetchBolData();
+      refetchBolVersionData();
+      refetchBolVersionConsigneeData();
+      refetchBolImagesData();
+    }
+  }, [
+    params.id,
+    loggedInUser,
+    refetchBolData,
+    refetchBolImagesData,
+    refetchBolVersionConsigneeData,
+    refetchBolVersionData,
+  ]);
   let hasAlreadySigned;
   let hasConsigneeSignature = false;
 
   if (BolVersionConsigneeData && !bolVersionConsigneeLoading) {
-    const bolVersions = BolVersionConsigneeData.getBolVersionByUserId;
+    const bolVersions = BolVersionConsigneeData?.getBolVersionByUserId;
 
     if (bolVersions) {
       // If data is not null, iterate through each object
@@ -126,6 +126,7 @@ const ViewBl = ({ params }) => {
           version.user_id.id === consigneeId
         ) {
           hasConsigneeSignature = true;
+          console.log("hasConsigneeSignature", hasConsigneeSignature);
           break;
         }
       }
@@ -140,11 +141,17 @@ const ViewBl = ({ params }) => {
 
   // Determine if the Sign As Consignee button should be disabled
   const disableSignAsConsignee =
-    (loggedInUser?.role_id.id === "4" && hasAlreadySigned !== null) || // Condition 1
+    (loggedInUser?.role_id.id === "4" && hasConsigneeSignature) || // Condition 1
     (loggedInUser?.role_id.id === "1" &&
-      !hasConsigneeSignature &&
-      hasDriverUploadedImage &&
-      (bolStatus !== "AT_DROPOFF" || bolStatus !== "DELIVERED"));
+      (!hasDriverUploadedImage ||
+        (hasAlreadySigned && bolStatus !== "AT_DROPOFF")));
+
+  const disableSignAsDriver =
+    !hasDriverUploadedImage ||
+    hasAlreadySigned ||
+    bolStatus === "AT_PICKUP" ||
+    bolStatus === "AT_DROPOFF" ||
+    bolStatus === "DELIVERED";
 
   // Function to open modal
   const openModal = () => {
@@ -202,25 +209,28 @@ const ViewBl = ({ params }) => {
           loggedInUser?.role_id.id == "4") && (
           <div className="w-full flex gap-2 justify-end">
             {console.log(
-              "disable",
+              "disable driver",
 
-              !hasDriverUploadedImage && bolStatus !== "IN_TRANSIT"
+              // loggedInUser?.role_id.id === "1" &&
+              //   (hasDriverUploadedImage ||
+              //     (hasAlreadySigned && bolStatus !== "AT_DROPOFF"))
+              !hasDriverUploadedImage ||
+                hasAlreadySigned ||
+                bolStatus === "AT_PICKUP" ||
+                bolStatus === "AT_DROPOFF" ||
+                bolStatus === "DELIVERED"
             )}
             <button
               className="bg-linkBlue text-white py-4 px-2 rounded-md"
               onClick={openModal}
-              disabled={
-                !hasAlreadySigned &&
-                !hasDriverUploadedImage &&
-                bolStatus !== "IN_TRANSIT"
-              }
+              disabled={disableSignAsDriver}
             >
               Sign As Driver
             </button>
             <button
               className="bg-linkBlue text-white py-4 px-2 rounded-md"
               onClick={openModal}
-              // disabled={disableSignAsConsignee}
+              disabled={disableSignAsConsignee}
             >
               Sign As Consignee
             </button>

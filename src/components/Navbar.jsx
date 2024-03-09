@@ -62,15 +62,21 @@ const Navbar = () => {
     unreadCountRefetchFunction = unreadCountRefetch;
   }
 
+  // useEffect(() => {
+  //   if (allNotificationsData) {
+  //     // Set notifications to the state
+  //     console.log("kkkkkkkkkkkkkkkkkkkkkkkk");
+  //     setMessages(allNotificationsData?.getAllNotifications);
+  //   }
+  // }, [allNotificationsData]);
+
   useEffect(() => {
     if (allNotificationsData) {
       // Set notifications to the state
       console.log("kkkkkkkkkkkkkkkkkkkkkkkk");
       setMessages(allNotificationsData?.getAllNotifications);
     }
-  }, [allNotificationsData]);
 
-  useEffect(() => {
     if (unreadCountData) {
       console.log(
         "unreadCountData?.getUnreadCount",
@@ -78,7 +84,7 @@ const Navbar = () => {
       );
       setUnreadCount(unreadCountData?.getUnreadCount);
     }
-  }, [unreadCountData]);
+  }, [unreadCountData, allNotificationsData]);
 
   // useEffect(() => {
   //   const user = Cookies.get("user");
