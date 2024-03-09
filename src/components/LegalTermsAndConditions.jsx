@@ -87,7 +87,7 @@ function LegalTermsAndConditions({ isOpen, onClose }) {
                 </strong>
               </div>
               <div className="h-[2px] bg-white my-6"></div>
-              <div className="flex items-center mt-8">
+              <div className="flex items-center mt-4">
                 <input
                   type="checkbox"
                   id="agree"
@@ -102,7 +102,7 @@ function LegalTermsAndConditions({ isOpen, onClose }) {
               </div>
               <button
                 onClick={handleSubmit}
-                className="bg-blue-600 hover:bg-blue-800 border-2 rounded-md  px-4 py-2 mt-5 text-white"
+                className="bg-blue-600 hover:bg-blue-800 border-2 rounded-md  px-4 py-2 mt-2 text-white"
                 disabled={disable}
               >
                 Submit
