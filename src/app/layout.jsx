@@ -45,7 +45,7 @@ export default function RootLayout({ children }) {
           <div className={`h-full ${!hideNavbar ? "pt-14" : ""}`}>
             {children}
           </div>
-          <ToastContainer />
+          <ToastContainer style={{ marginTop: "40px" }} />
           {/* {showNavbar2 && <Footer2 />} */}
         </body>
       </ApolloProvider>

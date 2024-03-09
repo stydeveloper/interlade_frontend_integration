@@ -129,14 +129,21 @@ const DispatchBoLToDriverModal = ({
 
   const handleActAsDriver = async () => {
     try {
-      if (!selectedBolId) {
-        toast.error(`Please select any bol from dropdown`, {
+      // if (!selectedBolId) {
+      //   toast.error(`Please select any bol from dropdown`, {
+      //     position: "top-right",
+      //   });
+      //   return;
+      // }
+
+      const bol_id = id;
+
+      if (!bol_id) {
+        toast.error(`Please id not received!`, {
           position: "top-right",
         });
         return;
       }
-
-      const bol_id = selectedBolId ? selectedBolId : id;
 
       const { data, loading } = await associateCarrierToDriver({
         variables: { bolId: bol_id },
@@ -151,9 +158,13 @@ const DispatchBoLToDriverModal = ({
           currentBlDataRefetch();
           bolHistoryLogsRefetch();
         }
-        toast.success(`Now you are a driver for the bol no ${selectedBolId}`, {
-          position: "top-right",
-        });
+
+        toast.success(
+          `You have been assigned successfully as the driver for BOL ${id}`,
+          {
+            position: "top-right",
+          }
+        );
         setTimeout(() => {
           setDisabled(false);
         }, 6000);
@@ -189,14 +200,24 @@ const DispatchBoLToDriverModal = ({
             <label htmlFor="" className="text-xl">
               BoL
             </label>
-            <Select
-              options={options}
-              onChange={handleSelectChange}
-              placeholder="Select Active BoL ..."
-              className="w-96 max-h[38px] border-[1px] rounded-md mb-4"
-              defaultValue={id && options[0]}
-              required
-            />
+            {callStatus ? (
+              <Select
+                options={options}
+                onChange={handleSelectChange}
+                placeholder="Select Active BoL ..."
+                className="w-96 max-h[38px] border-[1px] rounded-md mb-4"
+                defaultValue={options[0]}
+                required
+              />
+            ) : (
+              <Select
+                options={options}
+                onChange={handleSelectChange}
+                placeholder="Select Active BoL ..."
+                className="w-96 max-h[38px] border-[1px] rounded-md mb-4"
+                required
+              />
+            )}
           </div>
 
           <div className="flex flex-col gap-1 px-4">
@@ -222,7 +243,7 @@ const DispatchBoLToDriverModal = ({
           <div className="flex gap-4 items-center justify-center">
             <button
               disabled={!email || !selectedBolId || emailError}
-              className="bg-linkBlue p-4 h-16 rounded-md text-white font-2xl font-bold mt-8 hover:bg-sky-700 hover:border-white hover:border-2"
+              className="bg-linkBlue p-4 h-16 border-2 rounded-md text-white font-2xl font-bold mt-8 hover:bg-sky-700 hover:border-white hover:border-2 cursor-pointer"
               onClick={handleBolInvite}
             >
               Send BoL
@@ -230,7 +251,7 @@ const DispatchBoLToDriverModal = ({
 
             <h3 className="text-white font-bold mt-8">OR</h3>
             <button
-              className="bg-green-700 p-4 h-16 rounded-md text-white font-2xl font-bold mt-8 hover:bg-green-900"
+              className="bg-green-700 p-4 h-16 border-2 rounded-md text-white font-2xl font-bold mt-8 hover:bg-green-900 hover:border-2 cursor-pointer"
               onClick={handleActAsDriver}
               disabled={disable || email}
             >

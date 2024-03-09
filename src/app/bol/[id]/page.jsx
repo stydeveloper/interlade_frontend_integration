@@ -386,7 +386,12 @@ const Page = ({ params }) => {
         <CancelBLModal
           isOpen={cancelModal}
           onClose={() => setCancelModal(false)}
-          submitFunc={() => console.log("api call with bolId to cancel B/L")}
+          bol_id={params?.id}
+          refetch={refetch}
+          bolDataRefetch={bolDataRefetch}
+          bolImagesRefetch={bolImagesRefetch}
+          currentBlDataRefetch={currentBlDataRefetch}
+          bolHistoryLogsRefetch={bolHistoryLogsRefetch}
         />
       )}
       {/* Modal component */}

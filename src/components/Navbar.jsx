@@ -12,12 +12,12 @@ import {
   GET_UNREAD_COUNT,
 } from "@/fetching/queries/notifications";
 
-import {
-  setNotificationDataToCookies,
-  getUnreadCountFromCookies,
-  setUnreadCountToCookies,
-  getNotificationDataFromCookies,
-} from "@/utils/notificationUtils";
+// import {
+//   setNotificationDataToCookies,
+//   getUnreadCountFromCookies,
+//   setUnreadCountToCookies,
+//   getNotificationDataFromCookies,
+// } from "@/utils/notificationUtils";
 import {
   MARK_ALL_AS_READ,
   DELETE_ALL_NOTIFICATIONS,

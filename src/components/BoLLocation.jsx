@@ -21,7 +21,7 @@ const LocationMarker = ({ ltr, name, latestAgent }) => {
         <Image src={Marker} alt="Marker" width={25} className="mr-2" />
       )}
       <p className={`${bgColor} border-2 py-1 px-4 uppercase`}>{ltr}</p>
-      <p className="ml-4 font-semibold text-lg">{name}</p>
+      <p className="ml-4 font-semibold text-base">{name}</p>
     </div>
   );
 };

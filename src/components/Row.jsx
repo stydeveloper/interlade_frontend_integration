@@ -34,12 +34,7 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
           <td>{rowData.description}</td>
           <td>{rowData?.carrier_id?.name}</td>
           <td>{rowData?.status}</td>
-          <td>{rowData?.id}</td>
-          <td>
-            <Link href={`/bol/${rowData?.id}`} className="underline">
-              View B/L
-            </Link>
-          </td>
+          <td>{formatDate(rowData?.created_at)}</td>
         </tr>
       );
     case "complete":
@@ -91,12 +86,12 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
             toggleFunc={toggleCheckbox}
             index={index}
           />
-          <td>{rowData?.shipper_id?.name || shipper}</td>
           <td>{rowData?.consignee_id?.name || "consignee"}</td>
+          <td>{formatDate(rowData?.created_at)}</td>
           <td>{rowData?.driver_id?.name || "unknown"}</td>
           <td>{rowData?.status || "asasd"}</td>
           <td>{rowData?.price}</td>
-          <td>{formatDate(rowData?.created_at)}</td>
+          <td>{rowData?.shipper_id?.name || shipper}</td>
           {/* <td>
             <Link href={`/bol/${rowData.id}`} className="underline">
               View B/L

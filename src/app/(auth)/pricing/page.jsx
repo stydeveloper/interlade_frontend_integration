@@ -110,7 +110,7 @@ export function PriceCard({
   };
 
   return (
-    <div className="interlade-pricing-card">
+    <div className="relative interlade-pricing-card">
       <div className="interlade-card">
         <h3 className="interlade-card-title">{name}</h3>
         <hr className="interlade-first" />
@@ -130,7 +130,7 @@ export function PriceCard({
         <hr className="interlade-second" />
         <button
           type="button"
-          className="interlade-card-btn"
+          className="interlade-card-btn hover:cursor-pointer"
           onClick={handleSubscription}
         >
           Select Plan

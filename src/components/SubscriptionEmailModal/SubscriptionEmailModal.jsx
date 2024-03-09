@@ -39,7 +39,7 @@ function SubscriptionEmailModal({
             />
             <PriceCard
               name={"Yearly"}
-              price={75}
+              price={900}
               type="Yearly"
               features={[
                 "some amazing feature",

@@ -68,9 +68,17 @@ const SignupPage = () => {
     const newErrors = { ...formErrors };
     switch (name) {
       case "name":
-        newErrors.name = !validateName(value)
-          ? "Name must be at least 3 characters(only) long"
-          : "";
+        if (!value.trim()) {
+          newErrors.name = "Name is required";
+        } else if (value.trim().length < 3) {
+          newErrors.name = "Name must be at least 3 characters long";
+        } else if (!/^[a-zA-Z\s]*$/.test(value)) {
+          newErrors.name = "Name must contain only letters and spaces.";
+        } else if (/\s{3,}/.test(value)) {
+          newErrors.name = "Name cannot contain consecutive spaces";
+        } else {
+          newErrors.name = "";
+        }
         break;
       case "email":
         newErrors.email = !emailRegex.test(value)
@@ -173,7 +181,7 @@ const SignupPage = () => {
 
       if (data && data?.getUserByEmail !== null) {
         // User already exists, throw an error
-        toast.error("User already exist with this email.", {
+        toast.error("User with this email already exists.", {
           position: "top-right",
         });
         setDisabled(true);

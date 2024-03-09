@@ -1,7 +1,50 @@
+"use client";
 import Image from "next/image";
 import Close from "../../public/images/cancel.png";
+import { CANCEL_BOL } from "@/fetching/mutations/bol";
+import { useMutation } from "@apollo/client";
+import { toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 
-const CancelBLModal = ({ isOpen, onClose, submitFunc }) => {
+import withToast from "./hoc/withToast";
+
+const CancelBLModal = ({
+  isOpen,
+  onClose,
+  bol_id,
+  refetch,
+  bolDataRefetch,
+  bolImagesRefetch,
+  currentBlDataRefetch,
+  bolHistoryLogsRefetch,
+}) => {
+  const [cancelBol] = useMutation(CANCEL_BOL);
+
+  const submitFunc = async () => {
+    try {
+      const response = await cancelBol({ variables: { bolId: bol_id } });
+
+      if (response?.data?.cancelBol?.success) {
+        toast.success(response?.data.cancelBol?.message, {
+          position: "top-right",
+        });
+        refetch();
+        bolDataRefetch();
+        bolImagesRefetch();
+        currentBlDataRefetch();
+        bolHistoryLogsRefetch();
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message, { position: "top-right" });
+      } else {
+        toast.error("An unknown error occurred", { position: "top-right" });
+      }
+    } finally {
+      onClose();
+    }
+  };
+
   return (
     isOpen && (
       <div className="fixed inset-0 flex items-center justify-center bg-cancelRed bg-opacity-70 z-50">
@@ -31,4 +74,4 @@ const CancelBLModal = ({ isOpen, onClose, submitFunc }) => {
   );
 };
 
-export default CancelBLModal;
+export default withToast(CancelBLModal);

@@ -87,4 +87,11 @@ export const CARRIER_AS_A_DRIVER = gql`
     }
   }
 `;
-
+export const CANCEL_BOL = gql`
+  mutation CancelBol($bolId: ID!) {
+    cancelBol(bol_id: $bolId) {
+      message
+      success
+    }
+  }
+`;

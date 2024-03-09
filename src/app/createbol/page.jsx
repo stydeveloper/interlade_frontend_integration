@@ -21,6 +21,8 @@ import {
   unreadCountRefetchFunction,
 } from "@/components/Navbar";
 
+import { recentBolsRefetchFunction } from "@/components/RecentSection";
+
 import Cookies from "js-cookie"; // Import js-cookie library
 import {
   emailRegex,
@@ -40,6 +42,7 @@ import {
   validateString,
 } from "@/utils/bol-validation";
 import { GET_USER_BY_EMAIL } from "@/fetching/queries/user";
+import { recentBolsRefetchFunction } from "@/components/RecentSection";
 
 const initialData = {
   shipperEmail: "",
@@ -382,6 +385,7 @@ export default function Page() {
 
         allNotificationsRefetchFunction();
         unreadCountRefetchFunction();
+        recentBolsRefetchFunction();
 
         router.push("/");
       }

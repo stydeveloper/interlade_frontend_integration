@@ -14,6 +14,18 @@ const getMessageByType = (type) => {
       title: "No Active B/Ls",
       description: "Documents that are live in the field will appear here.",
     },
+    "carrier-complete": {
+      title: "No Completed B/Ls",
+      description: "Documents that are live in the field will appear here.",
+    },
+    "shipper-active": {
+      title: "No Active B/Ls",
+      description: "Documents that are live in the field will appear here.",
+    },
+    "shipper-complete": {
+      title: "No Completed B/Ls",
+      description: "Documents that are live in the field will appear here.",
+    },
     "shipper-carrier-active": {
       title: "No Active B/Ls",
       description: "Documents that are live in the field will appear here.",
@@ -48,6 +60,8 @@ const excludedTypes = [
   "shipper-complete",
   "carrier-active",
   "carrier-complete",
+  "recent",
+  "active",
 ];
 const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
   return (
@@ -71,7 +85,7 @@ const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
                   <th>Load Description</th>
                   <th>Carrier</th>
                   <th>Status</th>
-                  <th>Last Action</th>
+                  <th>Last Opened</th>
                 </>
               );
             case "complete":
@@ -107,12 +121,12 @@ const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
             case "carrier-active":
               return (
                 <>
-                  <th className="w-[15%]">Shipper</th>
                   <th className="w-[15%]">Consignee</th>
+                  <th className="w-[15%]">Placed </th>
                   <th className="w-[15%]">Driver</th>
                   <th className="w-[15%]">Status</th>
                   <th className="w-[10%]">Prepaid/Collect</th>
-                  <th className="w-[15%]">Placed </th>
+                  <th className="w-[15%]">Last Opened</th>
                 </>
               );
             case "carrier-complete":

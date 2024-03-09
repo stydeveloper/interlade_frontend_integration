@@ -5,13 +5,21 @@ import { useQuery } from "@apollo/client";
 import { Spin } from "antd";
 import { GET_ALL_BOLS_QUERY } from "@/fetching/queries/bol";
 
+let recentBolsRefetchFunction;
+
 const RecentSection = ({ customHeightClass }) => {
-  const { data, loading, error } = useQuery(GET_ALL_BOLS_QUERY, {
+  const {
+    data,
+    loading,
+    error,
+    refetch: recentBolsRefetch,
+  } = useQuery(GET_ALL_BOLS_QUERY, {
     fetchPolicy: "network-only", // or "cache-and-network"
   });
   let allBols;
   if (data && !loading) {
     allBols = data.getBols;
+    recentBolsRefetchFunction = recentBolsRefetch;
     console.log(allBols);
   }
 
@@ -30,7 +38,7 @@ const RecentSection = ({ customHeightClass }) => {
       ) : (
         <Table
           heightClass="h-[80%]"
-          type="active"
+          type="recent"
           tableData={activeMockData}
           allBols={allBols}
         />
@@ -40,5 +48,5 @@ const RecentSection = ({ customHeightClass }) => {
     </div>
   );
 };
-
+export { recentBolsRefetchFunction };
 export default RecentSection;

@@ -8,7 +8,7 @@ const withToast = (WrappedComponent) => {
     return (
       <div>
         <WrappedComponent {...props} />
-        <ToastContainer position="top-right" />
+        <ToastContainer style={{ marginTop: "40px" }} position="top-right" />
       </div>
     );
   };

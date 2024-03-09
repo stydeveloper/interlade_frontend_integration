@@ -48,11 +48,11 @@ function LegalTermsAndConditions({ isOpen, onClose }) {
       <div className="fixed  inset-0 z-30 flex items-center justify-center bg-black bg-opacity-90   ">
         <div className="relative  flex flex-col bg-black text-white py-2 px-4 border-2 h-[87%] border-hoverGray rounded-md mx-12 mt-14">
           <div className=" flex items-center w-full h-full ">
-            <div className=" w-full h-full mb-3">
+            <div className=" w-full h-full mb-3 ">
               <h1 className="text-2xl font-semibold my-2">
                 Terms and Conditions
               </h1>
-              <div className="bg-white text-black p-4">
+              <div className="bg-white text-black p-4 h-[70%]">
                 <p className="mb-2">
                   The Originating User and Interlade, representing each
                   Subsequent User, mutually agree that when a Subsequent User
