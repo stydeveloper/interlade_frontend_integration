@@ -38,6 +38,7 @@ export const REGISTER_CARRIER = gql`
       token
       created_at
       checkoutUrl
+      termsacknowledged
     }
   }
 `;

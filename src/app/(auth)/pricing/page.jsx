@@ -82,7 +82,7 @@ export function PriceCard({
         termsacknowledged,
         ...user
       } = response?.data?.registerCarrier;
-
+      console.log("------------------------", termsacknowledged);
       // Set cookies
 
       // if (typeof window !== "undefined") {
