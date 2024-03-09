@@ -157,7 +157,14 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
             index={index}
           />
 
-          <td>{rowData?.shipper_id?.name || "shipper"}</td>
+          {/* <th className="w-[15%]">Consignee</th>
+          <th className="w-[15%]">Load Description</th>
+          <th className="w-[15%]">Carrier</th>
+          <th className="w-[15%]">Status</th>
+          <th className="w-[10%]">Go to B/L</th>
+          <th className="w-[10%]">Last Opened</th> */}
+
+          <td>{rowData?.consignee_id?.name || "consignee"}</td>
           <td>{rowData?.description || "unknown"}</td>
           <td>{rowData?.carrier_id?.name || "asasd"}</td>
           <td>{rowData?.status}</td>
