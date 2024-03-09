@@ -42,7 +42,6 @@ import {
   validateString,
 } from "@/utils/bol-validation";
 import { GET_USER_BY_EMAIL } from "@/fetching/queries/user";
-import { recentBolsRefetchFunction } from "@/components/RecentSection";
 
 const initialData = {
   shipperEmail: "",
