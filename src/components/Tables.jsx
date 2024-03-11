@@ -112,6 +112,17 @@ const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
                   <th>Last Opened</th>
                 </>
               );
+            case "carrier-recent":
+              return (
+                <>
+                  <th>Consignee</th>
+                  <th>Load Description</th>
+                  <th>Shipper</th>
+                  <th>Status</th>
+                  <th className="w-[10%]">Go to B/L</th>
+                  <th>Last Opened</th>
+                </>
+              );
             case "complete":
               return (
                 <>

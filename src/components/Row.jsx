@@ -70,6 +70,35 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
           </td>
         </tr>
       );
+    case "carrier-recent":
+      return (
+        <tr className="text-center  table-row-class  bg-cgray text-white hover:bg-gray-300">
+          <Checkbox
+            isChecked={checked}
+            toggleFunc={toggleCheckbox}
+            index={index}
+          />
+          <td>{rowData?.consignee_id?.name}</td>
+
+          <td>{rowData.description}</td>
+          <td>{rowData?.shipper_id?.name}</td>
+          <td>{rowData?.status}</td>
+          <td>
+            <Link
+              href={`/bol/${rowData.id}`}
+              className="underline"
+              onClick={() => handleClick(rowData?.id)}
+            >
+              View B/L
+            </Link>
+          </td>
+          <td>
+            {rowData?.last_opened === undefined || rowData?.last_opened === null
+              ? "----"
+              : formatDate(rowData?.last_opened)}
+          </td>
+        </tr>
+      );
     case "complete":
       return (
         <tr className="text-center table-row-class text-white hover:bg-textgray">

@@ -4,10 +4,23 @@ import { activeMockData, carrierActiveMockData } from "./MockData";
 import { useQuery } from "@apollo/client";
 import { Spin } from "antd";
 import { GET_ALL_BOLS_QUERY } from "@/fetching/queries/bol";
+import { useEffect, useState } from "react";
 
 let recentBolsRefetchFunction;
 
 const RecentSection = ({ customHeightClass }) => {
+  const [roleId, setRoleId] = useState(null);
+  const [userRole, setUserRole] = useState(null);
+  useEffect(() => {
+    // Check cookies for the role_id value
+    const roleIdFromCookie = Cookies.get("role_id");
+    setRoleId(roleIdFromCookie);
+
+    // Determine user role based on roleId
+    if (roleIdFromCookie === "1") {
+      setUserRole("carrier");
+    }
+  }, []);
   const {
     data,
     loading,
@@ -38,7 +51,7 @@ const RecentSection = ({ customHeightClass }) => {
       ) : (
         <Table
           heightClass="h-[80%]"
-          type="recent"
+          type={userRole === "carrier" ? "carrier-recent" : "recent"}
           tableData={activeMockData}
           allBols={allBols}
         />
