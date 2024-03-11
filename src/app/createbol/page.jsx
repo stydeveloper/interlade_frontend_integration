@@ -384,7 +384,7 @@ export default function Page() {
 
         allNotificationsRefetchFunction();
         unreadCountRefetchFunction();
-        // recentBolsRefetchFunction();
+        recentBolsRefetchFunction();
 
         router.push("/");
       }
