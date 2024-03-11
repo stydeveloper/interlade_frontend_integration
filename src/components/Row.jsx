@@ -78,6 +78,7 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
             toggleFunc={toggleCheckbox}
             index={index}
           />
+
           <td>{rowData?.consignee_id?.name}</td>
 
           <td>{rowData.description}</td>

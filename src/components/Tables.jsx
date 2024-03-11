@@ -85,6 +85,7 @@ const excludedTypes = [
   "shipper-carrier-complete",
   "carrier-shipper-active",
   "carrier-shipper-complete",
+  "carrier-recent",
 ];
 const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
   return (
