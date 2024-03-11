@@ -262,13 +262,16 @@ const Page = ({ params }) => {
             />
           )} */}
           {/* Dispatch Driver commented because not in figma */}
-          {role && role === "1" && !isDriverIsAssigned && (
-            <DocumentBtn
-              srcImg={Send}
-              label="Dispatch Driver"
-              actionFunc={() => setInviteOpen(true)}
-            />
-          )}
+          {role &&
+            role === "1" &&
+            !isDriverIsAssigned &&
+            currentBol?.status !== "CANCELLED" && (
+              <DocumentBtn
+                srcImg={Send}
+                label="Dispatch Driver"
+                actionFunc={() => setInviteOpen(true)}
+              />
+            )}
           <div className="flex flex-col justify-center items-center mt-8">
             {role &&
               role === "2" &&
