@@ -5,6 +5,7 @@ import { useQuery } from "@apollo/client";
 import { Spin } from "antd";
 import { GET_ALL_BOLS_QUERY } from "@/fetching/queries/bol";
 import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
 let recentBolsRefetchFunction;
 
