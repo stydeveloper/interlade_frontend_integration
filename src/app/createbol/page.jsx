@@ -193,8 +193,6 @@ export default function Page() {
             validateName(data.shipperName) &&
             validatePhoneNumber(data.shipperNumber) &&
             validateAddress(data.shipperAddress) &&
-            validateCity(data.shipperCity) &&
-            validateState(data.shipperState) &&
             validateZipcode(data.shipperZipcode);
 
           if (!isValid) {
@@ -212,8 +210,6 @@ export default function Page() {
             validateName(data.consigneeName) &&
             validatePhoneNumber(data.consigneeNumber) &&
             validateAddress(data.consigneeAddress) &&
-            validateCity(data.consigneeCity) &&
-            validateState(data.consigneeState) &&
             validateZipcode(data.consigneeZipcode);
 
           if (!isValid) {
