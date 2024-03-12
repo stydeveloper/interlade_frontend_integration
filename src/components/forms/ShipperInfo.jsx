@@ -103,7 +103,7 @@ export function ShipperInfo({
         }
         break;
       default:
-        break;
+        break; // Default case to handle unknown fields
     }
 
     // Update errors state
