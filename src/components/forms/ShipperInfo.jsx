@@ -69,24 +69,33 @@ export function ShipperInfo({
       case "shipperCity":
         if (value.trim() === "") {
           newErrors.shipperCity = "City cannot be empty.";
+        } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
+          newErrors.shipperCity = "City should only contain letters or spaces.";
+        } else if (!/[a-zA-Z]/.test(value.trim())) {
+          newErrors.shipperCity = "City must contain at least one letter.";
         } else if (/\d/.test(value.trim())) {
-          newErrors.shipperCity = "City cannot contain numbers.";
-        } else if (!/^(?=.*[^\s])[\w\s-]{3,}$/.test(value.trim())) {
+          newErrors.shipperCity = "City should not contain numbers.";
+        } else if (value.trim().length < 3) {
           newErrors.shipperCity = "City should be at least 3 characters long.";
         } else {
-          newErrors.shipperCity = "";
+          newErrors.shipperCity = ""; // Clear the error if the input is valid
         }
         break;
       case "shipperState":
         if (value.trim() === "") {
           newErrors.shipperState = "State cannot be empty.";
-        } else if (/\d/.test(value)) {
-          newErrors.shipperState = "State cannot contain numbers.";
-        } else if (!/^(?=.*[^\s])[\w\s-]{2,}$/.test(value)) {
+        } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
+          newErrors.shipperState =
+            "State should only contain letters or spaces.";
+        } else if (!/[a-zA-Z]/.test(value.trim())) {
+          newErrors.shipperState = "State must contain at least one letter.";
+        } else if (/\d/.test(value.trim())) {
+          newErrors.shipperState = "State should not contain numbers.";
+        } else if (value.trim().length < 3) {
           newErrors.shipperState =
             "State should be at least 3 characters long.";
         } else {
-          newErrors.shipperState = "";
+          newErrors.shipperState = ""; // Clear the error if the input is valid
         }
         break;
 
