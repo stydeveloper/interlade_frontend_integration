@@ -80,11 +80,11 @@ export function ConsigneeInfo({
         } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
           newErrors.consigneeCity =
             "City should only contain letters or spaces.";
-        } else if (!/[a-zA-Z]/.test(value)) {
+        } else if (!/[a-zA-Z]/.test(value.trim())) {
           newErrors.consigneeCity = "City must contain at least one letter.";
-        } else if (/\d/.test(value)) {
+        } else if (/\d/.test(value.trim())) {
           newErrors.consigneeCity = "City should not contain numbers.";
-        } else if (value.length < 3) {
+        } else if (value.trim().length < 3) {
           newErrors.consigneeCity =
             "City should be at least 3 characters long.";
         } else {
@@ -97,11 +97,11 @@ export function ConsigneeInfo({
         } else if (!/^[a-zA-Z\s]+$/.test(value.trim())) {
           newErrors.consigneeState =
             "State should only contain letters or spaces.";
-        } else if (!/[a-zA-Z]/.test(value)) {
+        } else if (!/[a-zA-Z]/.test(value.trim())) {
           newErrors.consigneeState = "State must contain at least one letter.";
-        } else if (/\d/.test(value)) {
+        } else if (/\d/.test(value.trim())) {
           newErrors.consigneeState = "State should not contain numbers.";
-        } else if (value.length < 3) {
+        } else if (value.trim().length < 3) {
           newErrors.consigneeState =
             "State should be at least 3 characters long.";
         } else {
