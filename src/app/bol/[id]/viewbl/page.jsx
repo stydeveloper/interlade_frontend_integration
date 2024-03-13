@@ -11,10 +11,11 @@ import BLImage from "../../../../../public/images/BLImage.png";
 import { useEffect, useState } from "react";
 import SignatureModal from "@/components/SignatureModal";
 import { GETBOL_BYID } from "@/fetching/queries/bol";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import Cookies from "js-cookie";
 import BackBtn from "../../../../../public/images/arrow-92-48.png";
 import { GET_BOLIMAGES_BY_BOLID } from "@/fetching/queries/bol_images";
+import { BOL_DOWNLOAD } from "@/fetching/mutations/bol";
 
 import {
   GET_BOL_VERSION_BYIDS,
@@ -40,6 +41,8 @@ const ViewBl = ({ params }) => {
     variables: { getBolId: `${params.id}` },
     skip: !params.id || !loggedInUser?.id, // Skip query if params.id or loggedInUser.id is not present
   });
+
+  const [bolDownload] = useMutation(BOL_DOWNLOAD);
 
   const {
     loading: bolImagesLoading,
@@ -162,6 +165,20 @@ const ViewBl = ({ params }) => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  const handleDownload = async () => {
+    console.log("hello");
+    const response = await bolDownload({
+      variables: { bolId: `${params?.id}` },
+    });
+
+    console.log(response.data.bolDownload);
+
+    if (response?.data?.bolDownload) {
+      // Open the PDF URL in a new tab
+      window.open(response.data.bolDownload, "_blank");
+    }
+  };
   return (
     <div className="flex  justify-between">
       <div className="bg-cgray rounded-b-md flex w-80 flex-col fixed h-full">
@@ -197,7 +214,7 @@ const ViewBl = ({ params }) => {
           <DocumentBtn
             srcImg={Download}
             label="Download"
-            actionFunc={() => console.log("Download")}
+            actionFunc={handleDownload}
           />
         </div>
       </div>

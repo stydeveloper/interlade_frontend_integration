@@ -103,3 +103,8 @@ export const UPDATE_BOL = gql`
     }
   }
 `;
+export const BOL_DOWNLOAD = gql`
+  mutation BolDownload($bolId: ID!) {
+    bolDownload(bol_id: $bolId)
+  }
+`;
