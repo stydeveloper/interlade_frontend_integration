@@ -200,6 +200,11 @@ export default function Page() {
             toast.error("Incomplete information! please provide all details");
             setDisabled(true);
           }
+          const updateUserInfo = {
+            ...parsedUserInfo,
+            name: data.shipperName,
+          };
+          Cookies.set("user", JSON.stringify(updateUserInfo));
           break;
         case 2: // Consignee Info
           // Validate consignee info fields
