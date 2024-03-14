@@ -58,7 +58,7 @@
 //     </div>
 //   );
 // }
-import React from "react";
+import React, { useEffect } from "react";
 import Select from "react-select";
 import { useQuery } from "@apollo/client";
 import { GET_ALL_CARRIERS_QUERY } from "@/fetching/queries/user";
@@ -97,6 +97,21 @@ export function CarrierInfo({
       }));
     }
   }
+  useEffect(() => {
+    if (id && options.length > 0) {
+      // If ID is present and options are available, update carrier information
+      const selectedCarrier = options[0];
+      update({
+        carrierEmail: selectedCarrier.value.email,
+        carrierName: selectedCarrier.value.name,
+        carrierNumber: selectedCarrier.value.number,
+        carrierAddress: selectedCarrier.value.address,
+        carrierCity: selectedCarrier.value.city,
+        carrierState: selectedCarrier.value.state,
+        carrierZipcode: selectedCarrier.value.zipcode,
+      });
+    }
+  }, [id, options, update]);
 
   let selectedCarrier;
 
@@ -132,7 +147,6 @@ export function CarrierInfo({
       {id ? (
         <Select
           options={options}
-          onChange={handleSelectChange}
           value={selectedCarrier} // Set the value to the selected carrier
           placeholder="Select Carrier ..."
           className="w-96 mx-4 max-h[38px] border-[1px] border-textgray rounded-md "
