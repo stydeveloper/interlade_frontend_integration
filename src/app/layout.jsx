@@ -26,6 +26,7 @@ export default function RootLayout({ children }) {
     "/reset-password",
     "/pricing",
     "/signup",
+    "/public-url",
   ];
 
   const routesWithNavbar2 = ["/pricing"];
