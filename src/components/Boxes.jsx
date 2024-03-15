@@ -181,11 +181,13 @@ const FourBox = () => {
 
   return (
     <div className="flex justify-between h-[80%] items-center w-full relative z-20 bg-transparent mx-16">
-      {roleId && roleId !== "3" && roleId !== "2" && <ShippersBox />}
+      {roleId && roleId !== "3" && roleId !== "2" && roleId !== "4" && (
+        <ShippersBox />
+      )}
       {roleId && roleId !== "3" && roleId !== "2" && roleId !== "4" && (
         <DriversBox />
       )}
-      {roleId && roleId !== "1" && <CarriersBox />}
+      {roleId && roleId !== "1" && roleId !== "4" && <CarriersBox />}
       {roleId && roleId === "2" && (
         <Box
           title="Create BoL"
