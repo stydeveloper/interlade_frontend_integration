@@ -95,13 +95,13 @@ const LoadImages = ({ params }) => {
               {"Load Images"}
             </p>
           )}
-          {bolImages && bolImages.length > 0 && (
+          {/* {bolImages && bolImages.length > 0 && (
             <DocumentBtn
               srcImg={Download}
               label="Download"
               actionFunc={handleDownload}
             />
-          )}
+          )} */}
         </div>
       </div>
       <div className="h-[100vh] bg-hoverGray flex-1 flex flex-col justify-center items-center py-12 ml-96">
