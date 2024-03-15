@@ -2,53 +2,53 @@
 
 // import React, { useState } from "react";
 import "./pricing.css";
-// import SubscriptionEmailModal from "@/components/SubscriptionEmailModal/SubscriptionEmailModal";
+import SubscriptionEmailModal from "@/components/SubscriptionEmailModal/SubscriptionEmailModal";
 import { useMutation } from "@apollo/client";
 import { REGISTER_CARRIER } from "@/fetching/mutations/user";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie"; // Import js-cookie library
 
-// const Pricing = () => {
-//   const [isMOdalOpen, setIsModalOpen] = useState(false);
-//   const [subscriptionType, setSubscriptionType] = useState("");
-//   return (
-//     <section className="interlade-pricing">
-//       <h2>Pricing Options</h2>
-//       <p>
-//         Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam
-//         aliquid eaque mollitia reprehenderit! Quidem doloremque facere veritatis
-//         quos, qui impedit.
-//       </p>
-//       <div className="interlade-pricing-cards">
-//         <PriceCard
-//           openModal={() => setIsModalOpen(true)}
-//           name={"Monthly"}
-//           price={287}
-//           type="Monthly"
-//           setSubscriptionType={setSubscriptionType}
-//         />
-//         <PriceCard
-//           openModal={() => setIsModalOpen(true)}
-//           name={"Yearly"}
-//           price={20}
-//           type="Yearly"
-//           features={[
-//             "some amazing feature",
-//             "some pro exclusive features",
-//             "another option",
-//           ]}
-//           setSubscriptionType={setSubscriptionType}
-//         />
-//       </div>
+const Pricing = () => {
+  const [isMOdalOpen, setIsModalOpen] = useState(false);
+  const [subscriptionType, setSubscriptionType] = useState("");
+  return (
+    <section className="interlade-pricing">
+      <h2>Pricing Options</h2>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam
+        aliquid eaque mollitia reprehenderit! Quidem doloremque facere veritatis
+        quos, qui impedit.
+      </p>
+      <div className="interlade-pricing-cards">
+        <PriceCard
+          openModal={() => setIsModalOpen(true)}
+          name={"Monthly"}
+          price={287}
+          type="Monthly"
+          setSubscriptionType={setSubscriptionType}
+        />
+        <PriceCard
+          openModal={() => setIsModalOpen(true)}
+          name={"Yearly"}
+          price={20}
+          type="Yearly"
+          features={[
+            "some amazing feature",
+            "some pro exclusive features",
+            "another option",
+          ]}
+          setSubscriptionType={setSubscriptionType}
+        />
+      </div>
 
-//       <SubscriptionEmailModal
-//         showModal={isMOdalOpen}
-//         closeModal={() => setIsModalOpen(false)}
-//         subscriptionType={subscriptionType}
-//       />
-//     </section>
-//   );
-// };
+      <SubscriptionEmailModal
+        showModal={isMOdalOpen}
+        closeModal={() => setIsModalOpen(false)}
+        subscriptionType={subscriptionType}
+      />
+    </section>
+  );
+};
 
 export function PriceCard({
   price,
@@ -140,3 +140,4 @@ export function PriceCard({
     </div>
   );
 }
+export default Pricing;
