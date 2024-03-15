@@ -7,6 +7,7 @@ import { useMutation } from "@apollo/client";
 import { REGISTER_CARRIER } from "@/fetching/mutations/user";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie"; // Import js-cookie library
+import { useState } from "react";
 
 const Pricing = () => {
   const [isMOdalOpen, setIsModalOpen] = useState(false);
