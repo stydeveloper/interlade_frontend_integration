@@ -9,6 +9,7 @@ import Navbar2 from "@/components/Navbar2";
 import Footer2 from "@/components/Footer2";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FilterProvider } from "@/components/FilterProvider";
 // import "react-toastify/dist/ReactToastify.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -40,15 +41,17 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <ApolloProvider client={client}>
-        <body className={inter.className}>
-          {!hideNavbar && <Navbar />}
-          {/* {showNavbar2 && <Navbar2 />} */}
-          <div className={`h-full ${!hideNavbar ? "pt-14" : ""}`}>
-            {children}
-          </div>
-          <ToastContainer style={{ marginTop: "40px" }} />
-          {/* {showNavbar2 && <Footer2 />} */}
-        </body>
+        <FilterProvider>
+          <body className={inter.className}>
+            {!hideNavbar && <Navbar />}
+            {/* {showNavbar2 && <Navbar2 />} */}
+            <div className={`h-full ${!hideNavbar ? "pt-14" : ""}`}>
+              {children}
+            </div>
+            <ToastContainer style={{ marginTop: "40px" }} />
+            {/* {showNavbar2 && <Footer2 />} */}
+          </body>
+        </FilterProvider>
       </ApolloProvider>
     </html>
   );
