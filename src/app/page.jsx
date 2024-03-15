@@ -1,14 +1,16 @@
 "use client";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import FourBox from "../components/Boxes";
 import RecentSection from "../components/RecentSection";
 import LegalTermsAndConditions from "@/components/LegalTermsAndConditions";
 import "../styles/table.css";
 import Cookies from "js-cookie"; // Import js-cookie library
+import { FilterContext } from "@/components/FilterProvider";
 
 export default function Home() {
   const [termsOpen, setTermsOpen] = useState(true);
-
+  const { filters, setFilters, selectedFilters, setSelectedFilters } =
+    React.useContext(FilterContext);
   useEffect(() => {
     // Check cookies for the flag indicating whether the terms have been acknowledged
     const hasAcknowledgedTerms = Cookies.get("termsAcknowledged");
@@ -37,7 +39,13 @@ export default function Home() {
 
         <span className="w-full h-[2px] max-xl:hidden absolute z-10 bg-gray-600 "></span>
       </div>
-      <RecentSection customHeightClass="h-[65%]" />
+      <RecentSection
+        customHeightClass="h-[65%]"
+        filters={filters}
+        setFilters={setFilters}
+        selectedFilters={selectedFilters}
+        setSelectedFilters={setSelectedFilters}
+      />
       {!termsOpen && (
         <LegalTermsAndConditions
           isOpen={!termsOpen}

@@ -127,6 +127,17 @@ const DispatchBoLToDriverModal = ({
     }
   }
 
+  useEffect(() => {
+    if (id && options.length > 0) {
+      // If ID is present and options are available, update carrier information
+      const selectedBol = options[0];
+
+      if (selectedBol) {
+        setSelectedBolId(selectedBol.value.id);
+      }
+    }
+  }, [id, options]);
+
   const handleActAsDriver = async () => {
     try {
       // if (!selectedBolId) {
@@ -203,7 +214,7 @@ const DispatchBoLToDriverModal = ({
             {callStatus ? (
               <Select
                 options={options}
-                onChange={handleSelectChange}
+                value={selectedBolId}
                 placeholder="Select Active BoL ..."
                 className="w-96 max-h[38px] border-[1px] rounded-md mb-4"
                 defaultValue={options[0]}
