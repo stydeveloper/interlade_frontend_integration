@@ -20,6 +20,8 @@ module.exports = {
         hoverRed: "#EB837B",
         cancelRed: "#E74133",
         lilPurp: "#8170ED",
+        authBg: "#B9B9B9",
+        mainBoxesBg: "#D9D9D9",
       },
     },
   },

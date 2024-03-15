@@ -28,15 +28,15 @@ export const validateAddress = (address) => {
 };
 
 export const validateState = (state) => {
-  // Check if the state contains only letters (a-z or A-Z) and is at least 3 characters long
-  const isStateValid = /^[a-zA-Z]{3,}$/.test(state);
+  // Check if the state contains only letters or spaces and is at least 3 characters long
+  const isStateValid = /^[a-zA-Z\s]{3,}$/.test(state.trim());
 
   return isStateValid;
 };
 
 export const validateCity = (city) => {
-  // Check if the city contains only letters (a-z or A-Z) and is at least 3 characters long
-  const isCityValid = /^[a-zA-Z]{3,}$/.test(city);
+  // Check if the city contains only letters or spaces and is at least 3 characters long
+  const isCityValid = /^[a-zA-Z\s]{3,}$/.test(city.trim());
 
   return isCityValid;
 };

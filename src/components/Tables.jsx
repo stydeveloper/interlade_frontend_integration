@@ -1,8 +1,11 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Row from "./Row";
 import Image from "next/image";
 import NoBills from "../../public/images/norecent.svg";
 import Select from "react-select";
+import "@/styles/table.css";
+import { recentBolsRefetchFunction } from "./RecentSection";
+import { FilterContext } from "./FilterProvider";
 
 const getMessageByType = (type) => {
   const messages = {
@@ -16,7 +19,8 @@ const getMessageByType = (type) => {
     },
     "carrier-complete": {
       title: "No Completed B/Ls",
-      description: "Documents that are live in the field will appear here.",
+      description:
+        "Documents that have been signed by the consignee will appear here.",
     },
     "consignee-active": {
       title: "No Active B/Ls",
@@ -24,7 +28,8 @@ const getMessageByType = (type) => {
     },
     "consignee-complete": {
       title: "No Completed B/Ls",
-      description: "Documents that are live in the field will appear here.",
+      description:
+        "Documents that have been signed by the consignee will appear here.",
     },
     "shipper-active": {
       title: "No Active B/Ls",
@@ -32,7 +37,8 @@ const getMessageByType = (type) => {
     },
     "shipper-complete": {
       title: "No Completed B/Ls",
-      description: "Documents that are live in the field will appear here.",
+      description:
+        "Documents that have been signed by the consignee will appear here.",
     },
     "shipper-carrier-active": {
       title: "No Active B/Ls",
@@ -49,6 +55,11 @@ const getMessageByType = (type) => {
     },
     "carrier-shipper-complete": {
       title: "No Completed B/Ls",
+      description:
+        "Documents that have been signed by the consignee will appear here.",
+    },
+    "carrier-driver-logs": {
+      title: "No Driver Logs",
       description:
         "Documents that have been signed by the consignee will appear here.",
     },
@@ -86,10 +97,11 @@ const excludedTypes = [
   "carrier-shipper-active",
   "carrier-shipper-complete",
   "carrier-recent",
+  "carrier-driver-logs",
 ];
 const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
   return (
-    <thead className="bg-white sticky top-0">
+    <thead className="bg-white sticky top-0 z-10">
       <tr className="text-center">
         <th className="w-[5%]">
           <input
@@ -227,13 +239,15 @@ const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
                   <th>Last Opened</th>
                 </>
               );
-            case "driver-logs":
+            case "carrier-driver-logs":
               return (
                 <>
                   <th>Shipper</th>
                   <th>Consignee</th>
+                  <th>B/L No.</th>
                   <th>Activity Description</th>
                   <th>Date/Time</th>
+                  <th className="w-[10%]">Go to B/L</th>
                 </>
               );
           }
@@ -245,11 +259,26 @@ const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
     </thead>
   );
 };
-const Table = ({ type, tableData, allBols, heightClass }) => {
+const Table = ({
+  type,
+  tableData,
+  allBols,
+  heightClass,
+  setFilters,
+  filters,
+}) => {
   const [selectAll, setSelectAll] = useState(false);
   const [checkboxes, setCheckboxes] = useState(
     tableData ? Array(tableData.length).fill(false) : []
   );
+
+  // const [roleId, setRoleId] = useState(null);
+
+  // useEffect(() => {
+  //   // Check cookies for the role_id value
+  //   const roleIdFromCookie = Cookies.get("role_id");
+  //   setRoleId(roleIdFromCookie);
+  // }, []);
   const isAnyChecked = checkboxes.some((val) => val === true);
   const toggleSelectAll = () => {
     setSelectAll(!selectAll);
@@ -268,79 +297,121 @@ const Table = ({ type, tableData, allBols, heightClass }) => {
     }
   };
 
-  const [selectedFilters, setSelectedFilters] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const filteredData = tableData.filter((row) => {
-    return (
-      row.consignee?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.loadDesc?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.carrier?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.status?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.lastAction?.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  });
+  // const [searchTerm, setSearchTerm] = useState("");
+  // const filteredData = tableData.filter((row) => {
+  //   return (
+  //     row.consignee?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     row.loadDesc?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     row.carrier?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     row.status?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     row.lastAction?.toLowerCase().includes(searchTerm.toLowerCase())
+  //   );
+  // });
 
-  const handleFilterChange = (selectedOptions) => {
-    setSelectedFilters(selectedOptions);
-  };
+  // const handleFilterChange = (selectedOptions) => {
+  //   if (selectedOptions.length > 0) {
+  //     const latestOption = selectedOptions[selectedOptions.length - 1];
+  //     console.log(latestOption.label);
+  //     console.log(latestOption.value);
+  //   }
 
-  const createGroupedOptions = (tableData) => {
-    const consignees = [...new Set(tableData.map((row) => row.consignee))];
-    const carriers = [...new Set(tableData.map((row) => row.carrier))];
-    const status = [...new Set(tableData.map((row) => row.status))];
+  //   setSelectedFilters(selectedOptions);
+  // };
 
-    return [
-      {
-        label: "Consignee",
-        options: consignees.map((name) => ({ label: name, value: name })),
-      },
-      {
-        label: "Carrier",
-        options: carriers.map((name) => ({ label: name, value: name })),
-      },
-      {
-        label: "Status",
-        options: status.map((name) => ({ label: name, value: name })),
-      },
-    ];
-  };
+  // const handleFilterChange = (selectedOptions) => {
+  //   if (selectedOptions.length > 0) {
+  //     const latestOption = selectedOptions[selectedOptions.length - 1];
+  //     const { label, value } = latestOption;
 
-  const groupedOptions = createGroupedOptions(tableData);
+  //     setFilters((prevFilters) => {
+  //       const updatedFilters = { ...prevFilters };
+
+  //       // Check the label and set the corresponding value in the filters state
+  //       if (value === "carrier") {
+  //         console.log("hello");
+  //         updatedFilters.carrierName = [
+  //           ...(updatedFilters.carrierName || []),
+  //           label,
+  //         ];
+  //       } else if (value === "status") {
+  //         updatedFilters.status = [...(updatedFilters.status || []), label];
+  //       } else if (value === "shipper") {
+  //         updatedFilters.shipperName = [
+  //           ...(updatedFilters.shipperName || []),
+  //           label,
+  //         ];
+  //       } else if (value === "consignee") {
+  //         updatedFilters.consigneeName = [
+  //           ...(updatedFilters.consigneeName || []),
+  //           label,
+  //         ];
+  //       }
+
+  //       return updatedFilters;
+  //     });
+  //   }
+
+  //   setSelectedFilters(selectedOptions);
+  // };
+
+  // const createGroupedOptions = (tableData) => {
+  //   const consigneesSet = new Set();
+  //   const carriersSet = new Set();
+  //   const shippersSet = new Set();
+  //   const statusSet = new Set();
+
+  //   // Iterate through the tableData to populate the sets with unique names
+
+  //   if (tableData) {
+  //     tableData.forEach((row) => {
+  //       consigneesSet.add(row.consignee_id?.name);
+  //       carriersSet.add(row.carrier_id?.name);
+  //       shippersSet.add(row.shipper_id?.name);
+  //       statusSet.add(row.status);
+  //     });
+  //   }
+
+  //   // Convert sets to arrays
+  //   const consignees = [...consigneesSet];
+  //   const carriers = [...carriersSet];
+  //   const shippers = [...shippersSet];
+  //   const status = [...statusSet];
+
+  //   // Map the arrays to the required format
+  //   return [
+  //     {
+  //       label: "Consignee",
+  //       options: consignees.map((name) => ({
+  //         label: name,
+  //         value: "consignee",
+  //       })),
+  //     },
+
+  //     {
+  //       label: "Shipper",
+  //       options: shippers.map((name) => ({ label: name, value: "shipper" })),
+  //     },
+  //     {
+  //       label: "Carrier",
+  //       options: carriers.map((name) => ({ label: name, value: "carrier" })),
+  //     },
+  //     {
+  //       label: "Status",
+  //       options: status.map((name) => ({ label: name, value: "status" })),
+  //     },
+  //   ];
+  // };
+
+  // const groupedOptions = createGroupedOptions(allBols);
 
   return (
-    <div className={`w-full flex flex-col ${heightClass}`}>
-      <div className="flex h-[10%] items-center justify-center">
-        <input
-          type="text"
-          placeholder="Search..."
-          className="p-1.5 border-2 border-textgray rounded-md w-60"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <Select
-          options={groupedOptions}
-          onChange={() => handleFilterChange}
-          isMulti
-          placeholder="Filter by ..."
-          className="w-96 mx-4 max-h-[40px] overflow-y-auto border-[1px] border-textgray rounded-md"
-        />
-        <label className="mr-2">Date Range:</label>
-        <input
-          type="date"
-          className="p-1 border-2 border-textgray rounded-md"
-        />
-        <hr className="border-2 border-textgray w-6" />
-        <input
-          type="date"
-          className="p-1 border-2 border-textgray rounded-md"
-        />
-      </div>
+    <div className={`w-full flex flex-col ${heightClass}  `}>
       <div
         className={`flex h-[10%] items-center w-full justify-center gap-2 my-1 ${
           !isAnyChecked && "opacity-0 pointer-events-none"
         }`}
       >
-        <button
+        {/* <button
           className="bg-gray px-2 border-2 border-borderGrey rounded-md text-sm"
           onClick={() => console.log("Clear")}
         >
@@ -358,7 +429,7 @@ const Table = ({ type, tableData, allBols, heightClass }) => {
           onClick={() => console.log("Download")}
         >
           Download
-        </button>
+        </button> */}
         {/* <button
           className="bg-gray px-2 border-2 border-borderGrey rounded-md text-sm mx-2"
           onClick={() => console.log("Send")}
@@ -366,50 +437,54 @@ const Table = ({ type, tableData, allBols, heightClass }) => {
           Send
         </button> */}
       </div>
-      <div
-        className={`w-full table-bg  border-2 border-gray overflow-y-auto rounded-sm h-[80%]`}
-      >
-        {allBols && allBols.length > 0 ? (
-          <table className="w-[100%]   max-h-full">
-            <TableHeader
-              type={type}
-              masterInputCheck={selectAll}
-              masterInputOnChange={toggleSelectAll}
-            />
-            <tbody className="h-full ">
-              {allBols &&
-                allBols.length > 0 &&
-                allBols.map((rowData, index) => (
-                  <Row
-                    key={index}
-                    checked={checkboxes[index]}
-                    toggleCheckbox={toggleCheckbox}
-                    type={type}
-                    index={index}
-                    rowData={rowData}
-                  />
-                ))}
-            </tbody>
-          </table>
-        ) : (
-          <div className="flex justify-center items-center text-white bg-cgray">
-            <Image alt="No Recent B/Ls" src={NoBills} className="text-white " />
-            <div className="flex flex-col">
-              {(() => {
-                const message = getMessageByType(type);
-                console.log(message);
-                if (!message) return null;
+      <div className="w-full relative  overflow-y-auto  rounded-sm h-[80%] px-6">
+        <div className="rounded-lg border-2  overflow-hidden border-gray-300 mt-1">
+          {allBols && allBols.length > 0 ? (
+            <table className="w-[100%]   max-h-full">
+              <TableHeader
+                type={type}
+                masterInputCheck={selectAll}
+                masterInputOnChange={toggleSelectAll}
+              />
+              <tbody className="h-full  ">
+                {allBols &&
+                  allBols.length > 0 &&
+                  allBols.map((rowData, index) => (
+                    <Row
+                      key={index}
+                      checked={checkboxes[index]}
+                      toggleCheckbox={toggleCheckbox}
+                      type={type}
+                      index={index}
+                      rowData={rowData}
+                    />
+                  ))}
+              </tbody>
+            </table>
+          ) : (
+            <div className="flex justify-center items-center text-black bg-mainBoxesBg">
+              <Image
+                alt="No Recent B/Ls"
+                src={NoBills}
+                className="text-white "
+              />
+              <div className="flex flex-col">
+                {(() => {
+                  const message = getMessageByType(type);
+                  console.log(message);
+                  if (!message) return null;
 
-                return (
-                  <div className=" p-4">
-                    <p className="font-bold text-2xl ">{message.title}</p>
-                    <p className="max-w-[300px]">{message.description}</p>
-                  </div>
-                );
-              })()}
+                  return (
+                    <div className=" p-4">
+                      <p className="font-bold text-2xl ">{message.title}</p>
+                      <p className="max-w-[300px]">{message.description}</p>
+                    </div>
+                  );
+                })()}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

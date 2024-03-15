@@ -381,7 +381,7 @@ export default function Page() {
 
       if (response?.data?.createBol) {
         console.log("in bol created succesffuly");
-        toast.success("bol created successfully!", { position: "top-right" });
+        toast.success("BOL created successfully!", { position: "top-right" });
 
         allNotificationsRefetchFunction();
         unreadCountRefetchFunction();

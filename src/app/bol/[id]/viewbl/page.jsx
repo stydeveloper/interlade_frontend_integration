@@ -204,7 +204,7 @@ const ViewBl = ({ params }) => {
           <DocumentBtn
             srcImg={Print}
             label="Print"
-            actionFunc={() => console.log("Print")}
+            actionFunc={handleDownload}
           />
           {/* <DocumentBtn
             srcImg={Send}

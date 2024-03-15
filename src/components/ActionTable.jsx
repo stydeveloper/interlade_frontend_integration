@@ -27,7 +27,7 @@ import { formatDate } from "@/utils/helper";
 const ActionHistory = ({ actionData, bol_history_logs }) => {
   return (
     <>
-      <div className="relative bg-borderGrey h-full border-2 border-gray overflow-y-auto rounded-md ">
+      <div className="relative bg-borderGrey h-full  overflow-y-auto rounded-md ">
         {bol_history_logs && bol_history_logs.length > 0 ? (
           <table className="w-full">
             <thead className="bg-white text-black sticky top-0">
@@ -48,7 +48,7 @@ const ActionHistory = ({ actionData, bol_history_logs }) => {
                 return (
                   <tr
                     key={index}
-                    className="text-center text-white hover:bg-hoverGray"
+                    className="text-center text-black hover:bg-hoverGray"
                   >
                     <td>{datePart}</td>
                     <td>{timePart}</td>

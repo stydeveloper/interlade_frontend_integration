@@ -24,7 +24,7 @@ const ShipperProfileBox = ({
   associatedDriverCount: driversAllocated,
 }) => {
   return (
-    <div className="flex flex-col items-center p-4 border-2 border-gray-300 rounded-md hover:bg-hoverGray">
+    <div className="flex flex-col items-center p-4 border bg-mainBoxesBg text-black border-gray-300 rounded-md hover:bg-hoverGray">
       <Link href={{ pathname: `shippers/${shipperId}`, query: { name } }}>
         {/* {logo && (
           <Image

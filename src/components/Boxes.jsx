@@ -1,11 +1,11 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import Active from "../../public/images/document.png";
-import Completed from "../../public/images/secure-document.png";
-import CreateDoc from "../../public/images/create-document.png";
-import BoxManIcon from "../../public/images/shipper.png";
-import DriversIcon from "../../public/images/driverIcon.png";
+import Active from "../../public/images/active-bol.png";
+import Completed from "../../public/images/complete-bol.png";
+import CreateDoc from "../../public/images/create-bol.png";
+import BoxManIcon from "../../public/images/shipper-icon.png";
+import DriversIcon from "../../public/images/drivers-icon.png";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie"; // Import js-cookie library
 import {
@@ -17,17 +17,16 @@ import { useQuery } from "@apollo/client";
 import { Spin } from "antd";
 
 const Box = ({ title, desc, imageSrc, link, type }) => {
-  console.log("tupe", type);
   return (
     <Link
       href={`${link}?type=${type}`}
-      className="bg-boxblack hover:bg-blue-700 border-2 border-gray rounded-md w-72 justify-center  h-[100%]  flex flex-col font-semibold"
+      className="bg-mainBoxesBg hover:bg-blue-400 rounded-lg w-72 justify-center  h-[100%]  flex flex-col "
     >
-      <div className="flex items-center m-4">
+      <div className="flex flex-col gap-2 items-center m-4">
+        <p className="ml-2">{title}</p>
         <Image alt="" src={imageSrc} height={60} width={60} />
-        <p className="text-white ml-2">{title}</p>
       </div>
-      <p className="text-white mx-6 underline text-sm">{desc}</p>
+      {/* <p className=" mx-6 underline text-sm">{desc}</p> */}
     </Link>
   );
 };
@@ -55,7 +54,7 @@ const ShippersBox = () => {
   return (
     <Link
       href="/shippers"
-      className="relative bg-boxblack hover:bg-blue-700 border-2 border-gray rounded-md w-72 justify-center h-[100%] flex flex-col font-semibold"
+      className="relative bg-mainBoxesBg hover:bg-blue-400 rounded-lg  w-72 justify-center h-[100%] flex flex-col "
     >
       {loading ? (
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -65,20 +64,12 @@ const ShippersBox = () => {
         <>
           <div className="flex items-center m-4 mt-2 mb-2">
             <Image src={BoxManIcon} alt="Shippers Icon" width={50} />
-            <p className="text-white ml-4 mt-2 text-xl">Shippers</p>
+            <p className=" ml-2 mt-2 text-xl font-semibold">Shippers</p>
           </div>
-          <p className="text-white mx-6 text-sm">
-            Active B/Ls: {activeBillCount}
-          </p>
-          <p className="text-white mx-6 text-sm">
-            Completed B/Ls: {completedBillCount}
-          </p>
-          <p className="text-white mx-6 text-sm">
-            Prepaid: {prepaidCount || 0}
-          </p>
-          <p className="text-white mx-6 text-sm">
-            Collect: {collectCount || 0}
-          </p>
+          <p className=" mx-6 text-sm">Active B/Ls: {activeBillCount}</p>
+          <p className=" mx-6 text-sm">Completed B/Ls: {completedBillCount}</p>
+          <p className=" mx-6 text-sm">Prepaid: {prepaidCount || 0}</p>
+          <p className=" mx-6 text-sm">Collect: {collectCount || 0}</p>
         </>
       )}
     </Link>
@@ -106,7 +97,7 @@ const CarriersBox = () => {
   return (
     <Link
       href="/carriers"
-      className="relative bg-boxblack hover:bg-blue-700 border-2 border-gray rounded-md w-72 justify-center h-[100%] flex flex-col font-semibold"
+      className="relative bg-mainBoxesBg hover:bg-blue-400 rounded-lg  w-72 justify-center h-[100%] flex flex-col "
     >
       {loading ? (
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -114,19 +105,14 @@ const CarriersBox = () => {
         </div>
       ) : (
         <>
-          <div className="flex items-center m-4 mt-2 mb-2">
-            <Image src={BoxManIcon} alt="Carriers Icon" width={50} />
-            <p className="text-white ml-4 mt-2 text-xl">Carriers</p>
+          <div className="flex justify-center  items-center m-4 mt-2 mb-2">
+            <p className=" ml-2 mt-2 text-xl font-semibold">Carriers</p>
           </div>
-          <p className="text-white mx-6 mt-2 text-sm">
+          <p className=" mx-6 mt-2 text-sm">
             Associated Carriers: {associatedCarriersCount}
           </p>
-          <p className="text-white mx-6 my-2 text-sm">
-            Active B/Ls: {activeBillCount}
-          </p>
-          <p className="text-white mx-6 text-sm">
-            Completed B/Ls: {completedBillCount}
-          </p>
+          <p className=" mx-6 my-2 text-sm">Active B/Ls: {activeBillCount}</p>
+          <p className=" mx-6 text-sm">Completed B/Ls: {completedBillCount}</p>
         </>
       )}
     </Link>
@@ -152,7 +138,7 @@ const DriversBox = () => {
   return (
     <Link
       href="/drivers"
-      className="relative bg-boxblack  hover:bg-blue-700 border-2 border-gray rounded-md w-72 justify-center  h-[100%]  flex flex-col font-semibold"
+      className="relative bg-mainBoxesBg hover:bg-blue-400 rounded-lg  w-72 justify-center  h-[100%]  flex flex-col "
     >
       {loading || !data ? (
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -162,19 +148,13 @@ const DriversBox = () => {
         <>
           <div className="flex items-center m-4 mt-2 mb-0">
             <Image src={DriversIcon} alt="Drivers Icon" width={50} />
-            <p className="text-white ml-4 text-xl">Drivers</p>
+            <p className=" ml-4 text-xl font-semibold">Drivers</p>
           </div>
-          <p className="text-white mx-6 text-sm">In Route to Pickup: 0</p>
-          <p className="text-white mx-6 text-sm">At Pickup: {atPickupCount}</p>
-          <p className="text-white mx-6 text-sm">
-            In Route to Dropoff: {inTransitCount}
-          </p>
-          <p className="text-white mx-6 text-sm">
-            At Dropoff: {atDropoffCount}
-          </p>
-          <p className="text-white mx-6 text-sm mb-2">
-            Inactive: {inActiveCount}
-          </p>
+          <p className=" mx-6 text-sm">In Route to Pickup: 0</p>
+          <p className=" mx-6 text-sm">At Pickup: {atPickupCount}</p>
+          <p className=" mx-6 text-sm">In Route to Dropoff: {inTransitCount}</p>
+          <p className=" mx-6 text-sm">At Dropoff: {atDropoffCount}</p>
+          <p className=" mx-6 text-sm mb-2">Inactive: {inActiveCount}</p>
         </>
       )}
     </Link>

@@ -11,7 +11,7 @@ const Checkbox = ({ isChecked, toggleFunc, index }) => {
         type="checkbox"
         checked={isChecked}
         onChange={() => toggleFunc(index)}
-        className="border-2 border-white rounded h-5 w-5 my-2"
+        className="border border-black rounded h-5 w-5 my-2"
       />
     </td>
   );
@@ -22,7 +22,7 @@ const Checkbox = ({ isChecked, toggleFunc, index }) => {
 
 const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
   const [updateBol] = useMutation(UPDATE_BOL);
-  console.log("rowData.last_opened", rowData.last_opened);
+
   const handleClick = async (bolId) => {
     const currentDate = new Date().toISOString();
     // Perform your API call here
@@ -38,19 +38,22 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
       console.error("Error:", error);
     }
   };
-  console.log("rowdata ====>", type);
+
   switch (type) {
     case "active":
     case "recent":
       return (
-        <tr className="text-center  table-row-class  bg-cgray text-white hover:bg-gray-300">
+        <tr
+          className={`text-center table-row-class ${
+            index % 2 === 0 ? "bg-gray-300" : "bg-gray-200"
+          } text-black hover:bg-gray-400`}
+        >
           <Checkbox
             isChecked={checked}
             toggleFunc={toggleCheckbox}
             index={index}
           />
           <td>{rowData?.consignee_id?.name}</td>
-
           <td>{rowData.description}</td>
           <td>{rowData?.carrier_id?.name}</td>
           <td>{rowData?.status}</td>
@@ -72,7 +75,11 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
       );
     case "carrier-recent":
       return (
-        <tr className="text-center  table-row-class  bg-cgray text-white hover:bg-gray-300">
+        <tr
+          className={`text-center table-row-class ${
+            index % 2 === 0 ? "bg-gray-300" : "bg-gray-200"
+          } text-black hover:bg-gray-400`}
+        >
           <Checkbox
             isChecked={checked}
             toggleFunc={toggleCheckbox}
@@ -83,7 +90,7 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
 
           <td>{rowData.description}</td>
           <td>{rowData?.shipper_id?.name}</td>
-          <td>{rowData?.status}</td>
+          <td>{rowData?.id}</td>
           <td>
             <Link
               href={`/bol/${rowData.id}`}
@@ -102,7 +109,11 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
       );
     case "complete":
       return (
-        <tr className="text-center table-row-class text-white hover:bg-textgray">
+        <tr
+          className={`text-center table-row-class ${
+            index % 2 === 0 ? "bg-gray-300" : "bg-gray-200"
+          } text-black hover:bg-gray-400`}
+        >
           <Checkbox
             isChecked={checked}
             toggleFunc={toggleCheckbox}
@@ -122,7 +133,11 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
       );
     case "carrier-complete":
       return (
-        <tr className="text-center table-row-class bg-cgray text-white hover:bg-gray-300">
+        <tr
+          className={`text-center table-row-class ${
+            index % 2 === 0 ? "bg-gray-300" : "bg-gray-200"
+          } text-black hover:bg-gray-400`}
+        >
           <Checkbox
             isChecked={checked}
             toggleFunc={toggleCheckbox}
@@ -150,7 +165,11 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
       );
     case "carrier-active":
       return (
-        <tr className="text-center table-row-class bg-cgray text-white hover:bg-gray-300 text-sm">
+        <tr
+          className={`text-center table-row-class ${
+            index % 2 === 0 ? "bg-gray-300" : "bg-gray-200"
+          } text-black hover:bg-gray-400`}
+        >
           <Checkbox
             isChecked={checked}
             toggleFunc={toggleCheckbox}
@@ -180,7 +199,11 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
     case "consignee-active":
     case "shipper-active":
       return (
-        <tr className="text-center table-row-class bg-cgray text-white hover:bg-gray-300 text-sm">
+        <tr
+          className={`text-center table-row-class ${
+            index % 2 === 0 ? "bg-gray-300" : "bg-gray-200"
+          } text-black hover:bg-gray-400`}
+        >
           <Checkbox
             isChecked={checked}
             toggleFunc={toggleCheckbox}
@@ -217,7 +240,11 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
     case "consignee-complete":
     case "shipper-complete":
       return (
-        <tr className="text-center table-row-class bg-cgray text-white hover:bg-gray-300 text-sm">
+        <tr
+          className={`text-center table-row-class ${
+            index % 2 === 0 ? "bg-gray-300" : "bg-gray-200"
+          } text-black hover:bg-gray-400`}
+        >
           <Checkbox
             isChecked={checked}
             toggleFunc={toggleCheckbox}
@@ -234,7 +261,11 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
       );
     case "shipper-carrier-active":
       return (
-        <tr className="text-center table-row-class bg-cgray text-white hover:bg-hoverGray">
+        <tr
+          className={`text-center table-row-class ${
+            index % 2 === 0 ? "bg-gray-300" : "bg-gray-200"
+          } text-black hover:bg-gray-400`}
+        >
           <Checkbox
             isChecked={checked}
             toggleFunc={toggleCheckbox}
@@ -277,7 +308,11 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
       );
     case "shipper-carrier-complete":
       return (
-        <tr className="text-center table-row-class text-white hover:bg-textgray">
+        <tr
+          className={`text-center table-row-class ${
+            index % 2 === 0 ? "bg-gray-300" : "bg-gray-200"
+          } text-black hover:bg-gray-400`}
+        >
           <Checkbox
             isChecked={checked}
             toggleFunc={toggleCheckbox}
@@ -316,7 +351,11 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
 
     case "carrier-shipper-active":
       return (
-        <tr className="text-center table-row-class text-white hover:bg-textgray">
+        <tr
+          className={`text-center table-row-class ${
+            index % 2 === 0 ? "bg-gray-300" : "bg-gray-200"
+          } text-black hover:bg-gray-400`}
+        >
           <Checkbox
             isChecked={checked}
             toggleFunc={toggleCheckbox}
@@ -363,7 +402,11 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
 
     case "carrier-shipper-complete":
       return (
-        <tr className="text-center table-row-class text-white hover:bg-textgray">
+        <tr
+          className={`text-center table-row-class ${
+            index % 2 === 0 ? "bg-gray-300" : "bg-gray-200"
+          } text-black hover:bg-gray-400`}
+        >
           <Checkbox
             isChecked={checked}
             toggleFunc={toggleCheckbox}
@@ -397,25 +440,41 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
           </td>
         </tr>
       );
-    // case "driver-logs":
-    //   return (
-    //     <tr className="text-center text-white hover:bg-textgray">
-    //       <Checkbox
-    //         isChecked={checked}
-    //         toggleFunc={toggleCheckbox}
-    //         index={index}
-    //       />
-    //       <td>{shipper}</td>
-    //       <td>{consignee}</td>
-    //       <td>{activity}</td>
-    //       <td>{dateTime}</td>
-    //       <td>
-    //         <Link href={`/bol/${bolId}`} className="underline">
-    //           View Assoc. B/L
-    //         </Link>
-    //       </td>
-    //     </tr>
-    //   );
+    case "carrier-driver-logs":
+      return (
+        <tr
+          className={`text-center table-row-class ${
+            index % 2 === 0 ? "bg-gray-300" : "bg-gray-200"
+          } text-black hover:bg-gray-400`}
+        >
+          <Checkbox
+            isChecked={checked}
+            toggleFunc={toggleCheckbox}
+            index={index}
+          />
+
+          {/* <th>Shipper</th>
+          <th>Consignee</th>
+          <th>B/L No.</th>
+          <th>Activity Description</th>
+          <th>Date/Time</th> */}
+
+          <td>{rowData?.shipper_id?.name || "shipper"}</td>
+          <td>{rowData?.consignee_id?.name || "consignee"}</td>
+          <td>{rowData?.id || "order no"}</td>
+          <td>{rowData?.description}</td>
+          <td>{formatDate(rowData?.updated_at)} </td>
+          <td>
+            <Link
+              href={`/bol/${rowData.id}`}
+              className="underline"
+              onClick={() => handleClick(rowData?.id)}
+            >
+              View B/L
+            </Link>
+          </td>
+        </tr>
+      );
 
     default:
       return null;

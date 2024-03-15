@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Marker from "../../public/images/marker.svg";
+import Marker from "../../public/images/polygon.png";
 
 const LocationMarker = ({ ltr, name, latestAgent }) => {
   const fullLtrWord = (ltr, latestAgent) => {
@@ -18,9 +18,11 @@ const LocationMarker = ({ ltr, name, latestAgent }) => {
   return (
     <div className="flex items-center my-4">
       {latestAgent === fullLtrWord(ltr, latestAgent) && (
-        <Image src={Marker} alt="Marker" width={25} className="mr-2" />
+        <Image src={Marker} alt="Marker" width={25} className="mr-2 " />
       )}
-      <p className={`${bgColor} border-2 py-1 px-4 uppercase`}>{ltr}</p>
+      <p className={`${bgColor} border-2 border-black py-1 px-4 uppercase`}>
+        {ltr}
+      </p>
       <p className="ml-4 font-semibold text-base">{name}</p>
     </div>
   );

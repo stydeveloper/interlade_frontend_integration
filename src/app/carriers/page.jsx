@@ -23,7 +23,7 @@ const CarrierProfileBox = ({
   associatedDriverCount,
 }) => {
   return (
-    <div className="flex flex-col items-center p-4 border-2 border-textgray rounded-md hover:bg-hoverGray">
+    <div className="flex flex-col items-center p-4 border bg-mainBoxesBg text-blac border-textgray rounded-md hover:bg-hoverGray">
       <Link href={{ pathname: `carriers/${carrierId}`, query: { name } }}>
         {/* {logo && (
           <Image

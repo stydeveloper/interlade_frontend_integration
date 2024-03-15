@@ -2,50 +2,50 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import interladeBlue from "../../../public/images/interladeBlue.png";
-import { useMutation, gql } from "@apollo/client";
+// import { useMutation, gql } from "@apollo/client";
 
-const REGISTER_CARRIER_MUTATION = gql`
-  mutation RegisterCarrier(
-    $name: String!
-    $email: String!
-    $password: String!
-    $address: String!
-    $state: String!
-    $city: String!
-    $zipcode: String!
-    $number: String
-  ) {
-    registerCarrier(
-      name: $name
-      email: $email
-      password: $password
-      address: $address
-      state: $state
-      city: $city
-      zipcode: $zipcode
-      number: $number
-    ) {
-      address
-      address
-      city
-      email
-      id
-      message
-      name
-      password
-      state
-      status
-      zipcode
-      role_id {
-        id
-        name
-      }
-      number
-      token
-      created_at
-    }
-  }
-`;
+// const REGISTER_CARRIER_MUTATION = gql`
+//   mutation RegisterCarrier(
+//     $name: String!
+//     $email: String!
+//     $password: String!
+//     $address: String!
+//     $state: String!
+//     $city: String!
+//     $zipcode: String!
+//     $number: String
+//   ) {
+//     registerCarrier(
+//       name: $name
+//       email: $email
+//       password: $password
+//       address: $address
+//       state: $state
+//       city: $city
+//       zipcode: $zipcode
+//       number: $number
+//     ) {
+//       address
+//       address
+//       city
+//       email
+//       id
+//       message
+//       name
+//       password
+//       state
+//       status
+//       zipcode
+//       role_id {
+//         id
+//         name
+//       }
+//       number
+//       token
+//       created_at
+//     }
+//   }
+// `;
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -61,35 +61,35 @@ const RegisterPage = () => {
   const [registerResponse, setRegisterResponse] = useState("");
   const [registerError, setRegisterError] = useState("");
 
-  const [registerCarrier] = useMutation(REGISTER_CARRIER_MUTATION);
+  // const [registerCarrier] = useMutation(REGISTER_CARRIER_MUTATION);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  // const handleChange = (e) => {
+  //   setFormData({ ...formData, [e.target.name]: e.target.value });
+  // };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await registerCarrier({ variables: formData });
-      setRegisterResponse("SUCCESS NIGGA");
-      // localStorage.setItem("token", response.data.registerCarrier.token); // Store token if needed
-      console.log(response);
-    } catch (error) {
-      if (error instanceof Error) {
-        // Now TypeScript knows that error is an Error instance and has a message property
-        setRegisterError(error.message);
-      } else {
-        // If it's not an Error instance, you can handle it differently or provide a generic message
-        setRegisterError("An unknown error occurred");
-      }
-    }
-  };
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const response = await registerCarrier({ variables: formData });
+  //     setRegisterResponse("SUCCESS NIGGA");
+  //     // localStorage.setItem("token", response.data.registerCarrier.token); // Store token if needed
+  //     console.log(response);
+  //   } catch (error) {
+  //     if (error instanceof Error) {
+  //       // Now TypeScript knows that error is an Error instance and has a message property
+  //       setRegisterError(error.message);
+  //     } else {
+  //       // If it's not an Error instance, you can handle it differently or provide a generic message
+  //       setRegisterError("An unknown error occurred");
+  //     }
+  //   }
+  // };
 
   return (
     <div className="flex items-center justify-center h-screen bg-black">
       <div className="w-full max-w-md">
         <form
-          onSubmit={handleSubmit}
+          // onSubmit={handleSubmit}
           className="grid grid-cols-2 gap-4 bg-white shadow-md rounded px-12 pt-6 pb-8 mb-4 "
         >
           <div className="flex flex-col mb-4 items-center justify-center col-span-2">

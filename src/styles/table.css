@@ -6,3 +6,10 @@
 .table-bg{
   background: #323232;
 }
+
+thead th {
+  position: sticky;
+  top: 0;
+  background-color: #ffffff; /* Match the background color of your table */
+  z-index: 10; /* Ensure the header is above the table body */
+}

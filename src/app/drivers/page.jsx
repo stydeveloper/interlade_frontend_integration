@@ -6,6 +6,7 @@ import ProfileIcon from "../../../public/images/user.svg";
 import ActiveIcon from "../../../public/images/activeBlshipperIcon.svg";
 import CompleteIcon from "../../../public/images/completeBlshipperIcon.svg";
 import Location from "../../../public/images/location.png";
+import DriverIcon from "../../../public/images/drivers-icon.png";
 import { mockDriverData } from "@/components/MockData";
 import SidePanel from "@/components/SidePanel";
 import InviteDriverModal from "@/components/InviteDriverModal";
@@ -20,9 +21,10 @@ const DriverBox = ({
   driverName: name,
 }) => {
   return (
-    <div className="flex flex-col items-center p-4 border-2 border-gray-300 rounded-md hover:bg-hoverGray w-60 flex-wrap">
+    <div className="flex flex-col items-center p-4 border bg-mainBoxesBg text-black border-gray-300 rounded-md hover:bg-hoverGray w-60 flex-wrap">
       <Link href={{ pathname: `drivers/${driverId}`, query: { name } }}>
-        <div className="flex items-center mb-2">
+        <div className="flex gap-2 items-center mb-2">
+          <Image src={DriverIcon} alt="Shipper Name Icon" width={40} />
           <p className="text-xl">{name}</p>
         </div>
         <div className="flex items-center">

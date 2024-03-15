@@ -295,10 +295,10 @@ const Page = ({ params }) => {
           </div>
         </div>
       </div>
-      <div className="bg-hoverGray w-full justify-center px-4">
+      <div className="bg-white w-full justify-center px-4">
         <h1 className="font-bold text-2xl my-2 ">Order No: {params.id}</h1>
         <div className="grid grid-rows-2 grid-cols-3 gap-4 h-4/5">
-          <div className="relative bg-cgray border-2 border-white rounded-md flex flex-col py-4 px-12 text-white col-start-1 ">
+          <div className="relative bg-mainBoxesBg border border-gray rounded-lg flex flex-col py-4 px-12 text-black col-start-1 ">
             {loading && !consigneeInfo ? (
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <Spin />
@@ -309,9 +309,11 @@ const Page = ({ params }) => {
                   Consignee
                 </h3>
                 {/* params.id.consignee */}
-                <p className=" text-base">Name: {consigneeInfo?.name}</p>
-                <p className=" text-base">Address: {consigneeInfo?.address}</p>
-                <p className=" text-base">
+                <p className=" text-base mb-1">Name: {consigneeInfo?.name}</p>
+                <p className=" text-base mb-1">
+                  Address: {consigneeInfo?.address}
+                </p>
+                <p className=" text-base" mb-1>
                   Phone:{" "}
                   <Link href={phone}>
                     {consigneeInfo?.number || 9230239122}
@@ -323,7 +325,7 @@ const Page = ({ params }) => {
               </>
             )}
           </div>
-          <div className="relative bg-cgray border-2 border-white rounded-md flex flex-col py-4 px-12 text-white col-start-1 ">
+          <div className="relative bg-mainBoxesBg border border-gray rounded-lg flex flex-col py-4 px-12 text-black col-start-1 ">
             {loading ? (
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <Spin />
@@ -344,7 +346,7 @@ const Page = ({ params }) => {
             )}
           </div>
 
-          <div className="relative border-2  bg-cgray border-white rounded-md flex flex-col py-4 px-12 text-white col-span-2">
+          <div className="relative border  bg-mainBoxesBg border-gray rounded-lg flex flex-col py-4 px-12 text-black col-span-2">
             {loading ? (
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <Spin />
@@ -365,7 +367,7 @@ const Page = ({ params }) => {
             )}
           </div>
 
-          <div className="relative bg-cgray border-2 border-white rounded-md flex flex-col p-4 text-white row-start-1 col-start-2 col-span-2">
+          <div className="relative bg-mainBoxesBg border border-gray rounded-lg flex flex-col p-4 text-black row-start-1 col-start-2 col-span-2">
             {bol_history_loading ? (
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <Spin />

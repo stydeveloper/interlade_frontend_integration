@@ -97,7 +97,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="relative flex items-center justify-center h-screen bg-cgray">
+    <div className="relative flex items-center justify-center h-screen bg-authBg">
       {loading && (
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="absolute inset-0 bg-black opacity-65"></div>

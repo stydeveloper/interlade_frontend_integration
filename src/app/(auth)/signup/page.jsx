@@ -233,7 +233,7 @@ const SignupPage = () => {
   };
   console.log(disable);
   return (
-    <div className="flex h-[120vh] items-center justify-center bg-cgray ">
+    <div className="flex h-screen items-center justify-center bg-authBg">
       <div className="h-[90%] max-w-lg my-8">
         <form
           onSubmit={handleSignup}
