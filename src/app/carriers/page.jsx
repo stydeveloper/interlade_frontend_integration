@@ -9,7 +9,7 @@ import { mockCarrierData } from "@/components/MockData";
 import ProfileIcon from "../../../public/images/user.svg";
 import ActiveIcon from "../../../public/images/activeBlshipperIcon.svg";
 import CompleteIcon from "../../../public/images/completeBlshipperIcon.svg";
-import DriverCountIcon from "../../../public/images/icons8-in-transit-96 1.png";
+import DriverCountIcon from "../../../public/images/drivers-icon.png";
 import SidePanel from "@/components/SidePanel";
 import { useQuery } from "@apollo/client";
 import { Spin } from "antd";
