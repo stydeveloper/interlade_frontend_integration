@@ -129,8 +129,8 @@ const DispatchBoLToDriverModal = ({
 
   useEffect(() => {
     if (id && options.length > 0) {
-      // If ID is present and options are available, update carrier information
-      const selectedBol = options[0];
+      // If ID is present and options are available, update selectedBolId state
+      const selectedBol = options.find((option) => option.value.id == id);
 
       if (selectedBol) {
         setSelectedBolId(selectedBol.value.id);
@@ -211,7 +211,7 @@ const DispatchBoLToDriverModal = ({
             <label htmlFor="" className="text-xl">
               BoL
             </label>
-            {callStatus ? (
+            {id ? (
               <Select
                 options={options}
                 value={selectedBolId}
