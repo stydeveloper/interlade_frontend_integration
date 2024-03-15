@@ -74,8 +74,8 @@ export const GET_CURRENT_BOL_LOCATION = gql`
 `;
 
 export const GET_ALL_BOLS_QUERY = gql`
-  query getAllBols {
-    getBols {
+  query getAllBols($filters: Filter) {
+    getBols(filters: $filters) {
       id
       carrier_id {
         id
@@ -493,6 +493,28 @@ export const GETBOL_BYID = gql`
         id
       }
       status
+    }
+  }
+`;
+
+export const GET_DAILY_LOGS_DRIVER = gql`
+  query GetDailyLogsDriver($userId: ID!) {
+    getDailyLogsDriver(user_id: $userId) {
+      id
+      created_at
+      driver_id {
+        id
+      }
+      shipper_id {
+        id
+        name
+      }
+      consignee_id {
+        id
+        name
+      }
+      description
+      updated_at
     }
   }
 `;
