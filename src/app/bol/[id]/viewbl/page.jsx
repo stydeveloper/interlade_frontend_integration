@@ -21,6 +21,8 @@ import {
   GET_BOL_VERSION_BYIDS,
   GET_BOL_VERSION_BY_USERID,
 } from "@/fetching/queries/bol_version";
+import { GENERATE_BOL_STATUS_HISTORY } from "@/fetching/queries/bol_history";
+import { formatDate } from "@/utils/helper";
 
 const ViewBl = ({ params }) => {
   const router = useRouter();
@@ -41,6 +43,16 @@ const ViewBl = ({ params }) => {
     variables: { getBolId: `${params.id}` },
     skip: !params.id || !loggedInUser?.id, // Skip query if params.id or loggedInUser.id is not present
   });
+  const {
+    loading: genBolHistoryLoading,
+    error: genBolHistoryError,
+    data: genBolHistoryData,
+
+    refetch: refetchGenBolHistory,
+  } = useQuery(GENERATE_BOL_STATUS_HISTORY, {
+    variables: { bolId: `${params.id}` },
+    skip: !params.id, // Skip query if params.id or loggedInUser.id is not present
+  });
 
   const [bolDownload] = useMutation(BOL_DOWNLOAD);
 
@@ -56,6 +68,12 @@ const ViewBl = ({ params }) => {
   });
 
   let hasDriverUploadedImage;
+
+  let bolHistoryActions;
+
+  if (genBolHistoryData && !genBolHistoryLoading) {
+    bolHistoryActions = genBolHistoryData?.generateBolStatusHistory;
+  }
 
   if (bolImagesData && !bolImagesLoading) {
     hasDriverUploadedImage = bolImagesData.getBolImagesByBolId.length > 0;
@@ -181,41 +199,68 @@ const ViewBl = ({ params }) => {
   };
   return (
     <div className="flex  justify-between">
-      <div className="bg-cgray rounded-b-md flex w-80 flex-col fixed h-full">
-        <div className="relative mx-8">
+      <div className="bg-cgray rounded-b-md flex w-80 flex-col fixed h-full ">
+        <div className="relative overflow-y-auto">
           <Image
             alt="Back"
             src={BackBtn}
             width={25}
-            className="absolute top-[0.9rem] left-0 cursor-pointer "
+            className="absolute top-[0.9rem] left-0 cursor-pointer  mx-8"
             onClick={() => router.back()}
             title="Go Back"
           />
-          <div className="flex justify-center my-8">
+          <div className="flex justify-center my-2  mx-8">
             <MainBtn
               srcImg={Home}
               label="Home"
               actionFunc={() => router.push("/")}
             />
           </div>
-          <p className="text-white font-bold text-2xl text-center mb-4">
-            B/L Actions
+
+          {bolHistoryActions && (
+            <div>
+              <h3 className="text-center mb-2 text-2xl text-white font-bold">
+                Version History
+              </h3>
+              {bolHistoryActions.map((action, index) => (
+                <p
+                  className={`text-xs px-2 py-1 ${
+                    index % 2 === 0 ? "bg-oddColor" : "bg-mainBoxesBg"
+                  }`}
+                >
+                  {formatDate(action.time)}: {action.message}
+                </p>
+              ))}
+              {bolHistoryActions?.length === 6 && (
+                <p className="bg-oddColor text-center text-sm py-1">
+                  Delivery Complete!
+                </p>
+              )}{" "}
+            </div>
+          )}
+
+          <p className="text-white font-bold text-xl text-center mb-4 mt-2  mx-8">
+            Version History Actions
           </p>
-          <DocumentBtn
-            srcImg={Print}
-            label="Print"
-            actionFunc={handleDownload}
-          />
-          {/* <DocumentBtn
+          <div className="btn-container mx-8 ">
+            <DocumentBtn
+              srcImg={Print}
+              label="Print"
+              actionFunc={handleDownload}
+              width={30}
+            />
+            {/* <DocumentBtn
             srcImg={Send}
             label="Send"
             actionFunc={() => console.log("Send")}
           /> */}
-          <DocumentBtn
-            srcImg={Download}
-            label="Download"
-            actionFunc={handleDownload}
-          />
+            <DocumentBtn
+              srcImg={Download}
+              label="Download"
+              actionFunc={handleDownload}
+              width={30}
+            />
+          </div>
         </div>
       </div>
       <div className="bg-hoverGray gap-2 flex flex-col items-center justify-center py-4 ml-80 px-4">

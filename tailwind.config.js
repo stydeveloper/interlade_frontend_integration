@@ -22,6 +22,7 @@ module.exports = {
         lilPurp: "#8170ED",
         authBg: "#B9B9B9",
         mainBoxesBg: "#D9D9D9",
+        oddColor: "#EEEEEE",
       },
     },
   },

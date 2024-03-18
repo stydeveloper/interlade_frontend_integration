@@ -39,6 +39,7 @@ export const REGISTER_CARRIER = gql`
       created_at
       checkoutUrl
       termsacknowledged
+      status
     }
   }
 `;

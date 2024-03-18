@@ -5,7 +5,7 @@ import "./subscriptionEmailModal.css";
 // import { useMutation } from "@apollo/client";
 // import { CREATE_SUBSCRIPTON } from "@/fetching/mutations/subscription";
 import { useRouter } from "next/navigation";
-import { PriceCard } from "@/app/(auth)/pricing/page";
+import { PriceCard } from "../PriceCard";
 // import { REGISTER_CARRIER } from "@/fetching/mutations/user";
 
 function SubscriptionEmailModal({

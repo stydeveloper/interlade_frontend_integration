@@ -81,24 +81,25 @@ export function PriceCard({
         address,
         zipcode,
         termsacknowledged,
+        status,
         ...user
       } = response?.data?.registerCarrier;
       console.log("------------------------", termsacknowledged);
       // Set cookies
 
-      if (typeof window !== "undefined") {
-        localStorage.setItem(
-          "role_id",
-          `${response.data.registerCarrier.role_id.id}`
-        );
-        localStorage.setItem("token", `${response.data.registerCarrier.token}`);
-        const { checkoutUrl, token, created_at, ...user } =
-          response?.data?.registerCarrier;
-        localStorage.setItem("user", JSON.stringify(user));
-      }
+      // if (typeof window !== "undefined") {
+      //   localStorage.setItem(
+      //     "role_id",
+      //     `${response.data.registerCarrier.role_id.id}`
+      //   );
+      //   localStorage.setItem("token", `${response.data.registerCarrier.token}`);
+      //   const { checkoutUrl, token, created_at, ...user } =
+      //     response?.data?.registerCarrier;
+      //   localStorage.setItem("user", JSON.stringify(user));
+      // }
       // Set cookies
 
-      if (typeof window !== "undefined") {
+      if (typeof window !== "undefined" && status.toString() !== "Pending") {
         Cookies.set("role_id", response.data.registerCarrier.role_id.id);
         Cookies.set("token", response.data.registerCarrier.token);
 

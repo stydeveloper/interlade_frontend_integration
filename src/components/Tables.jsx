@@ -67,6 +67,10 @@ const getMessageByType = (type) => {
       title: "No Recent B/Ls",
       description: "Documents that you recently worked on will appear here.",
     },
+    "carrier-recent": {
+      title: "No Recent B/Ls",
+      description: "Documents that you recently worked on will appear here.",
+    },
   };
 
   return messages[type] || null;
@@ -475,7 +479,7 @@ const Table = ({
                   if (!message) return null;
 
                   return (
-                    <div className=" p-4">
+                    <div className="p-4">
                       <p className="font-bold text-2xl ">{message.title}</p>
                       <p className="max-w-[300px]">{message.description}</p>
                     </div>
