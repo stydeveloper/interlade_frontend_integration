@@ -14,7 +14,7 @@ import SidePanel from "@/components/SidePanel";
 import { useMutation, gql, useQuery } from "@apollo/client";
 import { toast } from "react-toastify";
 import { Spin } from "antd";
-import { CREATE_BOL_MUTATION } from "@/fetching/mutations/bol";
+import { CreatePublicBolMutation } from "@/fetching/mutations/bol";
 import "react-toastify/dist/ReactToastify.css";
 import {
   allNotificationsRefetchFunction,
@@ -110,7 +110,7 @@ const Page = () => {
   const [
     createBol,
     { data: mutationData, loading: mutationLoading, error: mutationError },
-  ] = useMutation(CREATE_BOL_MUTATION);
+  ] = useMutation(CreatePublicBolMutation);
   //   const userInfo = Cookies.get("user");
 
   //   const parsedUserInfo = userInfo ? JSON.parse(userInfo) : null;

@@ -310,15 +310,14 @@ const Table = ({
   };
 
   const handleDownload = async () => {
-    console.log(selectedBolId);
-    // const response = await bolDownload({
-    //   variables: { bolId: `${selectedBolId}` },
-    // });
+    const response = await bolDownload({
+      variables: { bolId: `${selectedBolId}` },
+    });
 
-    // if (response?.data?.bolDownload) {
-    //   // Open the PDF URL in a new tab
-    //   window.open(response.data.bolDownload, "_blank");
-    // }
+    if (response?.data?.bolDownload) {
+      // Open the PDF URL in a new tab
+      window.open(response.data.bolDownload, "_blank");
+    }
   };
 
   // const [searchTerm, setSearchTerm] = useState("");
