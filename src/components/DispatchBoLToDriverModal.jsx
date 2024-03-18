@@ -126,17 +126,21 @@ const DispatchBoLToDriverModal = ({
       }));
     }
   }
+  let selectedOption;
+  if (id) {
+    selectedOption = options[0];
+  }
 
-  useEffect(() => {
-    if (id && options.length > 0) {
-      // If ID is present and options are available, update selectedBolId state
-      const selectedBol = options.find((option) => option.value.id == id);
+  // useEffect(() => {
+  //   if (id && options.length > 0) {
+  //     // If ID is present and options are available, update selectedBolId state
+  //     const selectedBol = options.find((option) => option.value.id == id);
 
-      if (selectedBol) {
-        setSelectedBolId(selectedBol.value.id);
-      }
-    }
-  }, [id, options]);
+  //     if (selectedBol) {
+  //       setSelectedBolId(selectedBol.value.id);
+  //     }
+  //   }
+  // }, [id, options, data?.getBolsByStatus]);
 
   const handleActAsDriver = async () => {
     try {
@@ -214,7 +218,7 @@ const DispatchBoLToDriverModal = ({
             {id ? (
               <Select
                 options={options}
-                value={selectedBolId}
+                value={selectedOption}
                 placeholder="Select Active BoL ..."
                 className="w-96 max-h[38px] border-[1px] rounded-md mb-4"
                 defaultValue={options[0]}

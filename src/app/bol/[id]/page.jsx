@@ -66,7 +66,6 @@ const Page = ({ params }) => {
   } = useQuery(GET_BOLIMAGES_BY_BOLID, {
     variables: { bolId: params.id },
   });
-  console.log(`bol data ${params.id}`, bolData);
 
   const {
     loading: currentBlLoading,
@@ -92,7 +91,6 @@ const Page = ({ params }) => {
   let lastUser;
   if (currentBlData) {
     lastUser = currentBlData.getCurrentBolLocation;
-    console.log("lastUserlastUserlastUserlastUserlastUserlastUser", lastUser);
   }
   let consigneeInfo;
   let isDriverIsAssigned;
@@ -103,8 +101,6 @@ const Page = ({ params }) => {
   let IsCarrierAsDriver;
 
   if (bolData && !bolLoading) {
-    console.log("kkasdassasscasa");
-    console.log("bolData");
     isDriverIsAssigned = bolData.getBol?.driver_id !== null;
 
     driverId = bolData?.getBol?.driver_id?.id;
@@ -113,8 +109,6 @@ const Page = ({ params }) => {
 
     IsCarrierAsDriver =
       associatedCarrierIdToBol === driverId && driverId === loggedInUser?.id;
-
-    console.log("IsCarrierAsDriver", IsCarrierAsDriver);
   }
 
   if (data && !loading) {
@@ -149,7 +143,6 @@ const Page = ({ params }) => {
         const base64Image = await convertToBase64(file);
 
         // const imageUrl = URL.createObjectURL(file);
-        console.log("Image URL:", base64Image);
 
         const { data, loading } = await UploadImageMutation({
           variables: { bolId: params.id, filename: base64Image },
@@ -336,7 +329,7 @@ const Page = ({ params }) => {
                   Current "Location"
                 </h3>
                 {/* based on most recent B/L agent in the action data*/}
-                {console.log("last user ==", lastUser)}
+
                 <CurrentBoLLocation
                   data={mockActionData}
                   lastUser={lastUser}

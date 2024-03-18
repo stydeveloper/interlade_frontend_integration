@@ -77,7 +77,6 @@ const ViewBl = ({ params }) => {
 
   if (bolImagesData && !bolImagesLoading) {
     hasDriverUploadedImage = bolImagesData.getBolImagesByBolId.length > 0;
-    console.log("hasDriverUploadedImage", hasDriverUploadedImage);
   }
 
   const {
@@ -100,8 +99,6 @@ const ViewBl = ({ params }) => {
     associatedCarrierIdToBol = bolData?.getBol?.carrier_id?.id;
     consigneeId = bolData?.getBol?.consignee_id?.id;
     bolStatus = bolData?.getBol?.status;
-
-    console.log("bolStatus", bolStatus !== "AT_PICKUP");
 
     IsCarrierAsDriver =
       associatedCarrierIdToBol === driverId && driverId === loggedInUser.id;
@@ -147,7 +144,7 @@ const ViewBl = ({ params }) => {
           version.user_id.id === consigneeId
         ) {
           hasConsigneeSignature = true;
-          console.log("hasConsigneeSignature", hasConsigneeSignature);
+
           break;
         }
       }
@@ -157,7 +154,6 @@ const ViewBl = ({ params }) => {
   if (!bolVersionLoading && BolVersionData) {
     hasAlreadySigned =
       BolVersionData.getBolVersionsByIDs === null ? false : true;
-    console.log("hasAlreadySigned", hasAlreadySigned);
   }
 
   // Determine if the Sign As Consignee button should be disabled
@@ -185,12 +181,9 @@ const ViewBl = ({ params }) => {
   };
 
   const handleDownload = async () => {
-    console.log("hello");
     const response = await bolDownload({
       variables: { bolId: `${params?.id}` },
     });
-
-    console.log(response.data.bolDownload);
 
     if (response?.data?.bolDownload) {
       // Open the PDF URL in a new tab
@@ -270,18 +263,6 @@ const ViewBl = ({ params }) => {
           bolStatus !== "CANCELLED") ||
           loggedInUser?.role_id.id == "4") && (
           <div className="w-full flex gap-2 justify-end">
-            {console.log(
-              "disable driver",
-
-              // loggedInUser?.role_id.id === "1" &&
-              //   (hasDriverUploadedImage ||
-              //     (hasAlreadySigned && bolStatus !== "AT_DROPOFF"))
-              !hasDriverUploadedImage ||
-                hasAlreadySigned ||
-                bolStatus === "AT_PICKUP" ||
-                bolStatus === "AT_DROPOFF" ||
-                bolStatus === "DELIVERED"
-            )}
             <button
               className="bg-linkBlue text-white py-4 px-2 rounded-md"
               onClick={openModal}
