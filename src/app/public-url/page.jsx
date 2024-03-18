@@ -388,10 +388,10 @@ const Page = () => {
         // unreadCountRefetchFunction();
         // recentBolsRefetchFunction();
 
-        router.push("/login");
+        setTimeout(() => {
+          router.push("/login");
+        }, 5000);
       }
-
-      console.log("BOL Created", response.data.createBol);
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message, { position: "top-right" });
