@@ -4,13 +4,13 @@ import { formatDate } from "@/utils/helper";
 import { UPDATE_BOL } from "@/fetching/mutations/bol";
 import { useMutation } from "@apollo/client";
 
-const Checkbox = ({ isChecked, toggleFunc, index }) => {
+const Checkbox = ({ isChecked, toggleFunc, index, bolId }) => {
   return (
     <td>
       <input
         type="checkbox"
         checked={isChecked}
-        onChange={() => toggleFunc(index)}
+        onChange={() => toggleFunc(index, bolId)}
         className="border border-black rounded h-5 w-5 my-2"
       />
     </td>
@@ -52,6 +52,7 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
             isChecked={checked}
             toggleFunc={toggleCheckbox}
             index={index}
+            bolId={rowData?.id}
           />
           <td>{rowData?.consignee_id?.name}</td>
           <td>{rowData.description}</td>
@@ -84,6 +85,7 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
             isChecked={checked}
             toggleFunc={toggleCheckbox}
             index={index}
+            bolId={rowData?.id}
           />
 
           <td>{rowData?.consignee_id?.name}</td>
@@ -118,6 +120,7 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
             isChecked={checked}
             toggleFunc={toggleCheckbox}
             index={index}
+            bolId={rowData?.id}
           />
           <td>hello</td>
           <td>{loadDesc}</td>
@@ -142,6 +145,7 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
             isChecked={checked}
             toggleFunc={toggleCheckbox}
             index={index}
+            bolId={rowData?.id}
           />
 
           {/* <th>Consignee</th>
@@ -174,6 +178,7 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
             isChecked={checked}
             toggleFunc={toggleCheckbox}
             index={index}
+            bolId={rowData?.id}
           />
           <td>{rowData?.consignee_id?.name || "consignee"}</td>
           <td>{formatDate(rowData?.created_at)}</td>
@@ -208,6 +213,7 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
             isChecked={checked}
             toggleFunc={toggleCheckbox}
             index={index}
+            bolId={rowData?.id}
           />
 
           {/* <th className="w-[15%]">Consignee</th>
@@ -249,6 +255,7 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
             isChecked={checked}
             toggleFunc={toggleCheckbox}
             index={index}
+            bolId={rowData?.id}
           />
 
           <td>{rowData?.id || "id"}</td>
@@ -270,6 +277,7 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
             isChecked={checked}
             toggleFunc={toggleCheckbox}
             index={index}
+            bolId={rowData?.id}
           />
 
           {/* <>
@@ -317,6 +325,7 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
             isChecked={checked}
             toggleFunc={toggleCheckbox}
             index={index}
+            bolId={rowData?.id}
           />
 
           {/* <>
@@ -360,6 +369,7 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
             isChecked={checked}
             toggleFunc={toggleCheckbox}
             index={index}
+            bolId={rowData?.id}
           />
 
           {/* <>
@@ -411,6 +421,7 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
             isChecked={checked}
             toggleFunc={toggleCheckbox}
             index={index}
+            bolId={rowData?.id}
           />
 
           {/* <>
@@ -451,6 +462,7 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
             isChecked={checked}
             toggleFunc={toggleCheckbox}
             index={index}
+            bolId={rowData?.id}
           />
 
           {/* <th>Shipper</th>

@@ -233,11 +233,11 @@ const SignupPage = () => {
   };
   console.log(disable);
   return (
-    <div className="flex h-screen items-center justify-center bg-authBg">
-      <div className="h-[90%] max-w-lg my-8">
+    <div className="flex h-[120vh] items-center justify-center bg-authBg">
+      <div className="h-[90%] max-w-lg my-8 ">
         <form
           onSubmit={handleSignup}
-          className="bg-white  shadow-md rounded-md px-8 pt-6 pb-8 "
+          className="bg-white h-full  shadow-md rounded-md px-8 pt-6 pb-8 "
         >
           <div className="flex flex-col mb-8 items-center justify-center">
             <Image src={interladeBlue} width={50} alt="" />

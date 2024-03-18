@@ -6,6 +6,8 @@ import Select from "react-select";
 import "@/styles/table.css";
 import { recentBolsRefetchFunction } from "./RecentSection";
 import { FilterContext } from "./FilterProvider";
+import { useMutation } from "@apollo/client";
+import { BOL_DOWNLOAD } from "@/fetching/mutations/bol";
 
 const getMessageByType = (type) => {
   const messages = {
@@ -275,6 +277,8 @@ const Table = ({
   const [checkboxes, setCheckboxes] = useState(
     tableData ? Array(tableData.length).fill(false) : []
   );
+  const [selectedBolId, setSelectedBolId] = useState("");
+  const [bolDownload] = useMutation(BOL_DOWNLOAD);
 
   // const [roleId, setRoleId] = useState(null);
 
@@ -289,16 +293,32 @@ const Table = ({
     setCheckboxes(Array(tableData.length).fill(!selectAll));
   };
 
-  const toggleCheckbox = (index) => {
+  const toggleCheckbox = (index, bolId) => {
+    if (!bolId) {
+      return;
+    }
+
     const newCheckboxes = [...checkboxes];
     newCheckboxes[index] = !newCheckboxes[index];
     setCheckboxes(newCheckboxes);
-
+    setSelectedBolId(bolId);
     if (newCheckboxes.every((val) => val === true)) {
       setSelectAll(true);
     } else {
       setSelectAll(false);
     }
+  };
+
+  const handleDownload = async () => {
+    console.log(selectedBolId);
+    // const response = await bolDownload({
+    //   variables: { bolId: `${selectedBolId}` },
+    // });
+
+    // if (response?.data?.bolDownload) {
+    //   // Open the PDF URL in a new tab
+    //   window.open(response.data.bolDownload, "_blank");
+    // }
   };
 
   // const [searchTerm, setSearchTerm] = useState("");
@@ -420,20 +440,25 @@ const Table = ({
           onClick={() => console.log("Clear")}
         >
           Clear
-        </button>
-
-        <button
-          className="bg-gray px-2 border-2 border-borderGrey rounded-md text-sm"
-          onClick={() => console.log("Print")}
-        >
-          Print
-        </button>
-        <button
-          className="bg-gray px-2 border-2 border-borderGrey rounded-md text-sm "
-          onClick={() => console.log("Download")}
-        >
-          Download
         </button> */}
+
+        {!selectAll && (
+          <div className="flex gap-2">
+            <button
+              className="bg-gray px-2 border-2 border-borderGrey rounded-md text-sm"
+              onClick={handleDownload}
+            >
+              Print
+            </button>
+            <button
+              className="bg-gray px-2  border-2 border-borderGrey rounded-md text-sm "
+              onClick={handleDownload}
+            >
+              Download
+            </button>{" "}
+          </div>
+        )}
+
         {/* <button
           className="bg-gray px-2 border-2 border-borderGrey rounded-md text-sm mx-2"
           onClick={() => console.log("Send")}
