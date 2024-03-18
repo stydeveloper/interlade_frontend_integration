@@ -70,6 +70,7 @@ export const GET_USER_BY_EMAIL = gql`
       city
       state
       zipcode
+      status
     }
   }
 `;
