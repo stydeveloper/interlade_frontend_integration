@@ -217,6 +217,7 @@ const ViewBl = ({ params }) => {
               </h3>
               {bolHistoryActions.map((action, index) => (
                 <p
+                  key={index} // Add key prop here
                   className={`text-xs px-2 py-1 ${
                     index % 2 === 0 ? "bg-oddColor" : "bg-mainBoxesBg"
                   }`}
@@ -228,7 +229,7 @@ const ViewBl = ({ params }) => {
                 <p className="bg-oddColor text-center text-sm py-1">
                   Delivery Complete!
                 </p>
-              )}{" "}
+              )}
             </div>
           )}
 
