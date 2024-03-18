@@ -179,7 +179,11 @@ const SignupPage = () => {
 
       // Check if user exists
 
-      if (data && data?.getUserByEmail !== null) {
+      if (
+        data &&
+        data?.getUserByEmail?.status !== "Pending" &&
+        data?.getUserByEmail !== null
+      ) {
         // User already exists, throw an error
         toast.error("User with this email already exists.", {
           position: "top-right",
