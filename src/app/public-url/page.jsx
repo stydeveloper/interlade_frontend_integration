@@ -175,7 +175,6 @@ const Page = () => {
 
       switch (currentStepIndex) {
         case 0: // Carrier Info
-          console.log("currentStepIndex =>", currentStepIndex);
           // Validate carrier info fields
           // Example validation:
           if (!data.carrierName) {
@@ -378,7 +377,6 @@ const Page = () => {
       });
 
       if (response?.data?.createBol) {
-        console.log("in bol created succesffuly");
         toast.success(
           "BOL created successfully, please check your mail for credentials",
           { position: "top-right" }

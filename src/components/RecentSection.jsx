@@ -57,7 +57,6 @@ const RecentSection = ({
   //   // Save filters state to localStorage whenever it changes
   //   localStorage.setItem("filters", JSON.stringify(filters));
   // }, [filters]);
-  console.log("muazan ", filters.status);
 
   const {
     data,
@@ -70,11 +69,11 @@ const RecentSection = ({
     }, // Pass filters as variables
     fetchPolicy: "network-only",
   });
-  console.log("baasir ", filters.status);
+
   let allBols;
   if (data && !loading) {
     allBols = data.getBols;
-    console.log(allBols);
+
     recentBolsRefetchFunction = recentBolsRefetch;
   }
 
@@ -102,7 +101,6 @@ const RecentSection = ({
 
         // Check the label and set the corresponding value in the filters state
         if (value === "carrier") {
-          console.log("hello");
           updatedFilters.carrierName = [
             ...(updatedFilters.carrierName || []),
             label,
