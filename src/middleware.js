@@ -24,16 +24,24 @@ export default function middleware(req) {
   // https://interlade.netlify.app hosted url
 
   if (loggedin && pathname === "/login") {
-    return NextResponse.redirect(new URL("http://localhost:3000", req.url));
+    return NextResponse.redirect(
+      new URL("https://interlade.netlify.app", req.url)
+    );
   }
   if (loggedin && pathname === "/signup") {
-    return NextResponse.redirect(new URL("http://localhost:3000", req.url));
+    return NextResponse.redirect(
+      new URL("https://interlade.netlify.app", req.url)
+    );
   }
   if (loggedin && pathname === "/forgot-password") {
-    return NextResponse.redirect(new URL("http://localhost:3000", req.url));
+    return NextResponse.redirect(
+      new URL("https://interlade.netlify.app", req.url)
+    );
   }
   if (loggedin && pathname.startsWith("/reset-password")) {
-    return NextResponse.redirect(new URL("http://localhost:3000", req.url));
+    return NextResponse.redirect(
+      new URL("https://interlade.netlify.app", req.url)
+    );
   }
   // Check if the pathname starts with any protected route
   const isProtectedRoute = protectedRoutes.some((route) =>
@@ -43,13 +51,13 @@ export default function middleware(req) {
   if (!loggedin && isProtectedRoute) {
     console.log(req.url);
     return NextResponse.redirect(
-      new URL("http://localhost:3000/login", req.url)
+      new URL("https://interlade.netlify.app/login", req.url)
     );
   }
   if (!loggedin && pathname === "/") {
     console.log(req.url);
     return NextResponse.redirect(
-      new URL("http://localhost:3000/login", req.url)
+      new URL("https://interlade.netlify.app/login", req.url)
     );
   }
 }
