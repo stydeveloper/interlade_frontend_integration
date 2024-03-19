@@ -168,8 +168,8 @@ export const GET_BOL_HISTORY_LOGS = gql`
 `;
 
 export const GET_ACTIVE_BOLS = gql`
-  query GetActiveBols {
-    getActiveBols {
+  query GetActiveBols($filters: Filter) {
+    getActiveBols(filters: $filters) {
       id
       carrier_id {
         id
@@ -215,6 +215,10 @@ export const GET_ACTIVE_BOLS = gql`
         zipcode
         number
         created_at
+      }
+      driver_id {
+        id
+        name
       }
       weight
       volume
@@ -378,8 +382,8 @@ export const GET_COMPLETED_ROLES_BY_ROLE = gql`
 `;
 
 export const GET_COMPLETED_BOLS = gql`
-  query GetCompletedBols {
-    getCompletedBols {
+  query GetCompletedBols($filters: Filter) {
+    getCompletedBols(filters: $filters) {
       id
       carrier_id {
         id
@@ -425,6 +429,10 @@ export const GET_COMPLETED_BOLS = gql`
         zipcode
         number
         created_at
+      }
+      driver_id {
+        id
+        name
       }
       weight
       volume

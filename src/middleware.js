@@ -12,12 +12,12 @@ export default function middleware(req) {
   const protectedRoutes = [
     "/activebols",
     "/bol",
-    "/bol",
     "/carriers",
     "/completedbols",
     "/createbol",
     "/drivers",
     "/shippers",
+    "/driverLogs",
   ];
   // http://localhost:3000/login
   const { pathname } = req.nextUrl;
@@ -30,7 +30,7 @@ export default function middleware(req) {
   }
   if (loggedin && pathname === "/signup") {
     return NextResponse.redirect(
-      new URL("https://interlade.netlify.app", req.url)
+      new URL("https://interlade.netlify.app=", req.url)
     );
   }
   if (loggedin && pathname === "/forgot-password") {
