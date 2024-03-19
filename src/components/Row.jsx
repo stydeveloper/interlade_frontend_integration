@@ -92,7 +92,7 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
 
           <td>{rowData.description}</td>
           <td>{rowData?.shipper_id?.name}</td>
-          <td>{rowData?.id}</td>
+          <td>{rowData?.status}</td>
           <td>
             <Link
               href={`/bol/${rowData.id}`}
