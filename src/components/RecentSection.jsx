@@ -9,7 +9,11 @@ import Select from "react-select";
 import { GET_ALL_BOLS_QUERY } from "@/fetching/queries/bol";
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import SearchIcon from "../../public/images/icons8-search-50.png";
 import { FilterContext } from "./FilterProvider";
+import Image from "next/image";
+import { toast } from "react-toastify";
+import withToast from "./hoc/withToast";
 
 let recentBolsRefetchFunction;
 
@@ -22,6 +26,7 @@ const RecentSection = ({
 }) => {
   const [roleId, setRoleId] = useState(null);
   const [userRole, setUserRole] = useState(null);
+  const [date, setDate] = useState({ from: null, to: null });
 
   // const [filters, setFilters] = useState({
   //   carrierName: null,
@@ -133,6 +138,13 @@ const RecentSection = ({
     }
   };
 
+  const handleDateChange = (type, value) => {
+    setDate((prevDate) => ({
+      ...prevDate,
+      [type]: value,
+    }));
+  };
+
   const createGroupedOptions = (tableData) => {
     const consigneesSet = new Set();
     const carriersSet = new Set();
@@ -157,31 +169,65 @@ const RecentSection = ({
     const status = [...statusSet];
 
     // Map the arrays to the required format
-    return [
-      {
-        label: "Consignee",
-        options: consignees.map((name) => ({
-          label: name,
-          value: "consignee",
-        })),
-      },
 
-      {
-        label: "Shipper",
-        options: shippers.map((name) => ({ label: name, value: "shipper" })),
-      },
-      {
-        label: "Carrier",
-        options: carriers.map((name) => ({ label: name, value: "carrier" })),
-      },
-      {
-        label: "Status",
-        options: status.map((name) => ({ label: name, value: "status" })),
-      },
-    ];
+    let returnValue;
+    if (userRole === "carrier") {
+      returnValue = [
+        {
+          label: "Consignee",
+          options: consignees.map((name) => ({
+            label: name,
+            value: "consignee",
+          })),
+        },
+
+        {
+          label: "Shipper",
+          options: shippers.map((name) => ({ label: name, value: "shipper" })),
+        },
+
+        {
+          label: "Status",
+          options: status.map((name) => ({ label: name, value: "status" })),
+        },
+      ];
+    } else {
+      returnValue = [
+        {
+          label: "Consignee",
+          options: consignees.map((name) => ({
+            label: name,
+            value: "consignee",
+          })),
+        },
+
+        {
+          label: "Carrier",
+          options: carriers.map((name) => ({ label: name, value: "carrier" })),
+        },
+        {
+          label: "Status",
+          options: status.map((name) => ({ label: name, value: "status" })),
+        },
+      ];
+    }
+
+    return returnValue;
   };
 
   const groupedOptions = createGroupedOptions(allBols);
+
+  console.log("searchTerm", searchTerm);
+
+  const handleSetDate = () => {
+    console.log(date);
+    if (!date && !date.from && !date.to) {
+      toast.error("Set date first", { position: "top-right" });
+      return;
+    }
+    // Perform search with updated filters including date
+    setFilters({ ...filters, date });
+  };
 
   return (
     <div className={`flex flex-col items-center ${customHeightClass} `}>
@@ -189,14 +235,32 @@ const RecentSection = ({
         Recent B/Ls
       </p>
 
-      <div className="flex h-[10%] items-center justify-center ">
-        <input
-          type="text"
-          placeholder="Search..."
-          className="p-1.5 border-2 border-textgray rounded-md w-60"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+      <div className="flex h-[10%] items-center justify-center relative">
+        <div className="flex relative">
+          <input
+            type="text"
+            placeholder="Search..."
+            className="p-1.5 border-2 border-textgray rounded-md w-60"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <div className="absolute right-2 top-1/2 transform -translate-y-1/2">
+            <Image
+              src={SearchIcon}
+              alt="Search"
+              width={30}
+              height={30}
+              className="cursor-pointer"
+              onClick={() =>
+                setFilters((prev) => ({
+                  ...prev,
+                  search: searchTerm, // Corrected syntax
+                }))
+              }
+            />
+          </div>
+        </div>
+
         <Select
           options={groupedOptions}
           onChange={handleFilterChange}
@@ -208,11 +272,21 @@ const RecentSection = ({
         <input
           type="date"
           className="p-1 border-2 border-textgray rounded-md"
+          value={date.from || ""}
+          onChange={(e) => handleDateChange("from", e.target.value)}
         />
         <hr className="border-2 border-textgray w-6" />
         <input
           type="date"
           className="p-1 border-2 border-textgray rounded-md"
+          value={date.to || ""}
+          onChange={(e) => handleDateChange("to", e.target.value)}
+        />
+        <input
+          type="button"
+          className="p-1 ml-2 border-2 border-textgray rounded-md cursor-pointer"
+          value="Find"
+          onClick={handleSetDate}
         />
       </div>
       {/* call to get table data should probably happen in the Table component based off whath type is passed to it */}
@@ -221,7 +295,9 @@ const RecentSection = ({
           Sign Up
         </a> */}
       {loading ? (
-        <Spin />
+        <div className="mt-10">
+          <Spin />
+        </div>
       ) : (
         <Table
           heightClass="h-[80%]"

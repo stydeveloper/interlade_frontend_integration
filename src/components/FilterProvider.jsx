@@ -10,6 +10,12 @@ export const FilterProvider = ({ children }) => {
     status: null,
     shipperName: null,
     consigneeName: null,
+    driverName: null,
+    search: null,
+    date: {
+      from: null,
+      to: null,
+    },
   });
 
   const [selectedFilters, setSelectedFilters] = useState([]);

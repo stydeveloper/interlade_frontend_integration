@@ -427,6 +427,10 @@ const Table = ({
 
   // const groupedOptions = createGroupedOptions(allBols);
 
+  const handleClear = () => {
+    toggleSelectAll();
+  };
+
   return (
     <div className={`w-full flex flex-col ${heightClass}  `}>
       <div
@@ -456,6 +460,14 @@ const Table = ({
               Download
             </button>{" "}
           </div>
+        )}
+        {selectAll && (
+          <button
+            className="bg-gray px-2 border-2 border-borderGrey rounded-md text-sm"
+            onClick={handleClear}
+          >
+            Clear
+          </button>
         )}
 
         {/* <button
