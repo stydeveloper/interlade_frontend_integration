@@ -386,15 +386,6 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
           <td>{rowData.price}</td>
 
           <td>
-            <Link
-              href={`/bol/${rowData.id}`}
-              className="underline"
-              onClick={() => handleClick(rowData?.id)}
-            >
-              View B/L
-            </Link>
-          </td>
-          <td>
             {rowData?.last_opened === undefined || rowData?.last_opened === null
               ? "----"
               : formatDate(rowData?.last_opened)}
@@ -468,15 +459,6 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
           <td>{rowData?.id || "order no"}</td>
           <td>{rowData?.description}</td>
           <td>{formatDate(rowData?.updated_at)} </td>
-          <td>
-            <Link
-              href={`/bol/${rowData.id}`}
-              className="underline"
-              onClick={() => handleClick(rowData?.id)}
-            >
-              View B/L
-            </Link>
-          </td>
         </tr>
       );
 

@@ -206,7 +206,7 @@ const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
                   <th>Driver</th>
                   <th>Status</th>
                   <th>Prepaid/Collect</th>
-                  <th className="w-[10%]">Go to B/L</th>
+
                   <th className="w-[15%]">Last Opened</th>
                 </>
               );
@@ -253,7 +253,7 @@ const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
                   <th>B/L No.</th>
                   <th>Activity Description</th>
                   <th>Date/Time</th>
-                  <th className="w-[10%]">Go to B/L</th>
+            
                 </>
               );
           }
