@@ -376,7 +376,7 @@ const Page = () => {
         },
       });
 
-      if (response?.data?.createBol) {
+      if (response?.data?.createPublicBol) {
         toast.success(
           "BOL created successfully, please check your mail for credentials",
           { position: "top-right" }
