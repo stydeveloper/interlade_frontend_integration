@@ -179,7 +179,12 @@ const SignupPage = () => {
 
       // Check if user exists
 
-      if (data && data?.getUserByEmail !== null) {
+      if (
+        data &&
+        data?.getUserByEmail !== null &&
+        data?.getUserByEmail?.status !== "Pending"
+      ) {
+        console.log(data?.getUserByEmail.status);
         // User already exists, throw an error
         toast.error("User with this email already exists.", {
           position: "top-right",
@@ -213,7 +218,11 @@ const SignupPage = () => {
       // });
 
       // Show success modal only if all fields are filled and no errors
-      if (!data || data?.getUserByEmail === null) {
+      if (
+        !data ||
+        data?.getUserByEmail === null ||
+        data?.getUserByEmail?.status === "Pending"
+      ) {
         setShowModal(true);
       }
       // toast.success("Signed up successfully!", { position: "top-right" });
