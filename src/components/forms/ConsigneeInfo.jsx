@@ -50,13 +50,11 @@ export function ConsigneeInfo({
             : "";
         break;
       case "consigneeNumber":
-        if (value === "") {
+        const sanitizedValue = value.replace(/\s/g, ""); // Remove spaces
+        if (sanitizedValue === "") {
           newErrors.consigneeNumber = ""; // Clear the error if the field is empty
-        } else if (!/^\d+$/.test(value)) {
-          newErrors.consigneeNumber = "The number should only contain digits.";
-        } else if (value.length < 8 || value.length > 15) {
-          newErrors.consigneeNumber =
-            "The number should be between 8 and 15 digits long.";
+        } else if (!/^\d{10}$/.test(sanitizedValue)) {
+          newErrors.consigneeNumber = "The number should be 10 digits long.";
         } else {
           newErrors.consigneeNumber = ""; // Clear the error if the number is valid
         }
@@ -128,7 +126,21 @@ export function ConsigneeInfo({
     setFormErrors(newErrors);
 
     // Update form data
-    update({ [field]: value });
+    let formattedValue = value;
+    if (field === "consigneeNumber") {
+      // Format the phone number with spaces after every third and sixth digit
+      formattedValue = value
+        .replace(/\s/g, "")
+        .replace(/(\d{3})(\d{1,3})?(\d{1,4})?/, (_, p1, p2, p3) => {
+          let result = p1;
+          if (p2) result += ` ${p2}`;
+          if (p3) result += ` ${p3}`;
+          return result;
+        });
+    }
+
+    // Update form data
+    update({ [field]: formattedValue });
   };
 
   return (

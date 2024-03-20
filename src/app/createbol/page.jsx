@@ -136,13 +136,25 @@ export default function Page() {
 
     if (userData) {
       // Parse the user information
-
+      let sanitizedValue;
+      // = value.replace(/\s/g, "")
+      if (userData?.getUserByEmail?.number) {
+        console.log("in sanitized");
+        sanitizedValue = userData?.getUserByEmail?.number
+          .replace(/\s/g, "")
+          .replace(/(\d{3})(\d{1,3})?(\d{1,4})?/, (_, p1, p2, p3) => {
+            let result = p1;
+            if (p2) result += ` ${p2}`;
+            if (p3) result += ` ${p3}`;
+            return result;
+          });
+      }
       // Update data state with shipper information from userInfo
       setData((prevData) => ({
         ...prevData,
         shipperEmail: userData?.getUserByEmail?.email || "",
         shipperName: userData?.getUserByEmail?.name || "",
-        shipperNumber: userData?.getUserByEmail?.number || "",
+        shipperNumber: userData?.getUserByEmail?.number ? sanitizedValue : "",
         shipperAddress: userData?.getUserByEmail?.address || "",
         shipperCity: userData?.getUserByEmail?.city || "",
         shipperState: userData?.getUserByEmail?.state || "",
@@ -188,10 +200,10 @@ export default function Page() {
           break;
         case 1: // Shipper Info
           // Validate shipper info fields
-
+          const sanitizedShipperValue = data?.shipperNumber.replace(/\s/g, "");
           isValid =
             validateName(data.shipperName) &&
-            validatePhoneNumber(data.shipperNumber) &&
+            validatePhoneNumber(sanitizedShipperValue) &&
             validateAddress(data.shipperAddress) &&
             validateZipcode(data.shipperZipcode);
 
@@ -209,11 +221,14 @@ export default function Page() {
         case 2: // Consignee Info
           // Validate consignee info fields
           // Example validation:
-
+          const sanitizedConsigneeValue = data?.consigneeNumber.replace(
+            /\s/g,
+            ""
+          );
           isValid =
             emailRegex.test(data.consigneeEmail) &&
             validateName(data.consigneeName) &&
-            validatePhoneNumber(data.consigneeNumber) &&
+            validatePhoneNumber(sanitizedConsigneeValue) &&
             validateAddress(data.consigneeAddress) &&
             validateZipcode(data.consigneeZipcode);
 
