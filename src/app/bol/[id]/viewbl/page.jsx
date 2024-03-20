@@ -292,6 +292,7 @@ const ViewBl = ({ params }) => {
           refetchBolData={refetchBolData}
           refetchBolVersionData={refetchBolVersionData}
           refetchBolVersionConsigneeData={refetchBolVersionConsigneeData}
+          refetchGenBolHistory={refetchGenBolHistory}
         />
       )}
     </div>
