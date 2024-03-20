@@ -253,7 +253,6 @@ const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
                   <th>B/L No.</th>
                   <th>Activity Description</th>
                   <th>Date/Time</th>
-            
                 </>
               );
           }
@@ -468,19 +467,6 @@ const Table = ({
               onClick={handleClear}
             >
               Clear
-            </button>
-
-            <button
-              className="bg-gray px-2 border-2 border-borderGrey rounded-md text-sm"
-              onClick={handleDownload}
-            >
-              Print
-            </button>
-            <button
-              className="bg-gray px-2  border-2 border-borderGrey rounded-md text-sm "
-              onClick={handleDownload}
-            >
-              Download
             </button>
           </div>
         )}
