@@ -99,9 +99,9 @@ export function ConsigneeInfo({
           newErrors.consigneeState = "State must contain at least one letter.";
         } else if (/\d/.test(value.trim())) {
           newErrors.consigneeState = "State should not contain numbers.";
-        } else if (value.trim().length < 3) {
+        } else if (value.trim().length < 2) {
           newErrors.consigneeState =
-            "State should be at least 3 characters long.";
+            "State should be at least 2 characters long.";
         } else {
           newErrors.consigneeState = ""; // Clear the error if the input is valid
         }

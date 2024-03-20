@@ -89,9 +89,9 @@ export function ShipperInfo({
           newErrors.shipperState = "State must contain at least one letter.";
         } else if (/\d/.test(value.trim())) {
           newErrors.shipperState = "State should not contain numbers.";
-        } else if (value.trim().length < 3) {
+        } else if (value.trim().length < 2) {
           newErrors.shipperState =
-            "State should be at least 3 characters long.";
+            "State should be at least 2 characters long.";
         } else {
           newErrors.shipperState = ""; // Clear the error if the input is valid
         }
