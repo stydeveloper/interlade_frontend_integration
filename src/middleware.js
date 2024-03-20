@@ -1,11 +1,14 @@
 // middleware.js
 
 import { NextResponse } from "next/server";
+
 // termsAcknowledged
 export default function middleware(req) {
   let loggedin;
+  let role_id;
   if (req.cookies.get("isAuthenticated")?.value === "true") {
     loggedin = true;
+    role_id = req.cookies.get("role_id")?.value;
   } else {
     loggedin = false;
   }
@@ -43,6 +46,48 @@ export default function middleware(req) {
       new URL("https://interlade.netlify.app", req.url)
     );
   }
+  if (
+    loggedin &&
+    role_id.toString() !== "2" &&
+    pathname.startsWith("/carriers")
+  ) {
+    return NextResponse.redirect(
+      new URL("https://interlade.netlify.app", req.url)
+    );
+  }
+  if (
+    loggedin &&
+    role_id.toString() !== "2" &&
+    pathname.startsWith("/createbol")
+  ) {
+    return NextResponse.redirect(
+      new URL("https://interlade.netlify.app", req.url)
+    );
+  }
+  if (
+    loggedin &&
+    role_id.toString() !== "1" &&
+    pathname.startsWith("/shippers")
+  ) {
+    return NextResponse.redirect(
+      new URL("https://interlade.netlify.app", req.url)
+    );
+  }
+  if (
+    loggedin &&
+    role_id.toString() !== "1" &&
+    pathname.startsWith("/drivers")
+  ) {
+    return NextResponse.redirect(
+      new URL("https://interlade.netlify.app", req.url)
+    );
+  }
+  if (loggedin && pathname.startsWith("/public-url")) {
+    return NextResponse.redirect(
+      new URL("https://interlade.netlify.app", req.url)
+    );
+  }
+
   // Check if the pathname starts with any protected route
   const isProtectedRoute = protectedRoutes.some((route) =>
     pathname.startsWith(route)
@@ -76,5 +121,6 @@ export const config = {
     "/shippers/:path*",
     "/forgot-password",
     "/reset-password",
+    "/public-url",
   ],
 };
