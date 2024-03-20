@@ -185,10 +185,10 @@ const Page = () => {
           break;
         case 1: // Shipper Info
           // Validate shipper info fields
-
+          const sanitizedShipperValue = data?.shipperNumber.replace(/\s/g, "");
           isValid =
             validateName(data.shipperName) &&
-            validatePhoneNumber(data.shipperNumber) &&
+            validatePhoneNumber(sanitizedShipperValue) &&
             validateAddress(data.shipperAddress) &&
             validateZipcode(data.shipperZipcode);
 
@@ -206,11 +206,14 @@ const Page = () => {
         case 2: // Consignee Info
           // Validate consignee info fields
           // Example validation:
-
+          const sanitizedConsigneeValue = data?.consigneeNumber.replace(
+            /\s/g,
+            ""
+          );
           isValid =
             emailRegex.test(data.consigneeEmail) &&
             validateName(data.consigneeName) &&
-            validatePhoneNumber(data.consigneeNumber) &&
+            validatePhoneNumber(sanitizedConsigneeValue) &&
             validateAddress(data.consigneeAddress) &&
             validateZipcode(data.consigneeZipcode);
 
