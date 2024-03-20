@@ -111,8 +111,8 @@ const SignupPage = () => {
           newErrors.state = "State cannot be empty.";
         } else if (/\d/.test(value)) {
           newErrors.state = "State cannot contain numbers.";
-        } else if (!/^[a-zA-Z\s-]{3,}$/.test(value)) {
-          newErrors.state = "State should be at least 3 characters long.";
+        } else if (!/^[a-zA-Z\s-]{2,}$/.test(value)) {
+          newErrors.state = "State should be at least 2 characters long.";
         } else {
           newErrors.state = "";
         }
