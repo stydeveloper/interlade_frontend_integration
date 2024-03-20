@@ -298,15 +298,7 @@ const Row = ({ rowData, checked, toggleCheckbox, type, index }) => {
           {/* //payment type */}
           <td>{rowData?.status}</td>
           <td>{rowData?.price}</td>
-          <td>
-            <Link
-              href={`/bol/${rowData?.id}`}
-              className="underline"
-              onClick={() => handleClick(rowData?.id)}
-            >
-              View B/L
-            </Link>
-          </td>
+
           <td>
             {rowData?.last_opened === undefined || rowData?.last_opened === null
               ? "----"

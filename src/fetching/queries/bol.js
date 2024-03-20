@@ -298,6 +298,10 @@ export const GET_ACTIVE_ROLES_BY_ROLE = gql`
         number
         created_at
       }
+      driver_id {
+        id
+        name
+      }
       weight
       volume
       quantity
@@ -364,6 +368,11 @@ export const GET_COMPLETED_ROLES_BY_ROLE = gql`
         number
         created_at
       }
+      driver_id {
+        id
+        name
+      }
+
       weight
       volume
       quantity

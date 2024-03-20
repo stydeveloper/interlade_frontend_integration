@@ -56,8 +56,8 @@ export const validateZipcode = (zipcode) => {
 };
 
 export const validatePhoneNumber = (phoneNumber) => {
-  // Check if the phone number contains only digits and has a length between 8 and 15
-  const isPhoneNumberValid = /^\d{8,15}$/.test(phoneNumber);
+  // Check if the phone number contains exactly 10 digits
+  const isPhoneNumberValid = /^\d{10}$/.test(phoneNumber);
 
   return isPhoneNumberValid;
 };

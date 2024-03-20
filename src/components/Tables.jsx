@@ -229,7 +229,7 @@ const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
                   <th>Driver</th>
                   <th>Status</th>
                   <th>Prepaid/Collect</th>
-                  <th className="w-[10%]">Go to B/L</th>
+
                   <th>Last Opened</th>
                 </>
               );
@@ -462,12 +462,27 @@ const Table = ({
           </div>
         )}
         {selectAll && (
-          <button
-            className="bg-gray px-2 border-2 border-borderGrey rounded-md text-sm"
-            onClick={handleClear}
-          >
-            Clear
-          </button>
+          <div className="flex gap-2">
+            <button
+              className="bg-gray px-2 border-2 border-borderGrey rounded-md text-sm"
+              onClick={handleClear}
+            >
+              Clear
+            </button>
+
+            <button
+              className="bg-gray px-2 border-2 border-borderGrey rounded-md text-sm"
+              onClick={handleDownload}
+            >
+              Print
+            </button>
+            <button
+              className="bg-gray px-2  border-2 border-borderGrey rounded-md text-sm "
+              onClick={handleDownload}
+            >
+              Download
+            </button>
+          </div>
         )}
 
         {/* <button

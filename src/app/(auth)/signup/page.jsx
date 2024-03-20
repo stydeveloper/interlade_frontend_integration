@@ -58,10 +58,26 @@ const SignupPage = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
+    // Format the phone number with spaces after every third and sixth digit
+    let formattedValue = value;
+    if (name === "number") {
+      // Remove any spaces from the input value
+      const sanitizedValue = value.replace(/\s/g, "");
+      formattedValue = sanitizedValue.replace(
+        /(\d{3})(\d{1,3})?(\d{1,4})?/,
+        (_, p1, p2, p3) => {
+          let result = p1;
+          if (p2) result += ` ${p2}`;
+          if (p3) result += ` ${p3}`;
+          return result;
+        }
+      );
+    }
+
     // Update form data
     setFormData({
       ...formData,
-      [name]: value,
+      [name]: formattedValue,
     });
 
     // Validate input dynamically
@@ -134,10 +150,10 @@ const SignupPage = () => {
           : "";
         break;
       case "number":
-        newErrors.number = !validatePhoneNumber(value)
-          ? "Phone number should be between 8 and 15 digits."
+        const sanitizedPhoneNumber = value.replace(/\s/g, "");
+        newErrors.number = !validatePhoneNumber(sanitizedPhoneNumber)
+          ? "Phone number should be 10 digits."
           : "";
-        break;
       default:
         break;
     }
@@ -145,7 +161,6 @@ const SignupPage = () => {
     // Update errors state
     setFormErrors(newErrors);
   };
-
   const handleSignup = async (e) => {
     e.preventDefault();
 
