@@ -22,7 +22,7 @@ export default function Home() {
     const status = Cookies.get("status");
 
     if (status === "Pending") {
-      console.log("kjl");
+      console.log("status=", status);
       Cookies.remove("role_id");
       Cookies.remove("token");
       Cookies.remove("user");
