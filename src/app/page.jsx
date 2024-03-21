@@ -30,7 +30,7 @@ export default function Home() {
       Cookies.remove("termsAcknowledged");
       Cookies.remove("status");
 
-      router.push("/signup");
+      router.push("/");
     }
 
     // Set loading to false after useEffect completes
