@@ -10,6 +10,7 @@ import Footer2 from "@/components/Footer2";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FilterProvider } from "@/components/FilterProvider";
+
 // import "react-toastify/dist/ReactToastify.css";
 // import "react-toastify/dist/ReactToastify.css";
 
@@ -22,6 +23,7 @@ const metadata = {
 
 export default function RootLayout({ children }) {
   // Define an array of routes where Navbar should not be displayed
+
   const routesWithoutNavbar = [
     "/login",
     "/forgot-password",
@@ -37,7 +39,9 @@ export default function RootLayout({ children }) {
 
   // Check if the current route is in the array of routes without Navbar
   const hideNavbar = routesWithoutNavbar.includes(pathname);
-  // const showNavbar2 = routesWithNavbar2.includes(pathname);z
+  // const showNavbar2 = routesWithNavbar2.includes(pathname);
+
+  // Render the spinner if loading is true
 
   return (
     <html lang="en">

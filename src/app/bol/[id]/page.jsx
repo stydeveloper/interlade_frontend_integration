@@ -308,13 +308,10 @@ const Page = ({ params }) => {
                   Address: {consigneeInfo?.address}
                 </p>
                 <p className=" text-base" mb-1>
-                  Phone:{" "}
-                  <Link href={phone}>
-                    {consigneeInfo?.number || 9230239122}
-                  </Link>
+                  Phone: <span>{consigneeInfo?.number || 9230239122}</span>
                 </p>
                 <p className="text-base">
-                  Email: <Link href={email}>{consigneeInfo?.email}</Link>
+                  Email: <span>{consigneeInfo?.email}</span>
                 </p>
               </>
             )}

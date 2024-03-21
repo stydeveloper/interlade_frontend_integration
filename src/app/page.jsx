@@ -7,9 +7,11 @@ import "../styles/table.css";
 import Cookies from "js-cookie"; // Import js-cookie library
 import { FilterContext } from "@/components/FilterProvider";
 import { useRouter } from "next/navigation";
+import { Spin } from "antd";
 
 export default function Home() {
   const [termsOpen, setTermsOpen] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   const router = useRouter();
   const { filters, setFilters, selectedFilters, setSelectedFilters } =
@@ -17,6 +19,21 @@ export default function Home() {
   useEffect(() => {
     // Check cookies for the flag indicating whether the terms have been acknowledged
     const hasAcknowledgedTerms = Cookies.get("termsAcknowledged");
+    const status = Cookies.get("status");
+
+    if (status === "Pending") {
+      console.log("kjl");
+      Cookies.remove("role_id");
+      Cookies.remove("token");
+      Cookies.remove("user");
+      Cookies.remove("isAuthenticated");
+      Cookies.remove("termsAcknowledged");
+      Cookies.remove("status");
+
+      router.push("/signup");
+    }
+
+    // Set loading to false after useEffect completes
 
     // If the terms have been acknowledged, close the terms dialog
     if (hasAcknowledgedTerms === "true") {
@@ -24,6 +41,7 @@ export default function Home() {
     } else if (hasAcknowledgedTerms === "false") {
       setTermsOpen(false);
     }
+    setLoading(false);
   }, []); // Empty dependency array ensures that the effect runs only once
 
   const handleTermsAcknowledgement = () => {
@@ -34,6 +52,14 @@ export default function Home() {
       setTermsOpen(true); // Close the terms dialog
     }
   };
+
+  if (loading) {
+    return (
+      <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-white opacity-75">
+        <Spin size="large" />
+      </div>
+    );
+  }
 
   return (
     <div className="fixed custom-activebols-Cont w-full">
