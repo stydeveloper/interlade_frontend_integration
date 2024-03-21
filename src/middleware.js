@@ -34,14 +34,14 @@ export default function middleware(req, res) {
 
   // If logged in and pathname is home, and status is 'Pending', delete cookies and redirect to signup
 
-  if (loggedin && status === "Pending") {
-    response.cookies.set("isAuthenticated", "false", {
-      path: "/",
-      maxAge: 0,
-      httpOnly: true,
-      sameSite: "strict",
-    });
-  }
+  // if (loggedin && status === "Pending") {
+  //   response.cookies.set("isAuthenticated", "false", {
+  //     path: "/",
+  //     maxAge: 0,
+  //     httpOnly: true,
+  //     sameSite: "strict",
+  //   });
+  // }
 
   if (loggedin && pathname === "/login") {
     return NextResponse.redirect(
