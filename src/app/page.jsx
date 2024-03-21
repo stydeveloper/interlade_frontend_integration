@@ -27,7 +27,6 @@ export default function Home() {
     } else if (hasAcknowledgedTerms === "false") {
       setTermsOpen(false);
     }
-    setLoading(false);
   }, []); // Empty dependency array ensures that the effect runs only once
 
   const handleTermsAcknowledgement = () => {
