@@ -41,11 +41,6 @@ export default function middleware(req, res) {
       httpOnly: true,
       sameSite: "strict",
     });
-
-    // Redirect to the signup page
-    // return NextResponse.redirect(
-    //   new URL("http://localhost:3000/signup", req.url)
-    // );
   }
 
   if (loggedin && pathname === "/login") {
