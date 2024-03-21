@@ -3,12 +3,17 @@
 import { NextResponse } from "next/server";
 
 // termsAcknowledged
-export default function middleware(req) {
+export default function middleware(req, res) {
+  let response = NextResponse.next();
   let loggedin;
   let role_id;
+  let status;
+
+  console.log("012", req.cookies.get("isAuthenticated"));
   if (req.cookies.get("isAuthenticated")?.value === "true") {
     loggedin = true;
     role_id = req.cookies.get("role_id")?.value;
+    status = req.cookies.get("status")?.value;
   } else {
     loggedin = false;
   }
@@ -25,6 +30,23 @@ export default function middleware(req) {
   // http://localhost:3000/login
   const { pathname } = req.nextUrl;
   // https://interlade.netlify.app hosted url
+  console.log(pathname);
+
+  // If logged in and pathname is home, and status is 'Pending', delete cookies and redirect to signup
+
+  if (loggedin && status === "Pending") {
+    response.cookies.set("isAuthenticated", "false", {
+      path: "/",
+      maxAge: 0,
+      httpOnly: true,
+      sameSite: "strict",
+    });
+
+    // Redirect to the signup page
+    // return NextResponse.redirect(
+    //   new URL("http://localhost:3000/signup", req.url)
+    // );
+  }
 
   if (loggedin && pathname === "/login") {
     return NextResponse.redirect(
@@ -105,6 +127,7 @@ export default function middleware(req) {
       new URL("https://interlade.netlify.app/login", req.url)
     );
   }
+  console.log(status);
 }
 
 export const config = {

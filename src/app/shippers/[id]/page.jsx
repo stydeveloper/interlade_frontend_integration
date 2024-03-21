@@ -62,6 +62,8 @@ const ShipperProfile = ({ params, searchParams }) => {
     );
   };
 
+  console.log(toggleTable);
+
   return (
     <>
       <Image
@@ -104,8 +106,8 @@ const ShipperProfile = ({ params, searchParams }) => {
               type={toggleTable}
               tableData={
                 toggleTable === "carrier-shipper-active"
-                  ? carrierShipperActiveMockData
-                  : carrierShipperCompleteMockData
+                  ? allActiveBols
+                  : allCompletedBols
               }
               allBols={
                 toggleTable === "carrier-shipper-active"

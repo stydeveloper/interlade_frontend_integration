@@ -37,7 +37,7 @@ export default function RootLayout({ children }) {
 
   // Check if the current route is in the array of routes without Navbar
   const hideNavbar = routesWithoutNavbar.includes(pathname);
-  // const showNavbar2 = routesWithNavbar2.includes(pathname);
+  // const showNavbar2 = routesWithNavbar2.includes(pathname);z
 
   return (
     <html lang="en">

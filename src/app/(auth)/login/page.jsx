@@ -47,7 +47,7 @@ const LoginPage = () => {
 
           token,
           message,
-
+          status,
           created_at,
           termsacknowledged,
           ...user
@@ -61,6 +61,7 @@ const LoginPage = () => {
           Cookies.set("user", JSON.stringify(user));
           Cookies.set("isAuthenticated", true);
           Cookies.set("termsAcknowledged", termsacknowledged);
+          Cookies.set("status", status);
         }
         setEmail("");
         setPassword("");

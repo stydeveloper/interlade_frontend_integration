@@ -23,6 +23,7 @@ const ShipperProfileBox = ({
   completedBolsCount: completeBls,
   associatedDriverCount: driversAllocated,
 }) => {
+  console.log(shipperId);
   return (
     <div className="flex flex-col items-center p-4 border bg-mainBoxesBg text-black border-gray-300 rounded-md hover:bg-hoverGray">
       <Link href={{ pathname: `shippers/${shipperId}`, query: { name } }}>
@@ -72,8 +73,11 @@ const Shippers = () => {
       </div>
     );
   if (error) return <p>Error: {error.message}</p>;
-
-  const shippersData = data.getBolsForShippers;
+  let shippersData;
+  if (data && !loading) {
+    shippersData = data.getBolsForShippers;
+    console.log(shippersData);
+  }
 
   const textToCopy = "www.interlade.com/carrieruniqueinvite4shippertocreateBoL";
 
@@ -110,7 +114,14 @@ const Shippers = () => {
             {shippersData !== undefined && shippersData.length > 0 && (
               <div className="grid grid-rows-2 grid-cols-5 gap-4">
                 {shippersData.map((profile, i) => (
-                  <ShipperProfileBox {...profile} key={i} />
+                  <ShipperProfileBox
+                    shipperId={profile.shipperId}
+                    shipperName={profile.shipperName}
+                    activeBolsCount={profile.activeBolsCount}
+                    completedBolsCount={profile.completedBolsCount}
+                    associatedDriverCount={profile.associatedDriverCount}
+                    key={i}
+                  />
                 ))}
               </div>
             )}

@@ -6,9 +6,12 @@ import LegalTermsAndConditions from "@/components/LegalTermsAndConditions";
 import "../styles/table.css";
 import Cookies from "js-cookie"; // Import js-cookie library
 import { FilterContext } from "@/components/FilterProvider";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [termsOpen, setTermsOpen] = useState(true);
+
+  const router = useRouter();
   const { filters, setFilters, selectedFilters, setSelectedFilters } =
     React.useContext(FilterContext);
   useEffect(() => {
@@ -39,6 +42,7 @@ export default function Home() {
 
         <span className="w-full h-[2px] max-xl:hidden absolute z-10 bg-gray-600 "></span>
       </div>
+
       <RecentSection
         customHeightClass="h-[65%]"
         filters={filters}
@@ -46,6 +50,7 @@ export default function Home() {
         selectedFilters={selectedFilters}
         setSelectedFilters={setSelectedFilters}
       />
+
       {!termsOpen && (
         <LegalTermsAndConditions
           isOpen={!termsOpen}

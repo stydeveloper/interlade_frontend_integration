@@ -201,6 +201,11 @@ export default function Page() {
         case 1: // Shipper Info
           // Validate shipper info fields
           const sanitizedShipperValue = data?.shipperNumber.replace(/\s/g, "");
+          console.log(validateName(data.shipperName));
+          console.log(sanitizedShipperValue.length);
+          console.log(validatePhoneNumber(sanitizedShipperValue));
+          console.log(data.shipperAddress);
+          console.log(data.shipperZipcode);
           isValid =
             validateName(data.shipperName) &&
             validatePhoneNumber(sanitizedShipperValue) &&

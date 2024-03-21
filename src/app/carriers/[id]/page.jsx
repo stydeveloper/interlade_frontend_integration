@@ -115,8 +115,8 @@ const CarrierProfile = ({ params, searchParams }) => {
               type={toggleTable}
               tableData={
                 toggleTable === "shipper-carrier-active"
-                  ? shipperCarrierActiveMockData
-                  : shipperCarrierCompleteMockData
+                  ? allActiveBols
+                  : allCompletedBols
               }
               allBols={
                 toggleTable === "shipper-carrier-active"

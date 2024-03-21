@@ -292,6 +292,8 @@ const Table = ({
     setCheckboxes(Array(tableData.length).fill(!selectAll));
   };
 
+  console.log("in table", allBols);
+
   const toggleCheckbox = (index, bolId) => {
     if (!bolId) {
       return;

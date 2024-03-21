@@ -57,7 +57,7 @@ export function PriceCard({
         // }
         // Set cookies
 
-        console.log("status", status);
+        // console.log("status", status);
         // && status.toString() !== "Pending"
         if (typeof window !== "undefined") {
           Cookies.set("role_id", response.data.registerCarrier.role_id.id);
@@ -66,6 +66,7 @@ export function PriceCard({
           Cookies.set("user", JSON.stringify(user));
           Cookies.set("isAuthenticated", true);
           Cookies.set("termsAcknowledged", termsacknowledged);
+          Cookies.set("status", status);
         }
         router.push(response?.data?.registerCarrier?.checkoutUrl);
       }
