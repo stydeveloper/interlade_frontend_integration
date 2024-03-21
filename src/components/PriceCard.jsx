@@ -57,7 +57,9 @@ export function PriceCard({
         // }
         // Set cookies
 
-        if (typeof window !== "undefined" && status.toString() !== "Pending") {
+        console.log("status", status);
+        // && status.toString() !== "Pending"
+        if (typeof window !== "undefined") {
           Cookies.set("role_id", response.data.registerCarrier.role_id.id);
           Cookies.set("token", response.data.registerCarrier.token);
 
