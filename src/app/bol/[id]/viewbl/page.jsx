@@ -42,8 +42,8 @@ const ViewBl = ({ params }) => {
 
     refetch: refetchBolData,
   } = useQuery(GETBOL_BYID, {
-    variables: { getBolId: `${params.id}` },
-    skip: !params.id || !loggedInUser?.id, // Skip query if params.id or loggedInUser.id is not present
+    variables: { getBolId: `${params?.id}` },
+    skip: !params?.id || !loggedInUser?.id, // Skip query if params.id or loggedInUser.id is not present
   });
   const {
     loading: bolDetailsPdfLoading,
@@ -53,7 +53,7 @@ const ViewBl = ({ params }) => {
     refetch: refetchbolDetailsPdf,
   } = useQuery(BOL_DETAILS_PDF, {
     variables: { bolId: `${params?.id}` },
-    skip: !params.id, // Skip query if params.id or loggedInUser.id is not present
+    skip: !params?.id, // Skip query if params.id or loggedInUser.id is not present
   });
   const {
     loading: genBolHistoryLoading,
@@ -62,8 +62,8 @@ const ViewBl = ({ params }) => {
 
     refetch: refetchGenBolHistory,
   } = useQuery(GENERATE_BOL_STATUS_HISTORY, {
-    variables: { bolId: `${params.id}` },
-    skip: !params.id, // Skip query if params.id or loggedInUser.id is not present
+    variables: { bolId: `${params?.id}` },
+    skip: !params?.id, // Skip query if params.id or loggedInUser.id is not present
   });
 
   const [bolDownload] = useMutation(BOL_DOWNLOAD);
@@ -75,8 +75,8 @@ const ViewBl = ({ params }) => {
 
     refetch: refetchBolImagesData,
   } = useQuery(GET_BOLIMAGES_BY_BOLID, {
-    variables: { bolId: `${params.id}` },
-    skip: !params.id, // Skip query if params.id or loggedInUser.id is not present
+    variables: { bolId: `${params?.id}` },
+    skip: !params?.id, // Skip query if params.id or loggedInUser.id is not present
   });
 
   let bolDetails;
@@ -133,7 +133,7 @@ const ViewBl = ({ params }) => {
     skip: !consigneeId, // Skip query if params.id or loggedInUser.id is not present
   });
   useEffect(() => {
-    if (params.id && loggedInUser?.id) {
+    if (params?.id && loggedInUser?.id) {
       // Only fetch data if both params.id and loggedInUser.id are present
       refetchBolData();
       refetchBolVersionData();
@@ -141,7 +141,7 @@ const ViewBl = ({ params }) => {
       refetchBolImagesData();
     }
   }, [
-    params.id,
+    params?.id,
     loggedInUser,
     refetchBolData,
     refetchBolImagesData,
@@ -159,7 +159,7 @@ const ViewBl = ({ params }) => {
       for (let i = 0; i < bolVersions.length; i++) {
         const version = bolVersions[i];
         if (
-          version.bol_id.id === params.id &&
+          version.bol_id.id === params?.id &&
           version.user_id.id === consigneeId
         ) {
           hasConsigneeSignature = true;
