@@ -105,7 +105,7 @@ const Page = ({ params }) => {
 
     driverId = bolData?.getBol?.driver_id?.id;
     driverId = loggedInUser?.id;
-    associatedCarrierIdToBol = bolData.getBol.carrier_id.id;
+    associatedCarrierIdToBol = bolData.getBol.carrier_id?.id;
 
     IsCarrierAsDriver =
       associatedCarrierIdToBol === driverId && driverId === loggedInUser?.id;
