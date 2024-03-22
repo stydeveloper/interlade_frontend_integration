@@ -235,8 +235,8 @@ const Page = ({ params }) => {
             currentBol &&
             role === "1" &&
             IsCarrierAsDriver &&
-            (currentBol.status !== "CANCELLED" ||
-              currentBol.status !== "DELIVERED") &&
+            currentBol.status !== "CANCELLED" &&
+            currentBol.status !== "DELIVERED" &&
             isDriverIsAssigned && (
               <DocumentBtn
                 srcImg={UploadImageIcon}
