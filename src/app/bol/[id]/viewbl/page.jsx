@@ -23,6 +23,8 @@ import {
 } from "@/fetching/queries/bol_version";
 import { GENERATE_BOL_STATUS_HISTORY } from "@/fetching/queries/bol_history";
 import { formatDate } from "@/utils/helper";
+import PDFTemplate from "@/components/PdfTemplate";
+import { BOL_DETAILS_PDF } from "@/fetching/queries/bol";
 
 const ViewBl = ({ params }) => {
   const router = useRouter();
@@ -42,6 +44,16 @@ const ViewBl = ({ params }) => {
   } = useQuery(GETBOL_BYID, {
     variables: { getBolId: `${params.id}` },
     skip: !params.id || !loggedInUser?.id, // Skip query if params.id or loggedInUser.id is not present
+  });
+  const {
+    loading: bolDetailsPdfLoading,
+    error: bolDetailsPdfError,
+    data: bolDetailsPdfData,
+
+    refetch: refetchbolDetailsPdf,
+  } = useQuery(BOL_DETAILS_PDF, {
+    variables: { bolId: `${params?.id}` },
+    skip: !params.id, // Skip query if params.id or loggedInUser.id is not present
   });
   const {
     loading: genBolHistoryLoading,
@@ -66,6 +78,13 @@ const ViewBl = ({ params }) => {
     variables: { bolId: `${params.id}` },
     skip: !params.id, // Skip query if params.id or loggedInUser.id is not present
   });
+
+  let bolDetails;
+
+  if (bolDetailsPdfData && !bolDetailsPdfLoading) {
+    bolDetails = bolDetailsPdfData?.getBolDetailsPdf;
+    console.log(bolDetails);
+  }
 
   let hasDriverUploadedImage;
 
@@ -257,7 +276,7 @@ const ViewBl = ({ params }) => {
           </div>
         </div>
       </div>
-      <div className="bg-hoverGray gap-2 flex flex-col items-center justify-center py-4 ml-80 px-4">
+      <div className="bg-hoverGray flex-1 gap-2 flex flex-col items-center justify-center py-4 ml-80 px-4">
         {/* params.id.blImage */}
         {((loggedInUser?.role_id.id == "1" &&
           IsCarrierAsDriver &&
@@ -280,8 +299,9 @@ const ViewBl = ({ params }) => {
             </button>
           </div>
         )}
-        <div className="w-full">
-          <Image src={BLImage} alt="Bill of Lading" />
+        <div className="w-full ">
+          {/* <Image src={BLImage} alt="Bill of Lading" /> */}
+          <PDFTemplate users={bolDetails} />
         </div>
       </div>
       {isModalOpen && (
@@ -293,6 +313,7 @@ const ViewBl = ({ params }) => {
           refetchBolVersionData={refetchBolVersionData}
           refetchBolVersionConsigneeData={refetchBolVersionConsigneeData}
           refetchGenBolHistory={refetchGenBolHistory}
+          refetchbolDetailsPdf={refetchbolDetailsPdf}
         />
       )}
     </div>

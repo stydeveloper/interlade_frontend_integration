@@ -535,3 +535,42 @@ export const GET_DAILY_LOGS_DRIVER = gql`
     }
   }
 `;
+export const BOL_DETAILS_PDF = gql`
+  query GetBolDetailsPdf($bolId: ID!) {
+    getBolDetailsPdf(bol_id: $bolId) {
+      shipperEmail
+      shipperName
+      shipperNumber
+      shipperAddress
+      shipperCity
+      shipperState
+      shipperZipcode
+      consigneeEmail
+      consigneeName
+      consigneeNumber
+      consigneeAddress
+      consigneeCity
+      consigneeState
+      consigneeZipcode
+      carrierEmail
+      carrierName
+      carrierNumber
+      carrierAddress
+      carrierCity
+      carrierState
+      carrierZipcode
+      quantity
+      package_type
+      volume
+      weight
+      hazard_class
+      packing_group
+      un_na_number
+      description
+      price
+      created_at
+      driverSignature
+      consigneeSignature
+    }
+  }
+`;

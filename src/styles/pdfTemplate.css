@@ -1,0 +1,135 @@
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    /* margin-bottom: 5px; */
+    height: 100px;
+   
+  
+  }
+
+  .header-left {
+    width: 70%;
+   
+    height: 80px; /* Fixed height */
+ 
+  }
+
+  .header-right {
+    width: 30%;
+  
+    height: 80px; /* Fixed height */
+ 
+  }
+
+  .header-content {
+    font-size: 15px; /* Reduced font size */
+    font-weight: bold;
+    padding: 4px;
+  }
+
+  .date-heading {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .divider {
+    border-bottom: 1px solid black;
+  }
+
+  .section-container {
+    margin-bottom: 10px;
+    padding: 0 30px;
+ 
+  }
+
+  .section {
+   
+    display: inline-block;
+    width: 47%;
+    /* margin-right: 4%; */
+    vertical-align: top;
+    padding: 10px 10px; /* Adjusted padding */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-sizing: border-box;
+    margin: 15px 15px 15px 0;
+  }
+
+  .section h3 {
+    font-weight: 600;
+    font-size: 22px; /* Reduced font size */
+    margin-bottom: 0.5rem;
+    text-decoration: underline;
+
+  }
+
+  .section div {
+    margin-bottom: 5px;
+    font-size: 16px;
+  }
+
+  .section div strong {
+    margin-right: 5px;
+  }
+
+  @media screen and (max-width: 768px) {
+    .section {
+      width: 100%;
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+  }
+
+  /* New CSS for signature and consignee address */
+  .signature-address-container {
+    width: 100%;    
+   
+   display: flex;
+   justify-content: space-around;
+   align-items: flex-end;
+
+    padding: 20px 30px;
+
+  }
+
+  .signature-container,
+  .address-container {
+   
+
+    /* display: inline-block; */
+    width: 40%;
+  }
+
+  .address-container{
+    margin-left: 30px;
+  }
+
+  .signature-heading,
+  .address-heading {
+    font-size: 16px; /* Reduced font size */
+    font-weight: bold;
+    margin-top: 10px;
+  }
+
+  .signature-border,
+  .address-border {
+    border-bottom: 1px solid black;
+    margin-top: 10px;
+  }
+
+  .image-container, .date-divider-container{
+    display: inline-block;
+   
+  
+  }
+  .date-divider-container{
+    margin-left: 5px ;
+    width: 60%;
+  }
+
+  .signature-border,.address-border > img{
+    width: 100%;
+  }

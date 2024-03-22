@@ -16,6 +16,7 @@ const SignatureModal = ({
   refetchBolVersionData,
   refetchBolVersionConsigneeData,
   refetchGenBolHistory,
+  refetchbolDetailsPdf,
 }) => {
   const [sign, setSign] = useState(); // Initialize sign state as null
 
@@ -48,6 +49,7 @@ const SignatureModal = ({
             refetchBolVersionData();
             refetchBolVersionConsigneeData();
             refetchGenBolHistory();
+            refetchbolDetailsPdf();
           }
         } catch (error) {
           if (error instanceof Error) {
