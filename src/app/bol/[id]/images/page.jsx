@@ -21,7 +21,7 @@ const LoadImages = ({ params }) => {
   const router = useRouter();
 
   const { loading, error, data } = useQuery(GET_BOLIMAGES_BY_BOLID, {
-    variables: { bolId: params.id },
+    variables: { bolId: params?.id },
   });
 
   const [selectedImage, setSelectedImage] = useState(null);
@@ -122,7 +122,7 @@ const LoadImages = ({ params }) => {
           error &&
           error.message === "No Bol images found for the provided Bol ID" && (
             <div className="text-white text-4xl">
-              {`No Bol Images For BoL Id:${params.id} For Now`}
+              {`No Bol Images For BoL Id:${params?.id} For Now`}
             </div>
           )}
       </div>

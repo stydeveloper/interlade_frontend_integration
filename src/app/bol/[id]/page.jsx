@@ -64,7 +64,7 @@ const Page = ({ params }) => {
     data: bolImagesData,
     refetch: bolImagesRefetch,
   } = useQuery(GET_BOLIMAGES_BY_BOLID, {
-    variables: { bolId: params.id },
+    variables: { bolId: params?.id },
   });
 
   const {
@@ -73,7 +73,7 @@ const Page = ({ params }) => {
     data: currentBlData,
     refetch: currentBlDataRefetch,
   } = useQuery(GET_CURRENT_BOL_LOCATION, {
-    variables: { bolId: params.id },
+    variables: { bolId: params?.id },
   });
   const {
     loading: bol_history_loading,
@@ -81,7 +81,7 @@ const Page = ({ params }) => {
     data: bol_history_data,
     refetch: bolHistoryLogsRefetch,
   } = useQuery(GET_BOL_HISTORY_LOGS, {
-    variables: { bolId: params.id },
+    variables: { bolId: params?.id },
   });
   let bol_history_logs;
   if (bol_history_data && bol_history_data.getBolHistoryLogs) {
@@ -145,7 +145,7 @@ const Page = ({ params }) => {
         // const imageUrl = URL.createObjectURL(file);
 
         const { data, loading } = await UploadImageMutation({
-          variables: { bolId: params.id, filename: base64Image },
+          variables: { bolId: params?.id, filename: base64Image },
         });
 
         if (data?.createBolImages?.message) {
@@ -220,7 +220,7 @@ const Page = ({ params }) => {
           <DocumentBtn
             srcImg={View}
             label="View BoL"
-            actionFunc={() => router.push(`/bol/${params.id}/viewbl`)}
+            actionFunc={() => router.push(`/bol/${params?.id}/viewbl`)}
           />
           {bolImagesData &&
             bolImagesData?.getBolImagesByBolId &&
@@ -228,7 +228,7 @@ const Page = ({ params }) => {
               <DocumentBtn
                 srcImg={ViewImage}
                 label="View Load Image(s)"
-                actionFunc={() => router.push(`/bol/${params.id}/images`)}
+                actionFunc={() => router.push(`/bol/${params?.id}/images`)}
               />
             )}
           {role &&
@@ -290,7 +290,7 @@ const Page = ({ params }) => {
         </div>
       </div>
       <div className="bg-white w-full justify-center px-4">
-        <h1 className="font-bold text-2xl my-2 ">Order No: {params.id}</h1>
+        <h1 className="font-bold text-2xl my-2 ">Order No: {params?.id}</h1>
         <div className="grid grid-rows-2 grid-cols-3 gap-4 h-4/5">
           <div className="relative bg-mainBoxesBg border border-gray rounded-lg flex flex-col py-4 px-12 text-black col-start-1 ">
             {loading && !consigneeInfo ? (
