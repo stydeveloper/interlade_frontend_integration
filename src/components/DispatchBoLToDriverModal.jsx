@@ -35,7 +35,7 @@ const DispatchBoLToDriverModal = ({
 
   const handleSelectChange = (selectedOption) => {
     if (selectedOption) {
-      setSelectedBolId(selectedOption.value.id);
+      setSelectedBolId(selectedOption?.value?.id);
     }
   };
 
@@ -105,14 +105,14 @@ const DispatchBoLToDriverModal = ({
   if (data && data?.getBolsByStatus) {
     if (id) {
       // Find the Bol with the matching id
-      const selectedBol = data.getBolsByStatus.find((bol) => bol.id === id);
+      const selectedBol = data.getBolsByStatus.find((bol) => bol?.id === id);
 
       if (selectedBol) {
         // Set the selected Bol as the only option
         options = [
           {
             value: selectedBol,
-            label: `Order No: ${selectedBol.id} -- Shipper : ${selectedBol.shipper_id.name}`,
+            label: `Order No: ${selectedBol?.id} -- Shipper : ${selectedBol.shipper_id.name}`,
           },
         ];
 
@@ -122,7 +122,7 @@ const DispatchBoLToDriverModal = ({
     } else {
       options = data.getBolsByStatus.map((bol) => ({
         value: bol,
-        label: `Order No: ${bol.id} -- Shipper : ${bol.shipper_id.name}`,
+        label: `Order No: ${bol?.id} -- Shipper : ${bol.shipper_id.name}`,
       }));
     }
   }

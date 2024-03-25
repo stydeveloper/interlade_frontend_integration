@@ -120,7 +120,7 @@ const ViewBl = ({ params }) => {
     bolStatus = bolData?.getBol?.status;
 
     IsCarrierAsDriver =
-      associatedCarrierIdToBol === driverId && driverId === loggedInUser.id;
+      associatedCarrierIdToBol === driverId && driverId === loggedInUser?.id;
   }
 
   const {
@@ -177,10 +177,13 @@ const ViewBl = ({ params }) => {
 
   // Determine if the Sign As Consignee button should be disabled
   const disableSignAsConsignee =
-    (loggedInUser?.role_id.id === "4" && hasConsigneeSignature) || // Condition 1
-    (loggedInUser?.role_id.id === "1" &&
-      (!hasDriverUploadedImage ||
-        (hasAlreadySigned && bolStatus !== "AT_DROPOFF")));
+    (loggedInUser?.role_id?.id === "4" && bolStatus !== "AT_DROPOFF") || // Condition 1
+    (loggedInUser?.role_id?.id === "1" &&
+      !hasAlreadySigned &&
+      bolStatus === "IN_TRANSIT") || // New Condition 2
+    (hasAlreadySigned && bolStatus !== "AT_DROPOFF"); // New Condition 3
+
+  console.log("hasConsigneeSignature", hasConsigneeSignature);
 
   const disableSignAsDriver =
     !hasDriverUploadedImage ||
@@ -200,15 +203,30 @@ const ViewBl = ({ params }) => {
   };
 
   const handleDownload = async () => {
-    const response = await bolDownload({
-      variables: { bolId: `${params?.id}` },
-    });
+    try {
+      const response = await bolDownload({
+        variables: { bolId: `${params?.id}` },
+      });
 
-    if (response?.data?.bolDownload) {
-      // Open the PDF URL in a new tab
-      window.open(response.data.bolDownload, "_blank");
+      if (response?.data?.bolDownload) {
+        // Open the PDF URL in a new tab
+        window.open(response.data.bolDownload, "_blank");
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log(error);
+      } else {
+        console.log("An unknown error occurred ");
+      }
     }
   };
+
+  console.log(
+    "oo",
+    loggedInUser?.role_id &&
+      bolStatus !== "CANCELLED" &&
+      loggedInUser?.role_id?.id === "4"
+  );
   return (
     <div className="flex  justify-between">
       <div className="bg-cgray rounded-b-md flex w-80 flex-col fixed h-full ">
@@ -278,27 +296,38 @@ const ViewBl = ({ params }) => {
       </div>
       <div className="bg-hoverGray flex-1 gap-2 flex flex-col items-center justify-center py-4 ml-80 px-4">
         {/* params.id.blImage */}
-        {((loggedInUser?.role_id.id == "1" &&
-          IsCarrierAsDriver &&
+
+        {/* IsCarrierAsDriver &&
           bolStatus !== "CANCELLED") ||
-          loggedInUser?.role_id.id == "4") && (
-          <div className="w-full flex gap-2 justify-end">
-            <button
-              className="bg-linkBlue text-white py-4 px-2 rounded-md"
-              onClick={openModal}
-              disabled={disableSignAsDriver}
-            >
-              Sign As Driver
-            </button>
-            <button
-              className="bg-linkBlue text-white py-4 px-2 rounded-md"
-              onClick={openModal}
-              disabled={disableSignAsConsignee}
-            >
-              Sign As Consignee
-            </button>
-          </div>
-        )}
+          loggedInUser?.role_id.id == "4") */}
+
+        <div className="w-full flex gap-2 justify-end">
+          {loggedInUser?.role_id &&
+            bolStatus !== "CANCELLED" &&
+            loggedInUser?.role_id?.id === "1" &&
+            IsCarrierAsDriver && (
+              <button
+                className="bg-linkBlue text-white py-4 px-2 rounded-md"
+                onClick={openModal}
+                disabled={disableSignAsDriver}
+              >
+                Sign As Driver
+              </button>
+            )}
+          {loggedInUser?.role_id &&
+            bolStatus !== "CANCELLED" &&
+            (loggedInUser?.role_id?.id === "4" ||
+              (loggedInUser?.role_id?.id === "1" && IsCarrierAsDriver)) && (
+              <button
+                className="bg-linkBlue text-white py-4 px-2 rounded-md"
+                onClick={openModal}
+                disabled={disableSignAsConsignee}
+              >
+                Sign As Consignee
+              </button>
+            )}
+        </div>
+
         <div className="w-full ">
           {/* <Image src={BLImage} alt="Bill of Lading" /> */}
           <PDFTemplate users={bolDetails} />

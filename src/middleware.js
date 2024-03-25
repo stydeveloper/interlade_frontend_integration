@@ -34,14 +34,15 @@ export default function middleware(req, res) {
 
   // If logged in and pathname is home, and status is 'Pending', delete cookies and redirect to signup
 
-  // if (loggedin && status === "Pending") {
-  //   response.cookies.set("isAuthenticated", "false", {
-  //     path: "/",
-  //     maxAge: 0,
-  //     httpOnly: true,
-  //     sameSite: "strict",
-  //   });
-  // }
+  if (loggedin && status === "Pending") {
+    console.log("chal rha ye wala", status);
+    response.cookies.set("isAuthenticated", "false", {
+      path: "/",
+      maxAge: 0,
+      httpOnly: true,
+      sameSite: "strict",
+    });
+  }
 
   // hello
 
@@ -51,6 +52,14 @@ export default function middleware(req, res) {
     );
   }
   if (loggedin && pathname === "/signup") {
+    if (loggedin && status === "Pending") {
+      response.cookies.set("isAuthenticated", "false", {
+        path: "/",
+        maxAge: 0,
+        httpOnly: true,
+        sameSite: "strict",
+      });
+    }
     return NextResponse.redirect(
       new URL("https://interlade.netlify.app", req.url)
     );
