@@ -53,7 +53,7 @@ const ShippersBox = () => {
 
   return (
     <Link
-      href="/shippers"
+      href={"/shippers"}
       className="relative bg-mainBoxesBg hover:bg-blue-400 rounded-lg  w-72 justify-center h-[100%] flex flex-col "
     >
       {loading ? (
@@ -135,9 +135,10 @@ const DriversBox = () => {
   const inTransitCount = data?.getBolStatusCount?.bolStatusCounts?.IN_TRANSIT;
   const atDropoffCount = data?.getBolStatusCount?.bolStatusCounts?.AT_DROPOFF;
   const inActiveCount = data?.getBolStatusCount?.bolStatusCounts?.CANCELLED;
+
   return (
     <Link
-      href="/drivers"
+      href={"/drivers"}
       className="relative bg-mainBoxesBg hover:bg-blue-400 rounded-lg  w-72 justify-center  h-[100%]  flex flex-col "
     >
       {loading || !data ? (
@@ -164,9 +165,11 @@ const DriversBox = () => {
 const FourBox = () => {
   const [roleId, setRoleId] = useState(null);
   const [userRole, setUserRole] = useState(null);
+
   useEffect(() => {
     // Check cookies for the role_id value
     const roleIdFromCookie = Cookies.get("role_id");
+
     setRoleId(roleIdFromCookie);
 
     // Determine user role based on roleId
@@ -177,6 +180,7 @@ const FourBox = () => {
     } else if (roleIdFromCookie === "4") {
       setUserRole("consignee");
     }
+    // Update isClickable based on status
   }, []);
 
   return (
@@ -211,44 +215,6 @@ const FourBox = () => {
         type={`${userRole}-complete`}
       />
     </div>
-    // <div className="flex justify-between pt-6 mb-12 mx-16">
-    //   <ShippersBox
-    //     activeBls={72}
-    //     completedBls={127}
-    //     prepaidContracts={42}
-    //     collectContracts={130}
-    //   />
-
-    //   <DriversBox
-    //     inactive={14}
-    //     pickupInRoute={24}
-    //     atPickup={13}
-    //     dropoffInRoute={42}
-    //     atDropoff={11}
-    //   />
-
-    //   <CarriersBox activeBls={72} completedBls={127} numOfCarriers={22} />
-
-    //   <Box
-    //     title="Create BoL"
-    //     desc="Create a BoL using our standardized template document"
-    //     imageSrc={CreateDoc}
-    //     link="/createbol"
-    //   />
-
-    //   <Box
-    //     title="View Active BoLs"
-    //     desc="See all your BoLs that have yet to be delivered"
-    //     imageSrc={Active}
-    //     link="/activebols"
-    //   />
-    //   <Box
-    //     title="View Complete BoLs"
-    //     desc="See all your BoLs that have been delivered"
-    //     imageSrc={Completed}
-    //     link="/completedbols"
-    //   />
-    // </div>
   );
 };
 

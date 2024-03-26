@@ -149,3 +149,8 @@ padding: .5rem 0;
     display: flex !important;
    }
 }
+
+.okButton:hover {
+  border-color: transparent;
+  color: white;
+}

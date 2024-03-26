@@ -121,6 +121,12 @@ export default function middleware(req, res) {
     pathname.startsWith(route)
   );
 
+  if (loggedin && status === "Blocked" && isProtectedRoute) {
+    return NextResponse.redirect(
+      new URL("https://interlade.netlify.app", req.url)
+    );
+  }
+
   if (!loggedin && isProtectedRoute) {
     console.log(req.url);
     return NextResponse.redirect(

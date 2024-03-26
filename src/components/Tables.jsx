@@ -73,6 +73,10 @@ const getMessageByType = (type) => {
       title: "No Recent B/Ls",
       description: "Documents that you recently worked on will appear here.",
     },
+    Blocked: {
+      title: "Subscription Ended",
+      description: "Please renew your subscription to see B/Ls.",
+    },
   };
 
   return messages[type] || null;

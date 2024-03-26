@@ -142,3 +142,20 @@ export const UPDATE_USER = gql`
     }
   }
 `;
+export const CANCEL_SUBSCRIPTION = gql`
+  mutation CancelSubscription($email: String!) {
+    cancelSubscription(email: $email) {
+      success
+      message
+    }
+  }
+`;
+
+export const RENEW_SUBSCRIPTION = gql`
+  mutation RenewSubscription($email: String!, $planName: String!) {
+    renewSubscription(email: $email, planName: $planName) {
+      success
+      message
+    }
+  }
+`;

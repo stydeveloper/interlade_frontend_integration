@@ -23,6 +23,7 @@ const RecentSection = ({
   setFilters,
   selectedFilters,
   setSelectedFilters,
+  status,
 }) => {
   const [roleId, setRoleId] = useState(null);
   const [userRole, setUserRole] = useState(null);
@@ -301,9 +302,15 @@ const RecentSection = ({
       ) : (
         <Table
           heightClass="h-[80%]"
-          type={userRole === "carrier" ? "carrier-recent" : "recent"}
+          type={
+            status === "Blocked"
+              ? "Blocked"
+              : userRole === "carrier"
+              ? "carrier-recent"
+              : "recent"
+          }
           tableData={allBols}
-          allBols={allBols}
+          allBols={status === "Blocked" ? [] : allBols}
           roleId={roleId}
           setFilters={setFilters}
           filters={filters}

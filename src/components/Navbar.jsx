@@ -34,10 +34,13 @@ const Navbar = () => {
   const [email, setEmail] = useState("");
   const [messages, setMessages] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [roleId, setRoleId] = useState(null);
   useEffect(() => {
     const user = Cookies.get("user");
+    const roleIdFromCookie = Cookies.get("role_id");
     const loggedInUserEmail = user ? JSON.parse(user) : null;
     setEmail(loggedInUserEmail?.email);
+    setRoleId(roleIdFromCookie);
   }, []);
   const {
     data: allNotificationsData,
@@ -249,6 +252,8 @@ const Navbar = () => {
       <NavProfileModal
         isOpen={profileOpen}
         onClose={() => setProfileOpen(false)}
+        roleId={roleId}
+        email={email}
       />
       {notificationOpen && (
         <NotificationPanel

@@ -11,6 +11,7 @@ import { Spin } from "antd";
 
 export default function Home() {
   const [termsOpen, setTermsOpen] = useState(true);
+  const [status, setStatus] = useState("Active");
 
   const router = useRouter();
   const { filters, setFilters, selectedFilters, setSelectedFilters } =
@@ -18,7 +19,8 @@ export default function Home() {
   useEffect(() => {
     // Check cookies for the flag indicating whether the terms have been acknowledged
     const hasAcknowledgedTerms = Cookies.get("termsAcknowledged");
-
+    const status = Cookies.get("status");
+    setStatus(status);
     // Set loading to false after useEffect completes
 
     // If the terms have been acknowledged, close the terms dialog
@@ -27,7 +29,7 @@ export default function Home() {
     } else if (hasAcknowledgedTerms === "false") {
       setTermsOpen(false);
     }
-  }, []); // Empty dependency array ensures that the effect runs only once
+  }, [status]); // Empty dependency array ensures that the effect runs only once
 
   const handleTermsAcknowledgement = () => {
     // Set a flag in cookies indicating that the terms have been acknowledged
@@ -41,18 +43,21 @@ export default function Home() {
   return (
     <div className="fixed custom-activebols-Cont w-full">
       <div className="h-[35%] flex items-center relative  justify-center ">
-        <FourBox />
+        {status && <FourBox />}
 
         <span className="w-full h-[2px] max-xl:hidden absolute z-10 bg-gray-600 "></span>
       </div>
 
-      <RecentSection
-        customHeightClass="h-[65%]"
-        filters={filters}
-        setFilters={setFilters}
-        selectedFilters={selectedFilters}
-        setSelectedFilters={setSelectedFilters}
-      />
+      {status && (
+        <RecentSection
+          customHeightClass="h-[65%]"
+          filters={filters}
+          setFilters={setFilters}
+          selectedFilters={selectedFilters}
+          setSelectedFilters={setSelectedFilters}
+          status={status}
+        />
+      )}
 
       {!termsOpen && (
         <LegalTermsAndConditions

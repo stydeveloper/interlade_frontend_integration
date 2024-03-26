@@ -19,6 +19,7 @@ const LogOutBtn = () => {
     Cookies.remove("role_id");
     Cookies.remove("isAuthenticated");
     Cookies.remove("termsAcknowledged");
+    Cookies.remove("status");
 
     // Redirect to the login page
     router.push("/login");
@@ -27,7 +28,7 @@ const LogOutBtn = () => {
   return (
     <a
       onClick={handleLogout}
-      className="text-white bg-linkBlue font-semibold border-2 rounded-md px-2 py-1 hover:bg-sky-700 cursor-pointer"
+      className="text-white w-24 text-center bg-linkBlue font-semibold border-2 rounded-md px-2 py-1 hover:bg-sky-700 cursor-pointer"
     >
       Log Out
     </a>

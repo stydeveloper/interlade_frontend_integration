@@ -217,7 +217,16 @@ const Page = () => {
             validateAddress(data.consigneeAddress) &&
             validateZipcode(data.consigneeZipcode);
 
-          if (!isValid) {
+          if (
+            data.consigneeEmail.trim().toLowerCase() ===
+              data.shipperEmail.trim().toLowerCase() ||
+            data.consigneeEmail.trim().toLowerCase() ===
+              data.carrierEmail.trim().toLowerCase()
+          ) {
+            toast.error("Email already exists. Try another email.");
+            setDisabled(true);
+            isValid = false; // Set isValid to false if validation fails
+          } else if (!isValid) {
             // If any validation fails, show error messages accordingly
             toast.error("Incomplete information! please provide all details.");
             setDisabled(true);
