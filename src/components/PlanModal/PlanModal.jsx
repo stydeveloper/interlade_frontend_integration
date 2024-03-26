@@ -1,7 +1,7 @@
 "use client";
 import { Modal } from "antd";
 import React from "react";
-import "../SubscriptionEmailModal/SubscriptionEmailModal.css";
+import "@/components/SubscriptionEmailModal/SubscriptionEmailModal.css";
 
 import { PlanCard } from "../PlanCard";
 
