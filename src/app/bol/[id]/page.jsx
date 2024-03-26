@@ -57,20 +57,23 @@ const Page = ({ params }) => {
       // This function will be called when the query completes successfully
       // Update your state or perform any other actions here
 
-      if (data?.getBol) {
-        console.log("loggedInUser?.id ", loggedInUser?.id);
-        console.log("data?.getBol?.carrier_id ", data?.getBol?.carrier_id.id);
-        console.log("data?.getBol?.shipper_id ", data?.getBol?.shipper_id.id);
-        if (
-          loggedInUser?.id !== data?.getBol?.carrier_id.id &&
-          loggedInUser?.id !== data?.getBol?.shipper_id.id
-        ) {
-          toast.error("You are not allowed to view this page!", {
-            position: "top-right",
-          });
-          router.push("/");
-        }
-      }
+      // if (
+      //   !data?.getBol ||
+      //   data?.getBol !== null ||
+      //   data?.getBol !== undefined
+      // ) {
+      //   if (
+      //     (loggedInUser?.id !== data?.getBol?.carrier_id?.id &&
+      //       loggedInUser?.id !== data?.getBol?.shipper_id?.id) ||
+      //     data?.getBol?.carrier_id?.id == null ||
+      //     data?.getBol?.shipper_id?.id == null
+      //   ) {
+      //     toast.error("You are not allowed to view this page!", {
+      //       position: "top-right",
+      //     });
+      //     router.push("/");
+      //   }
+      // }
       setCurrentBol(data?.getBol);
       setConsigneeInfo(data?.getBol?.consignee_id);
     },
