@@ -50,10 +50,10 @@ const DriverProfile = ({ params, searchParams }) => {
           Employee Id:
           {params.id}
         </p>
-        <span className="flex items-center justify-center h-[10%] ">
+        <span className="flex items-center justify-center h-[10%]">
           <button
-            className=" rounded-md p-2  bg-linkBlue text-white hover:bg-sky-700"
-            onClick={() => setInviteOpen(true)}
+            className="rounded-md p-2 bg-linkBlue text-white hover:bg-sky-700"
+            disabled
           >
             Send BoL to Driver
           </button>

@@ -2,7 +2,7 @@
 import DocumentBtn from "@/components/DocumentBtn";
 import MainBtn from "@/components/MainBtn";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import View from "../../../../public/images/view.svg";
 import ViewImage from "../../../../public/images/viewImages.svg";
 import UploadImageIcon from "../../../../public/images/upload_image.png";
@@ -14,7 +14,8 @@ import { mockActionData } from "@/components/MockData";
 import CancelBLModal from "@/components/CancelBLModal";
 import { useMutation, useQuery } from "@apollo/client";
 import { UPLOAD_IMAGE } from "@/fetching/mutations/bol_images";
-import BackBtn from "../../../../public/images/arrow-92-48.png";
+// import BackBtn from "../../../../public/images/arrow-92-48.png";
+import { Spin } from "antd";
 
 import {
   GET_BOL_BY_ID,
@@ -22,21 +23,27 @@ import {
   GET_BOL_HISTORY_LOGS,
   GETBOL_BYID,
 } from "@/fetching/queries/bol";
-import { Spin } from "antd";
+
 import { GET_BOLIMAGES_BY_BOLID } from "@/fetching/queries/bol_images";
-import ActAsDriverModal from "@/components/ActAsDriverModal";
+// import ActAsDriverModal from "@/components/ActAsDriverModal";
 import Cookies from "js-cookie"; // Import js-cookie library
-import Link from "next/link";
+// import Link from "next/link";
 import { convertToBase64 } from "@/utils/helper";
 import { toast } from "react-toastify";
 import DispatchBoLToDriverModal from "@/components/DispatchBoLToDriverModal";
-import Image from "next/image";
+// import Image from "next/image";
 
 const Page = ({ params }) => {
   const [showActAsDriverModal, setShowActAsDriverModal] = useState(false);
   let role;
   const [inviteOpen, setInviteOpen] = useState(false);
+  const [currentBol, setCurrentBol] = useState(null);
+  const [consigneeInfo, setConsigneeInfo] = useState(null);
+  const [cancelModal, setCancelModal] = useState(false);
+
+  // const [bolData, setBolData] = useState(null);
   let loggedInUser;
+  const router = useRouter();
   if (typeof window !== "undefined") {
     // Check cookies for the role_id value
     role = Cookies.get("role_id");
@@ -46,7 +53,37 @@ const Page = ({ params }) => {
 
   const { loading, error, data, refetch } = useQuery(GET_BOL_BY_ID, {
     variables: { id: params?.id },
+    onCompleted: (data) => {
+      // This function will be called when the query completes successfully
+      // Update your state or perform any other actions here
+
+      if (data?.getBol) {
+        console.log("loggedInUser?.id ", loggedInUser?.id);
+        console.log("data?.getBol?.carrier_id ", data?.getBol?.carrier_id.id);
+        console.log("data?.getBol?.shipper_id ", data?.getBol?.shipper_id.id);
+        if (
+          loggedInUser?.id !== data?.getBol?.carrier_id.id &&
+          loggedInUser?.id !== data?.getBol?.shipper_id.id
+        ) {
+          toast.error("You are not allowed to view this page!", {
+            position: "top-right",
+          });
+          router.push("/");
+        }
+      }
+      setCurrentBol(data?.getBol);
+      setConsigneeInfo(data?.getBol?.consignee_id);
+    },
+    onError: (error) => {
+      if (error instanceof Error) {
+        router.push("/");
+        toast.error(error.message, { position: "top-right" });
+      } else {
+        toast.error("An unknown error occurred", { position: "top-right" });
+      }
+    },
   });
+
   const {
     loading: bolLoading,
     error: bolError,
@@ -83,6 +120,32 @@ const Page = ({ params }) => {
   } = useQuery(GET_BOL_HISTORY_LOGS, {
     variables: { bolId: params?.id },
   });
+
+  // useEffect(() => {
+  //   if (!loading && data) {
+  //     setCurrentBol(data?.getBol);
+  //     console.log("2i2", data?.getBol);
+  //     setConsigneeInfo(data?.getBol?.consignee_id);
+  //   }
+  // }, [loading, data, params?.id]);
+
+  // useEffect(() => {
+  //   if (!loading && !data && !currentBol && !error) {
+  //     console.log("3i3", currentBol);
+  //     console.log(!loading && !currentBol && !error);
+  //     router.push("/");
+  //     // Redirect to home page if no data is found
+  //   }
+  // }, [loading, currentBol, error, router, data, params?.id]);
+
+  if (loading || !data) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spin />
+      </div>
+    );
+  }
+
   let bol_history_logs;
   if (bol_history_data && bol_history_data.getBolHistoryLogs) {
     bol_history_logs = bol_history_data?.getBolHistoryLogs;
@@ -92,10 +155,10 @@ const Page = ({ params }) => {
   if (currentBlData) {
     lastUser = currentBlData.getCurrentBolLocation;
   }
-  let consigneeInfo;
+  // let consigneeInfo;
   let isDriverIsAssigned;
 
-  let currentBol;
+  // let currentBol;
   let driverId;
   let associatedCarrierIdToBol;
   let IsCarrierAsDriver;
@@ -111,14 +174,11 @@ const Page = ({ params }) => {
       associatedCarrierIdToBol === driverId && driverId === loggedInUser?.id;
   }
 
-  if (data && !loading) {
-    currentBol = data?.getBol;
+  // if (data && !loading) {
+  //   currentBol = data?.getBol;
 
-    consigneeInfo = data.getBol?.consignee_id;
-  }
-
-  const router = useRouter();
-  const [cancelModal, setCancelModal] = useState(false);
+  //   consigneeInfo = data.getBol?.consignee_id;
+  // }
 
   // call api with params.id and match to bolId to populate realData
   const { bolId, consignee, load } = mockActionData;

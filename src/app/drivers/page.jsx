@@ -79,7 +79,8 @@ const Drivers = () => {
             <h1 className="underline text-2xl font-semibold mb-2">Drivers</h1>
             <button
               className="border-2 rounded-md p-2 mb-12 bg-linkBlue text-white hover:bg-sky-700"
-              onClick={() => setInviteOpen(true)}
+              // onClick={() => setInviteOpen(true)}
+              disabled
             >
               Invite Driver +
             </button>
