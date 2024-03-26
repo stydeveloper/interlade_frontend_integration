@@ -172,6 +172,7 @@ const RecentSection = ({
     // Map the arrays to the required format
 
     let returnValue;
+
     if (userRole === "carrier") {
       returnValue = [
         {
@@ -216,7 +217,9 @@ const RecentSection = ({
     return returnValue;
   };
 
-  const groupedOptions = createGroupedOptions(allBols);
+  const AllBols = status === "Blocked" ? [] : allBols;
+
+  const groupedOptions = createGroupedOptions(AllBols);
 
   console.log("searchTerm", searchTerm);
 

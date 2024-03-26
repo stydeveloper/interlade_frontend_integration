@@ -134,7 +134,6 @@ const DriversBox = () => {
   const atPickupCount = data?.getBolStatusCount?.bolStatusCounts?.AT_PICKUP;
   const inTransitCount = data?.getBolStatusCount?.bolStatusCounts?.IN_TRANSIT;
   const atDropoffCount = data?.getBolStatusCount?.bolStatusCounts?.AT_DROPOFF;
-  const inActiveCount = data?.getBolStatusCount?.bolStatusCounts?.CANCELLED;
 
   return (
     <Link
@@ -147,15 +146,14 @@ const DriversBox = () => {
         </div>
       ) : (
         <>
-          <div className="flex items-center m-4 mt-2 mb-0">
+          <div className="flex items-center  ml-4 mb-0">
             <Image src={DriversIcon} alt="Drivers Icon" width={50} />
             <p className=" ml-4 text-xl font-semibold">Drivers</p>
           </div>
-          <p className=" mx-6 text-sm">In Route to Pickup: 0</p>
+
           <p className=" mx-6 text-sm">At Pickup: {atPickupCount}</p>
           <p className=" mx-6 text-sm">In Route to Dropoff: {inTransitCount}</p>
           <p className=" mx-6 text-sm">At Dropoff: {atDropoffCount}</p>
-          <p className=" mx-6 text-sm mb-2">Inactive: {inActiveCount}</p>
         </>
       )}
     </Link>

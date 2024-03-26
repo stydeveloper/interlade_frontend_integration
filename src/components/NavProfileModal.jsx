@@ -102,14 +102,14 @@ const NavProfileModal = ({ isOpen, onClose, roleId, email }) => {
           <div className="h-[2px] bg-white my-6"></div>
           <div className="flex gap-4  mr-48  w-full">
             <LogOutBtn />
-            {status === "Active" ? (
+            {status === "Active" && roleId === "1" ? (
               <button
                 className="bg-red-600 text-white rounded-md  px-2 py-1 border-2"
                 onClick={handleCancelSubscription}
               >
                 Cancel Subscription
               </button>
-            ) : status === "Blocked" ? (
+            ) : status === "Blocked" && roleId === "1" ? (
               <button
                 className="bg-green-600 text-white rounded-md  px-2 py-1 border-2"
                 onClick={handleRenewSubscription}
