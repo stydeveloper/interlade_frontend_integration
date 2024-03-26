@@ -111,15 +111,15 @@ const excludedTypes = [
 ];
 const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
   return (
-    <thead className="bg-white sticky top-0 z-10">
-      <tr className="text-center">
-        <th className="w-[5%]">
-          <input
+    <thead className="bg-white sticky top-0 z-10 ">
+      <tr className="text-center  ">
+        <th className="w-[5%]  ">
+          {/* <input
             type="checkbox"
             checked={masterInputCheck}
             onChange={masterInputOnChange}
-            className="border-2 border-black rounded h-5 w-5 my-2"
-          />
+            className="h-5 w-5 my-4 hidden"
+          /> */}
         </th>
         {(() => {
           switch (type) {
