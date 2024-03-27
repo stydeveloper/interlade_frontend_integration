@@ -27,7 +27,7 @@ const ShipperProfile = ({ params, searchParams }) => {
     error: activeBlError,
     data: activeBolData,
   } = useQuery(GET_ACTIVE_ROLES_BY_ROLE, {
-    variables: { id: `${params.id}`, roleId: "2" },
+    variables: { id: `${params?.id}`, roleId: "2" },
   });
 
   const {
@@ -35,7 +35,7 @@ const ShipperProfile = ({ params, searchParams }) => {
     error: completedBlError,
     data: completedBolData,
   } = useQuery(GET_COMPLETED_ROLES_BY_ROLE, {
-    variables: { id: `${params.id}`, roleId: "2" },
+    variables: { id: `${params?.id}`, roleId: "2" },
   });
 
   let allActiveBols;

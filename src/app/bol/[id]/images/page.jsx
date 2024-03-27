@@ -104,7 +104,7 @@ const LoadImages = ({ params }) => {
           )} */}
         </div>
       </div>
-      <div className="h-[100vh] bg-hoverGray flex-1 flex flex-col justify-center items-center py-12 ml-96">
+      <div className="h-full bg-hoverGray flex-1 flex flex-col justify-center items-center py-12 ml-96">
         {bolImages &&
           bolImages.map((bolImage, index) => (
             <div className="my-10 " key={index}>

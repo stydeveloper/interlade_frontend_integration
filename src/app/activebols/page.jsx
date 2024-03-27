@@ -15,6 +15,7 @@ import { FilterContext } from "@/components/FilterProvider";
 import SearchIcon from "../../../public/images/icons8-search-50.png";
 import Image from "next/image";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 // needs to take in user's role & id to decide which view of active b/ls to show (shipper/carrier/drivers/receiver)
 
@@ -116,6 +117,12 @@ const ActiveBoLs = () => {
     console.log(date);
     if (!date && !date.from && !date.to) {
       toast.error("Set date first", { position: "top-right" });
+      return;
+    }
+    if (date.from && date.to && new Date(date.from) > new Date(date.to)) {
+      toast.error("Start date cannot be greater than End date", {
+        position: "top-right",
+      });
       return;
     }
     // Perform search with updated filters including date

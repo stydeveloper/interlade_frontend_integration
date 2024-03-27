@@ -16,6 +16,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { UPLOAD_IMAGE } from "@/fetching/mutations/bol_images";
 // import BackBtn from "../../../../public/images/arrow-92-48.png";
 import { Spin } from "antd";
+import * as imageConversion from "image-conversion";
 
 import {
   GET_BOL_BY_ID,
@@ -203,7 +204,11 @@ const Page = ({ params }) => {
     input.addEventListener("change", async (event) => {
       const file = event.target.files[0]; // Get the selected file
       if (file) {
-        const base64Image = await convertToBase64(file);
+        const resizedImage = await imageConversion.compressAccurately(
+          file,
+          700
+        );
+        const base64Image = await convertToBase64(resizedImage);
 
         // const imageUrl = URL.createObjectURL(file);
 
@@ -370,7 +375,7 @@ const Page = ({ params }) => {
                 <p className=" text-base mb-1">
                   Address: {consigneeInfo?.address}
                 </p>
-                <p className=" text-base" mb-1>
+                <p className=" text-base mb-1">
                   Phone: <span>{consigneeInfo?.number || 9230239122}</span>
                 </p>
                 <p className="text-base">

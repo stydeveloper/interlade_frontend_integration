@@ -229,6 +229,12 @@ const RecentSection = ({
       toast.error("Set date first", { position: "top-right" });
       return;
     }
+    if (date.from && date.to && new Date(date.from) > new Date(date.to)) {
+      toast.error("Start date cannot be greater than End date", {
+        position: "top-right",
+      });
+      return;
+    }
     // Perform search with updated filters including date
     setFilters({ ...filters, date });
   };

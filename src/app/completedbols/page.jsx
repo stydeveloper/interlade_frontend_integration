@@ -16,6 +16,7 @@ import SearchIcon from "../../../public/images/icons8-search-50.png";
 import Image from "next/image";
 import Select from "react-select";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 const CompletedBoLs = () => {
   const router = useRouter();
@@ -116,6 +117,12 @@ const CompletedBoLs = () => {
     console.log(date);
     if (!date && !date.from && !date.to) {
       toast.error("Set date first", { position: "top-right" });
+      return;
+    }
+    if (date.from && date.to && new Date(date.from) > new Date(date.to)) {
+      toast.error("Start date cannot be greater than End date", {
+        position: "top-right",
+      });
       return;
     }
     // Perform search with updated filters including date
