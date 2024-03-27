@@ -41,6 +41,14 @@ const LoadImages = ({ params }) => {
     console.log("data?.getBolImagesByBolId", data?.getBolImagesByBolId);
   }
 
+  if (loading || !data) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spin />
+      </div>
+    );
+  }
+
   const handleImageClick = (imageUrl) => {
     setSelectedImage(imageUrl);
   };
