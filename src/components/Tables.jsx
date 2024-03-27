@@ -109,7 +109,7 @@ const excludedTypes = [
   "carrier-recent",
   "carrier-driver-logs",
 ];
-const TableHeader = ({ type, masterInputCheck, masterInputOnChange }) => {
+const TableHeader = ({ type }) => {
   return (
     <thead className="bg-white sticky top-0 z-10 ">
       <tr className="text-center  ">
@@ -432,9 +432,9 @@ const Table = ({
 
   // const groupedOptions = createGroupedOptions(allBols);
 
-  const handleClear = () => {
-    toggleSelectAll();
-  };
+  // const handleClear = () => {
+  //   toggleSelectAll();
+  // };
 
   return (
     <div className={`w-full flex flex-col ${heightClass}  `}>
@@ -450,23 +450,22 @@ const Table = ({
           Clear
         </button> */}
 
-        {!selectAll && (
-          <div className="flex gap-2">
-            <button
-              className="bg-gray px-2 border-2 border-borderGrey rounded-md text-sm"
-              onClick={handleDownload}
-            >
-              Print
-            </button>
-            <button
-              className="bg-gray px-2  border-2 border-borderGrey rounded-md text-sm "
-              onClick={handleDownload}
-            >
-              Download
-            </button>{" "}
-          </div>
-        )}
-        {selectAll && (
+        <div className="flex gap-2">
+          <button
+            className="bg-gray px-2 border-2 border-borderGrey rounded-md text-sm"
+            onClick={handleDownload}
+          >
+            Print
+          </button>
+          <button
+            className="bg-gray px-2  border-2 border-borderGrey rounded-md text-sm "
+            onClick={handleDownload}
+          >
+            Download
+          </button>{" "}
+        </div>
+
+        {/* {selectAll && (
           <div className="flex gap-2">
             <button
               className="bg-gray px-2 border-2 border-borderGrey rounded-md text-sm"
@@ -475,7 +474,7 @@ const Table = ({
               Clear
             </button>
           </div>
-        )}
+        )} */}
 
         {/* <button
           className="bg-gray px-2 border-2 border-borderGrey rounded-md text-sm mx-2"
@@ -488,11 +487,7 @@ const Table = ({
         <div className="rounded-lg border-2  overflow-hidden border-gray-300 mt-1">
           {allBols && allBols.length > 0 ? (
             <table className="w-[100%]   max-h-full">
-              <TableHeader
-                type={type}
-                masterInputCheck={selectAll}
-                masterInputOnChange={toggleSelectAll}
-              />
+              <TableHeader type={type} />
               <tbody className="h-full  ">
                 {allBols &&
                   allBols.length > 0 &&

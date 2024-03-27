@@ -306,7 +306,7 @@ const ViewBl = ({ params }) => {
             bolStatus !== "CANCELLED" &&
             loggedInUser?.role_id?.id === "1" &&
             IsCarrierAsDriver &&
-            bolImagesData.getBolImagesByBolId.length !== 0 && (
+            bolImagesData?.getBolImagesByBolId?.length !== 0 && (
               <button
                 className="bg-linkBlue text-white py-4 px-2 rounded-md"
                 onClick={openModal}
@@ -316,10 +316,9 @@ const ViewBl = ({ params }) => {
               </button>
             )}
           {loggedInUser?.role_id &&
-            bolStatus !== "CANCELLED" &&
+            bolStatus === "AT_DROPOFF" &&
             (loggedInUser?.role_id?.id === "4" ||
-              (loggedInUser?.role_id?.id === "1" && IsCarrierAsDriver)) &&
-            bolImagesData?.getBolImagesByBolId?.length !== 0 && (
+              (loggedInUser?.role_id?.id === "1" && IsCarrierAsDriver)) && (
               <button
                 className="bg-linkBlue text-white py-4 px-2 rounded-md"
                 onClick={openModal}
