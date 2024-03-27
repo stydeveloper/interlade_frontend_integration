@@ -221,12 +221,6 @@ const ViewBl = ({ params }) => {
     }
   };
 
-  console.log(
-    "oo",
-    loggedInUser?.role_id &&
-      bolStatus !== "CANCELLED" &&
-      loggedInUser?.role_id?.id === "4"
-  );
   return (
     <div className="flex  justify-between">
       <div className="bg-cgray rounded-b-md flex w-80 flex-col fixed h-full ">
