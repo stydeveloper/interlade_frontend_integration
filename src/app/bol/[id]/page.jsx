@@ -199,10 +199,22 @@ const Page = ({ params }) => {
     const input = document.createElement("input");
     input.type = "file";
     input.accept = "image/*"; // Limit file selection to image files
-
+    const maxSizeBytes = 5 * 1024 * 1024; // 5MB
     // Listen for changes in the selected file
     input.addEventListener("change", async (event) => {
       const file = event.target.files[0]; // Get the selected file
+
+      // Check if file size exceeds maxSizeBytes
+      if (file.size > maxSizeBytes) {
+        toast.info(
+          "The selected image is too large. Uploading may take some time.",
+          {
+            position: "top-right",
+          }
+        );
+        return; // Stop further execution
+      }
+
       if (file) {
         const resizedImage = await imageConversion.compressAccurately(
           file,
