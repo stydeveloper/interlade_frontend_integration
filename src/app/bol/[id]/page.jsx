@@ -212,7 +212,6 @@ const Page = ({ params }) => {
             position: "top-right",
           }
         );
-        return; // Stop further execution
       }
 
       if (file) {
