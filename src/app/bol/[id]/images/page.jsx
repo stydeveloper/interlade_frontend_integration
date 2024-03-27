@@ -80,8 +80,8 @@ const LoadImages = ({ params }) => {
   };
 
   return (
-    <div className="flex ">
-      <div className="bg-cgray rounded-b-md flex w-96 flex-col fixed h-full">
+    <div className="flex h-full">
+      <div className="bg-cgray rounded-b-md flex w-96 flex-col fixed  h-full">
         <div className="relative mx-8">
           <Image
             alt="Back"
@@ -112,7 +112,7 @@ const LoadImages = ({ params }) => {
           )} */}
         </div>
       </div>
-      <div className="h-full bg-hoverGray flex-1 flex flex-col justify-center items-center py-12 ml-96">
+      <div className="bg-hoverGray flex-1 flex flex-col justify-center items-center py-12 ml-96">
         {bolImages &&
           bolImages.map((bolImage, index) => (
             <div className="my-10 " key={index}>
